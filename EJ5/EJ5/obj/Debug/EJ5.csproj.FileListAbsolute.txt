@@ -1,0 +1,10 @@
+C:\Users\Jose Luis\source\repos\EJ5\EJ5\bin\Debug\EJ5.exe.config
+C:\Users\Jose Luis\source\repos\EJ5\EJ5\bin\Debug\EJ5.exe
+C:\Users\Jose Luis\source\repos\EJ5\EJ5\bin\Debug\EJ5.pdb
+C:\Users\Jose Luis\source\repos\EJ5\EJ5\obj\Debug\EJ5.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\EJ5\EJ5\obj\Debug\EJ5.Form1.resources
+C:\Users\Jose Luis\source\repos\EJ5\EJ5\obj\Debug\EJ5.Properties.Resources.resources
+C:\Users\Jose Luis\source\repos\EJ5\EJ5\obj\Debug\EJ5.csproj.GenerateResource.cache
+C:\Users\Jose Luis\source\repos\EJ5\EJ5\obj\Debug\EJ5.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\EJ5\EJ5\obj\Debug\EJ5.exe
+C:\Users\Jose Luis\source\repos\EJ5\EJ5\obj\Debug\EJ5.pdb

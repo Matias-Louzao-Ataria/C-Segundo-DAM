@@ -1,0 +1,7 @@
+C:\Users\Jose Luis\source\repos\EJ2\EJ2\bin\Debug\EJ2.exe.config
+C:\Users\Jose Luis\source\repos\EJ2\EJ2\bin\Debug\EJ2.exe
+C:\Users\Jose Luis\source\repos\EJ2\EJ2\bin\Debug\EJ2.pdb
+C:\Users\Jose Luis\source\repos\EJ2\EJ2\obj\Debug\EJ2.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\EJ2\EJ2\obj\Debug\EJ2.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\EJ2\EJ2\obj\Debug\EJ2.exe
+C:\Users\Jose Luis\source\repos\EJ2\EJ2\obj\Debug\EJ2.pdb

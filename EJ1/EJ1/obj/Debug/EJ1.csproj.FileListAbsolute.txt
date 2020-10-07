@@ -1,0 +1,20 @@
+C:\Users\Jose Luis\source\repos\EJ1\EJ1\bin\Debug\EJ1.exe.config
+C:\Users\Jose Luis\source\repos\EJ1\EJ1\bin\Debug\EJ1.exe
+C:\Users\Jose Luis\source\repos\EJ1\EJ1\bin\Debug\EJ1.pdb
+C:\Users\Jose Luis\source\repos\EJ1\EJ1\obj\Debug\EJ1.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\EJ1\EJ1\obj\Debug\EJ1.Form1.resources
+C:\Users\Jose Luis\source\repos\EJ1\EJ1\obj\Debug\EJ1.Properties.Resources.resources
+C:\Users\Jose Luis\source\repos\EJ1\EJ1\obj\Debug\EJ1.csproj.GenerateResource.cache
+C:\Users\Jose Luis\source\repos\EJ1\EJ1\obj\Debug\EJ1.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\EJ1\EJ1\obj\Debug\EJ1.exe
+C:\Users\Jose Luis\source\repos\EJ1\EJ1\obj\Debug\EJ1.pdb
+C:\Users\Matias\source\repos\EJ1\EJ1\bin\Debug\EJ1.exe.config
+C:\Users\Matias\source\repos\EJ1\EJ1\bin\Debug\EJ1.exe
+C:\Users\Matias\source\repos\EJ1\EJ1\bin\Debug\EJ1.pdb
+C:\Users\Matias\source\repos\EJ1\EJ1\obj\Debug\EJ1.csprojAssemblyReference.cache
+C:\Users\Matias\source\repos\EJ1\EJ1\obj\Debug\EJ1.Form1.resources
+C:\Users\Matias\source\repos\EJ1\EJ1\obj\Debug\EJ1.Properties.Resources.resources
+C:\Users\Matias\source\repos\EJ1\EJ1\obj\Debug\EJ1.csproj.GenerateResource.cache
+C:\Users\Matias\source\repos\EJ1\EJ1\obj\Debug\EJ1.csproj.CoreCompileInputs.cache
+C:\Users\Matias\source\repos\EJ1\EJ1\obj\Debug\EJ1.exe
+C:\Users\Matias\source\repos\EJ1\EJ1\obj\Debug\EJ1.pdb

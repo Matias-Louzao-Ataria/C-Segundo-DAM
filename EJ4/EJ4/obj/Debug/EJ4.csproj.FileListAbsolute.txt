@@ -1,0 +1,14 @@
+C:\Users\Jose Luis\source\repos\EJ4\EJ4\bin\Debug\EJ4.exe.config
+C:\Users\Jose Luis\source\repos\EJ4\EJ4\bin\Debug\EJ4.exe
+C:\Users\Jose Luis\source\repos\EJ4\EJ4\bin\Debug\EJ4.pdb
+C:\Users\Jose Luis\source\repos\EJ4\EJ4\obj\Debug\EJ4.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\EJ4\EJ4\obj\Debug\EJ4.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\EJ4\EJ4\obj\Debug\EJ4.exe
+C:\Users\Jose Luis\source\repos\EJ4\EJ4\obj\Debug\EJ4.pdb
+C:\Users\Matias\source\repos\EJ4\EJ4\obj\Debug\EJ4.csprojAssemblyReference.cache
+C:\Users\Matias\source\repos\EJ4\EJ4\obj\Debug\EJ4.csproj.CoreCompileInputs.cache
+C:\Users\Matias\source\repos\EJ4\EJ4\obj\Debug\EJ4.exe
+C:\Users\Matias\source\repos\EJ4\EJ4\obj\Debug\EJ4.pdb
+C:\Users\Matias\source\repos\EJ4\EJ4\bin\Debug\EJ4.exe.config
+C:\Users\Matias\source\repos\EJ4\EJ4\bin\Debug\EJ4.exe
+C:\Users\Matias\source\repos\EJ4\EJ4\bin\Debug\EJ4.pdb

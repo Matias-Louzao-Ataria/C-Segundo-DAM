@@ -1,67 +1,111 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
-public abstract class Persona{
-	private string name = "";
-	private string surname = "";
-	private int age = 0;
-	private string id = "";
+public abstract class Persona
+{
 
-	public Persona(){
-		this("","",0,"");
-	}
+    private string surname = "";
+    private int age = 0;
+    private string id = "";
+    private Regex reg = new Regex("\\d{ 8}[A-HJ-NP-TV-Z]");
 
-	public Persona(string name,string,surname,int age,string id){
-		this.Age = age;
-		this.Surname = surname;
-		this.Age = age;
-		this.ID = id;
+    public Persona() : this("a", "a", 0, "a")
+    {
+
     }
 
-	public string Name{
-		set{
+    public Persona(string name, string surname, int age, string id)
+    {
+        this.Age = age;
+        this.Surname = surname;
+        this.Age = age;
+        this.ID = id;
+    }
+
+    private string name = "";
+    public string Name
+    {
+        set
+        {
             if (value.Length > 0)
             {
-				this.name = value;
+                this.name = value;
             }
-		}
-		get;
-	};
-	public string Surname{
-		set{
-			if (value.Length > 0)
-			{
-				this.surname = value;
-			}
-		}
-		get;
-	};
+        }
 
-	public int Age{ 
-		set{
+        get
+        {
+            return this.name;
+        }
+    }
+
+    public string Surname
+    {
+        set
+        {
+            if (value.Length > 0)
+            {
+                this.surname = value;
+            }
+        }
+
+        get
+        {
+            return this.surname;
+        }
+    }
+
+    public int Age
+    {
+        set
+        {
             if (value < 0)
             {
-				this.age = 0;
+                this.age = 0;
             }
             else
             {
-				this.age = value;
+                this.age = value;
             }
-		}
-			get;
-	};
+        }
 
-	public string ID { set; get; };
-
-	public virtual void ShowData(){
-		Console.WriteLine("This person is {0} {1} and is {3} years old, also his ID number is: {4}",Name,Surname,Age,ID);
+        get
+        {
+            return this.age;
+        }
     }
 
-	public virtual void InputData(string name,string surname,int age,string id){
-		this.Name = name;
-		this.Surname = surname;
-		this.Age = age;
-		this.ID = id;
+    public string ID
+    {
+        set
+        {
+            if (value.Length > 0 && reg.IsMatch(value))
+            {
+                this.id = value;
+            }
+        }
+        get
+        {
+            return this.id;
+        }
     }
 
-	public abstract double Hacienda();
+    public virtual void ShowData()
+    {
+        Console.WriteLine("This person is {0} {1} and is {3} years old, also his ID number is: {4}", Name, Surname, Age, ID);
+    }
+
+    public virtual void InputData() //ReadLine
+    {
+        Console.WriteLine("Enter a name:");
+        this.Name = Console.ReadLine();
+        Console.WriteLine("Enter a Surname:");
+        this.Surname = Console.ReadLine();
+        Console.WriteLine("Enter age:");
+        this.Age = int.Parse(Console.ReadLine());
+        Console.WriteLine("Enter an id");
+        this.ID = Console.ReadLine();
+    }
+
+    public abstract double Hacienda();
 }

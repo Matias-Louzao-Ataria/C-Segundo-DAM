@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,6 +50,15 @@ namespace T2EJ1
         public override double Hacienda()
         {
             throw new NotImplementedException();
+        }
+
+        public static Directivo operator --(Directivo d)
+        {
+            if (d.benefits > 0)
+            {
+                d.benefits--;
+            }
+            return d;
         }
     }
 }

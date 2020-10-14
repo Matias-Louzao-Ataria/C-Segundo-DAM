@@ -14,6 +14,9 @@ namespace T2EJ1
 
         public void Menu()
         {
+            /* 1.- Visualizar los datos del Directivo
+             * 2.- Visualizar datos Empleado
+             * 3.- Visualizar datos EmpleadoEspecial.*/
             int select = 0;
             switch (select)
             {

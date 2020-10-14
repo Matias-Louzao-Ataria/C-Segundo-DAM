@@ -6,15 +6,14 @@ public class Empleado : Persona
     private double iprf;
     private string phoneNumber;
 
-    public Empleado() : this("a", "a", 0, "a", 0, 0, "a")
+    public Empleado() : this("a", "a", 0, "a", 0, "a")
     {
 
     }
 
-    public Empleado(string name, string surname, int age, string id, double salary, double iprf, string phoneNumber) : base(name, surname, age, id)
+    public Empleado(string name, string surname, int age, string id, double salary, string phoneNumber) : base(name, surname, age, id)
     {
         this.Salary = salary;
-        this.IPRF = iprf;
         this.PhoneNumber = phoneNumber;
     }
 
@@ -63,6 +62,11 @@ public class Empleado : Persona
     public override double Hacienda()
     {
         return (Salary * IPRF) / 100;
+    }
+
+    public override double Hacienda(double dinero)
+    {
+        return Hacienda();
     }
 
     public override void ShowData()

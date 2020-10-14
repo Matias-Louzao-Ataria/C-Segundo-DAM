@@ -108,4 +108,5 @@ public abstract class Persona
     }
 
     public abstract double Hacienda();
+    public abstract double Hacienda(double dinero);
 }

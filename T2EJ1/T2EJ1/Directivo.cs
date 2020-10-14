@@ -13,6 +13,17 @@ namespace T2EJ1
         private double benefits;
         private int employees;
 
+        public Directivo() : this("a", "a", 0, "a","",1)
+        {
+
+        }
+
+        public Directivo(string name, string surname, int age, string id,string depart,int employees) : base(name,surname,age,id)
+        {
+            this.Depart = depart;
+            this.Employees = employees;
+        }
+        
         public string Depart { set; get; }
 
         public double Benefits
@@ -47,9 +58,9 @@ namespace T2EJ1
             }
         }
 
-        public override double Hacienda()
+        public override double Hacienda(double dinero)
         {
-            return calculo(this.Benefits,3000) * 0.3;
+            return calculo(this.Benefits,dinero) * 0.3;
         }
 
         public static Directivo operator --(Directivo d)
@@ -89,6 +100,11 @@ namespace T2EJ1
                 return 0;
             }
         }
+
+        public override double Hacienda()
+        {
+            return calculo(this.Benefits, 0) * 0.3;
+        }
     }
 
     public interface IPastaGansa
@@ -99,14 +115,24 @@ namespace T2EJ1
     class EmpleadoEspecial : Empleado, IPastaGansa
     {
 
-        public override double Hacienda()
+        public EmpleadoEspecial() : this("a", "a", 0, "a", 0, "a")
         {
-            return base.Hacienda()+(calculo(3000f)*0.1);
+
+        }
+
+        public EmpleadoEspecial(string name, string surname, int age, string id, double salary, string phoneNumber) : base(name, surname, age, id,salary,phoneNumber)
+        {
+            
+        }
+
+        public override double Hacienda(double dinero)
+        {
+            return base.Hacienda()+(calculo(dinero)*0.1);
         }
 
         public double calculo(double dinero, double benefits = 0.5)
         {
-            return benefits * dinero;
+            return 0.5 * dinero;//No muy seguro de esto.
         }
     }
 }

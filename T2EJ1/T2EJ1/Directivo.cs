@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace T2EJ1
 {
-    class Directivo : Persona
+    class Directivo : Persona,IPastaGansa
     {
         private string depart;
         private double benefits;
@@ -49,7 +49,7 @@ namespace T2EJ1
 
         public override double Hacienda()
         {
-            throw new NotImplementedException();
+            return calculo(this.Benefits,3000) * 0.3;
         }
 
         public static Directivo operator --(Directivo d)
@@ -59,6 +59,54 @@ namespace T2EJ1
                 d.benefits--;
             }
             return d;
+        }
+
+        public override void ShowData()
+        {
+            base.ShowData();
+            Console.WriteLine("This executive is the head of {0} department, has {1} employees and benefits {3}",Depart,Employees,Benefits);
+        }
+
+        public override void InputData()
+        {
+            base.InputData();
+            Console.WriteLine("Enter depart name:");
+            this.Depart = Console.ReadLine();
+            Console.WriteLine("Enter number of employees:");//Se calcula el % de beneficios con el nº de empleados.
+            this.Employees = int.Parse(Console.ReadLine());
+        }
+
+        public double calculo(double benefits, double dinero)
+        {
+            if (dinero > 0)
+            {
+                return dinero * benefits;
+            }
+            else
+            {
+                Directivo d = this;
+                d--;
+                return 0;
+            }
+        }
+    }
+
+    public interface IPastaGansa
+    {
+        double calculo(double benefits, double dinero);
+    }
+
+    class EmpleadoEspecial : Empleado, IPastaGansa
+    {
+
+        public override double Hacienda()
+        {
+            return base.Hacienda()+(calculo(3000f)*0.1);
+        }
+
+        public double calculo(double dinero, double benefits = 0.5)
+        {
+            return benefits * dinero;
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Mime;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,7 +46,7 @@ namespace T2EJ1
                 }
                 else if (value <= 50)
                 {
-                    this.benefits = 3.5;
+                    this.benefits = 35;
                 }
                 else
                 {
@@ -60,7 +62,7 @@ namespace T2EJ1
 
         public override double Hacienda(double dinero)
         {
-            return calculo(this.Benefits,dinero) * 0.3;
+            return GanarPasta(this.Benefits,dinero) * 0.3;
         }
 
         public static Directivo operator --(Directivo d)
@@ -75,7 +77,7 @@ namespace T2EJ1
         public override void ShowData()
         {
             base.ShowData();
-            Console.WriteLine("This executive is the head of {0} department, has {1} employees and benefits {3}",Depart,Employees,Benefits);
+            Console.WriteLine("This executive is the head of {0} department, has {1} employees and benefits {2}",Depart,Employees,Benefits);
         }
 
         public override void InputData()
@@ -87,11 +89,33 @@ namespace T2EJ1
             this.Employees = int.Parse(Console.ReadLine());
         }
 
-        public double calculo(double benefits, double dinero)
+        public static void ShowIncome(IPastaGansa d,double benefits)
+        {
+            double res = 0, money = 0;
+            do
+            {
+                try
+                {
+                    Directivo actual = (Directivo)d;
+                    Console.WriteLine("Enter company income:");
+                    money = double.Parse(Console.ReadLine());
+                    res = d.GanarPasta(benefits, money);
+                    Console.WriteLine("Ganar pasta: "+res);
+                    Console.WriteLine("Hacienda: "+actual.Hacienda(money));
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Enter a valid number!");
+                    res = 0;
+                }
+            } while (res == 0);
+        }
+
+        public double GanarPasta(double benefits, double dinero)
         {
             if (dinero > 0)
             {
-                return dinero * benefits;
+                return dinero * (benefits/100);
             }
             else
             {
@@ -103,13 +127,13 @@ namespace T2EJ1
 
         public override double Hacienda()
         {
-            return calculo(this.Benefits, 0) * 0.3;
+            return GanarPasta(this.Benefits, 0) * 0.3;
         }
     }
 
     public interface IPastaGansa
     {
-        double calculo(double benefits, double dinero);
+        double GanarPasta(double benefits, double dinero);
     }
 
     class EmpleadoEspecial : Empleado, IPastaGansa
@@ -125,14 +149,36 @@ namespace T2EJ1
             
         }
 
-        public override double Hacienda(double dinero)
+        public static void ShowIncome(IPastaGansa d, double benefits)
         {
-            return base.Hacienda()+(calculo(dinero)*0.1);
+            double res = 0,money = 0;
+            do
+            {
+                try
+                {
+                    EmpleadoEspecial actual = (EmpleadoEspecial)d;
+                    Console.WriteLine("Enter company income:");
+                    money = double.Parse(Console.ReadLine());
+                    res = actual.GanarPasta(money);
+                    Console.WriteLine("Ganar pasta: " + res);
+                    Console.WriteLine("Hacienda: " + actual.Hacienda(money));
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("Enter a valid number!");
+                    res = 0;
+                }
+            } while (res == 0);
         }
 
-        public double calculo(double dinero, double benefits = 0.5)
+        public override double Hacienda(double dinero)
         {
-            return 0.5 * dinero;//No muy seguro de esto.
+            return base.Hacienda()+(GanarPasta(dinero)*0.1);
+        }
+
+        public double GanarPasta(double dinero, double benefits = 0.5)
+        {
+            return 0.5 * dinero;
         }
     }
 }

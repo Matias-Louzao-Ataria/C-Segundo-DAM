@@ -92,7 +92,7 @@ public abstract class Persona
 
     public virtual void ShowData()
     {
-        Console.WriteLine("This person is {0} {1} and is {3} years old, also his ID number is: {4}", Name, Surname, Age, ID);
+        Console.WriteLine("This person is {0} {1} and is {2} years old, also his ID number is: {3}", Name, Surname, Age, ID);
     }
 
     public virtual void InputData() //ReadLine

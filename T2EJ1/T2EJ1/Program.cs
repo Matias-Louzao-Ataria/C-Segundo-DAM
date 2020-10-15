@@ -10,6 +10,8 @@ namespace T2EJ1
     {
         static void Main(string[] args)
         {
+            EJ4 e = new EJ4();
+            e.Menu(3);
         }
     }
 

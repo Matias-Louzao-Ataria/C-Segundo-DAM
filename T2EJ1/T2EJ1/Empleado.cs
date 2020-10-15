@@ -72,7 +72,7 @@ public class Empleado : Persona
     public override void ShowData()
     {
         base.ShowData();
-        Console.WriteLine("This person's salary is {0}, his iprf is: {1} and his phone number is {3}", Salary, IPRF, PhoneNumber);
+        Console.WriteLine("This person's salary is {0}, his iprf is: {1} and his phone number is {2}", Salary, IPRF, PhoneNumber);
     }
 
     public void ShowData(int n)

@@ -46,7 +46,7 @@ namespace T2EJ1
                 }
                 else if (value <= 50)
                 {
-                    this.benefits = 35;
+                    this.benefits = 3.5;
                 }
                 else
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,51 +15,88 @@ namespace T3EJ1
         {
             Hashtable pcs = new Hashtable();
             Menu m = new Menu(pcs);
-            m.menu(1);
-            m.menu(3);
-            Console.ReadLine();
+            int select = 0;
+            while (select != 5)
+            {
+                Console.WriteLine("1.- Enter PC.\n2.- Remove PC.\n3.- Show PCs.\n4.- Show PC.\n5.- Salir.");
+                select = Menu.EnterInteger();
+                m.menu(select);
+            }
         }
     }
 
     class Menu
     {
+        string home = "", sep = "";
         private Hashtable pcs;
+        private FileInfo f;
         public Menu(Hashtable pcs)
         {
             this.pcs = pcs;
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                home = Environment.GetEnvironmentVariable("HOME");
+                sep = "/";
+            }
+            else
+            {
+                home = Environment.GetEnvironmentVariable("homepath");
+                sep = "\\";
+            }
+            f = new FileInfo(home + sep + "datos.txt");
+            if (f.Exists && f.Length > 0)
+            {
+                LoadData(home + sep + "datos.txt");
+            }
         }
 
         public void menu(int select)
-        {
+        {   
             switch (select)
             {
                 case 1:
-                    this.AddPc(pcs);
+                    this.EnterData();
                     break;
 
                 case 2:
                     Console.WriteLine("Enter the IP of the PC you'd like to remove: ");
-                    RemovePc(pcs,Console.ReadLine());
+                    RemovePc(Console.ReadLine());
                     break;
 
                 case 3:
-                    ShowPcs(pcs);
+                    ShowPcs();
                     break;
 
                 case 4:
                     Console.WriteLine("Enter the IP of the PC you'd like to see: ");
-                    ShowPc(pcs, Console.ReadLine());
+                    ShowPc(Console.ReadLine());
+                    break;
+
+                case 5:
+                    Console.WriteLine("See you!");
                     break;
 
                 default:
                     Console.WriteLine("Action not recognised!");
                     break;
             }
+            Save(home+sep+"datos.txt");
         }
 
-        public void AddPc(Hashtable pcs)
+        public void LoadData(string f)
         {
-            Regex rex = new Regex("[0-9]?[0-9]?[0-9].[0-9]?[0-9]?[0-9].[0-9]?[0-9]?[0-9].[0-9]?[0-9]?[0-9]");
+            using (StreamReader reader = new StreamReader(f))
+            {
+                while (!reader.EndOfStream)
+                {
+                    AddPc(reader.ReadLine(), int.Parse(reader.ReadLine()), false);
+                }
+            }
+        }
+
+        public void EnterData()
+        {
+            Regex rex = new Regex("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])");
             int gb = 0;
             String ip = "";
             do
@@ -67,16 +105,15 @@ namespace T3EJ1
                 if (ip != "")
                 {
                     Console.WriteLine("Enter RAM quantity in GB:");
-                    gb = int.Parse(Console.ReadLine());
+                    gb = EnterInteger();
                     if (gb <= 0)
                     {
                         Console.WriteLine("Invalid RAM quantity!");
-                        
+
                     }
                     else
                     {
-                        pcs.Add(ip, gb);
-                        Console.WriteLine("PC added correctly!");
+                        AddPc(ip,gb,true); 
                     }
 
                 }
@@ -87,12 +124,22 @@ namespace T3EJ1
                     if (!rex.IsMatch(ip))
                     {
                         Console.WriteLine("Invalid IP!");
+                        ip = "";
                     }
                 }
             } while (!rex.IsMatch(ip) || gb <= 0);
         }
 
-        public void RemovePc(Hashtable pcs, string ip)
+        public void AddPc(string ip,int gb,Boolean disp)
+        {
+            pcs.Add(ip, gb);
+            if (disp)
+            {
+                Console.WriteLine("PC added correctly!");
+            }
+        }
+
+        public void RemovePc(string ip)
         {
             if (pcs.Count > 0)
             {
@@ -112,13 +159,13 @@ namespace T3EJ1
             }
         }
 
-        public void ShowPcs(Hashtable pcs)
+        public void ShowPcs()
         {
             if (pcs.Count > 0)
             {
                 foreach (DictionaryEntry entry in pcs)
                 {
-                    Console.WriteLine("This PC's IP is: {0} and it's RAM amount is {1}GB.",entry.Key,entry.Value);
+                    Console.WriteLine("This PC's IP is: {0} and it's RAM amount is {1}GB.", entry.Key, entry.Value);
                 }
             }
             else
@@ -127,15 +174,63 @@ namespace T3EJ1
             }
         }
 
-        public void ShowPc(Hashtable pcs, string ip)
+        public void ShowPc(string ip)
         {
-            foreach (DictionaryEntry e in pcs)
+            if (pcs.ContainsKey(ip))
             {
-                if (e.Key.ToString() == ip)
+                foreach (DictionaryEntry e in pcs)
                 {
-                    Console.WriteLine("IP: {0}, {1}GB.",e.Value,e.Key);
+                    if (e.Key.ToString() == ip)
+                    {
+                        Console.WriteLine("IP: {0}, {1}GB.", e.Key, e.Value);
+                    }
                 }
             }
+            else
+            {
+                Console.WriteLine("That PC does not exist!");
+            }
+        }
+
+        public void Save(string f)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(f))
+                {
+                    foreach (DictionaryEntry entry in pcs)
+                    {
+                        writer.WriteLine(entry.Key);
+                        writer.WriteLine(entry.Value);
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public static int EnterInteger()
+        {
+            int res = 0;
+            while (res == 0)
+            {
+                try
+                {
+                    res = int.Parse(Console.ReadLine());
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine(e.Message);
+                    res = 0;
+                }
+                catch (OverflowException e) {
+                    Console.WriteLine(e.Message);
+                    res = 0;
+                }
+            }
+            return res;
         }
     }
 }

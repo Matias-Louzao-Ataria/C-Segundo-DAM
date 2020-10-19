@@ -87,16 +87,24 @@ namespace T3EJ1
         {
             using (StreamReader reader = new StreamReader(f))
             {
-                while (!reader.EndOfStream)
+                try
                 {
-                    AddPc(reader.ReadLine(), int.Parse(reader.ReadLine()), false);
+                    while (!reader.EndOfStream)
+                    {
+                        AddPc(reader.ReadLine(), int.Parse(reader.ReadLine()), false);
+                    }
+                }
+                catch (Exception e) when (e is FormatException | e is OverflowException)
+                {
+                    Console.WriteLine("Datos.txt is corrupted and will be erased!");
+                    File.Delete(f);
                 }
             }
         }
 
         public void EnterData()
         {
-            Regex rex = new Regex("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])");
+            Regex rex = new Regex("^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
             int gb = 0;
             String ip = "";
             do
@@ -130,12 +138,19 @@ namespace T3EJ1
             } while (!rex.IsMatch(ip) || gb <= 0);
         }
 
-        public void AddPc(string ip,int gb,Boolean disp)
+        public void AddPc(string ip,int gb,bool echo)
         {
-            pcs.Add(ip, gb);
-            if (disp)
+            if (!pcs.ContainsKey(ip))
             {
-                Console.WriteLine("PC added correctly!");
+                pcs.Add(ip, gb);
+                if (echo)
+                {
+                    Console.WriteLine("PC added correctly!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid or already existing PC!");
             }
         }
 
@@ -145,8 +160,17 @@ namespace T3EJ1
             {
                 if (pcs.ContainsKey(ip))
                 {
-                    pcs.Remove(ip);
-                    Console.WriteLine("PC removed correctly!");
+                    String answer = "";
+                    Console.WriteLine("Do you really mean to remove this file?");
+                    if (answer.Contains("s"))
+                    {
+                        pcs.Remove(ip);
+                        Console.WriteLine("PC removed correctly!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("The PC was not removed!");
+                    }
                 }
                 else
                 {
@@ -176,15 +200,9 @@ namespace T3EJ1
 
         public void ShowPc(string ip)
         {
-            if (pcs.ContainsKey(ip))
+            if (pcs.ContainsKey(ip)) //SIn bucle, indexa
             {
-                foreach (DictionaryEntry e in pcs)
-                {
-                    if (e.Key.ToString() == ip)
-                    {
-                        Console.WriteLine("IP: {0}, {1}GB.", e.Key, e.Value);
-                    }
-                }
+                Console.WriteLine("This PC's IP is: {0} and it's RAM quantity is: {1}",ip,pcs[ip].ToString());
             }
             else
             {
@@ -196,7 +214,7 @@ namespace T3EJ1
         {
             try
             {
-                using (StreamWriter writer = new StreamWriter(f))
+                using (StreamWriter writer = new StreamWriter(f,true))
                 {
                     foreach (DictionaryEntry entry in pcs)
                     {
@@ -222,11 +240,11 @@ namespace T3EJ1
                 }
                 catch (FormatException e)
                 {
-                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Invalid value!");
                     res = 0;
                 }
                 catch (OverflowException e) {
-                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Invalid value!");
                     res = 0;
                 }
             }

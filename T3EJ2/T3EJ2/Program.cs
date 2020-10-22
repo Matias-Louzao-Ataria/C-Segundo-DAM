@@ -10,7 +10,8 @@ namespace T3EJ2
     {
         static void Main(string[] args)
         {
-            Aula a = new Aula();
+            InterfazDeUsuario i = new InterfazDeUsuario();
+            i.menu();
         }
     }
 

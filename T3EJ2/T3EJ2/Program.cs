@@ -10,17 +10,15 @@ namespace T3EJ2
     {
         static void Main(string[] args)
         {
-            Aula a = new Aula();//FIXME todo en general
-            Alumno a2 = new Alumno(a.Nombres.Length);
-            Console.WriteLine(a.media(a2.Notas));
+            Aula a = new Aula();
         }
     }
 
     enum Subjects
     {
-        Mathematics = 1,
-        Physics = 2,
-        Technical_drawing = 3,
-        Algebra = 4
+        Mathematics = 0,
+        Physics = 1,
+        Technical_drawing = 2,
+        Algebra = 3
     }
 }

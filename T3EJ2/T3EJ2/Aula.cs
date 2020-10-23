@@ -162,7 +162,7 @@ namespace T3EJ2
                 }
             }
             else {
-                return new double[2];
+                return null;
             }
 
             return grades;
@@ -200,7 +200,7 @@ namespace T3EJ2
                 return res;
             }
             else {
-                return new double[2];
+                return null;
             }
         }
 

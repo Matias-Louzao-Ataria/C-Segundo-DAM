@@ -17,9 +17,9 @@ namespace T3EJ2
 
     enum Subjects
     {
-        Mathematics = 0,
-        Physics = 1,
-        Technical_drawing = 2,
-        Algebra = 3
+        Mathematics = 1,
+        Physics = 2,
+        Technical_drawing = 3,
+        Algebra = 4
     }
 }

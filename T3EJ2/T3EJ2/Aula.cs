@@ -119,13 +119,13 @@ namespace T3EJ2
                 }
             }
 
-            return res / (this.Grades.GetLength(0) * this.Grades.GetLength(1));
+            return res / (this.Grades.Length);
         }
 
         public double MedianStudent(int student)
         {
             double res = 0;
-            if (student < this.Grades.GetLength(1) && student >= 0)
+            if (student < this.Grades.GetLength(0) && student >= 0)
             {
                 for (int i = 0; i < this.Grades.GetLength(1); i++)
                 {
@@ -143,9 +143,17 @@ namespace T3EJ2
         public double MedianSubject(Subjects subject)
         {
             double res = 0;
-            for (int i = 0; i < this.Grades.GetLength(0); i++)
+            Console.WriteLine((int)subject);
+            if ((int)subject >= 0 && (int)subject <= 4)
             {
-                res += this[i, (int)subject];
+                for (int i = 0; i < this.Grades.GetLength(0); i++)
+                {
+                    res += this[i, (int)subject-1];
+                }
+            }
+            else
+            {
+                return -1;
             }
 
             return res/this.Grades.GetLength(0);
@@ -171,9 +179,16 @@ namespace T3EJ2
         public double[] SubjectGrades(Subjects subject)
         {
             double[] res = new double[12];
-            for (int i = 0;i < this.Grades.GetLength(0);i++)
+            if ((int)subject >= 0 && (int)subject <= 4)
             {
-                res[i] = this[i,(int)subject];
+                for (int i = 0; i < this.Grades.GetLength(0); i++)
+                {
+                    res[i] = this[i, (int)subject-1];
+                }
+            }
+            else
+            {
+                return null;
             }
             return res;
         }
@@ -181,7 +196,7 @@ namespace T3EJ2
         public double[] MaxMinStudentGrade(int student)
         {
             double[] res = new double[2];
-            double max = 0, min = 0;
+            double max = 0, min = 99;
             if (student >= 0 && student < this.Grades.GetLength(0))
             {
                 for (int i = 0;i < this.Grades.GetLength(1);i++)
@@ -204,7 +219,7 @@ namespace T3EJ2
             }
         }
 
-        public string[] PassedStudents()
+        public string[] PassedStudents()//Devolver estructura única con notas y nombres.
         {
             int cont = 0;
             string aux = "";
@@ -212,18 +227,18 @@ namespace T3EJ2
             {
                 for (int j = 0;j < this.Grades.GetLength(1);j++)
                 {
-                    if (this.Grades[i,j] >= 5)
+                    if (this[i,j] >= 5)
                     {
                         cont++;
                     }
                 }
-                if (cont == 4)
+                if (cont >= 4)
                 {
-                    cont = 0;
-                    aux += this.names[i]+"?";
+                    aux += this.names[i]+" ";
                 }
+                    cont = 0;
             }
-            return aux.Split('?');
+            return aux.Split(' ');
         }
 
     }

@@ -193,10 +193,8 @@ namespace T3EJ2
             return res;
         }
 
-        public double[] MaxMinStudentGrade(int student)
+        public void MaxMinStudentGrade(int student,ref double max,ref double min)
         {
-            double[] res = new double[2];
-            double max = 0, min = 99;
             if (student >= 0 && student < this.Grades.GetLength(0))
             {
                 for (int i = 0;i < this.Grades.GetLength(1);i++)
@@ -210,16 +208,10 @@ namespace T3EJ2
                         min = this[student,i];
                     }
                 }
-                res[0] = max;
-                res[1] = min;
-                return res;
-            }
-            else {
-                return null;
             }
         }
 
-        public string[] PassedStudents()//Devolver estructura única con notas y nombres.
+        public string[] PassedStudents()//TODO Devolver estructura única con notas y nombres.
         {
             int cont = 0;
             string aux = "";

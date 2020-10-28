@@ -12,7 +12,7 @@ namespace T3EJ2
         public void menu()
         {
             int select = 0,id = 0,aux = 0;
-            double median = 0;
+            double median = 0,max = 0,min = 99;
             double[] grades = null;
             string[] names;
             while (select != 9)
@@ -66,11 +66,7 @@ namespace T3EJ2
                             Console.WriteLine("{0}'s grades are:", this.a.Names[id]);
                             for (int i = 0; i < grades.GetLength(0); i++)
                             {
-                                Console.Write("{0}: {1}",((Subjects)(i+1)).ToString(), grades[i]);
-                                if (i != grades.GetLength(0)-1)
-                                {
-                                    Console.Write(",");
-                                }
+                                Console.WriteLine("{0}: {1}",((Subjects)(i+1)).ToString(), grades[i]);
                             }
                             Console.WriteLine();
                         }
@@ -90,11 +86,7 @@ namespace T3EJ2
                             Console.WriteLine("{0}'s grades are:", ((Subjects)aux).ToString());
                             for (int i = 0; i < grades.GetLength(0); i++)
                             {
-                                Console.Write("{0}:{1}",this.a.Names[i],grades[i]);
-                                if (i != grades.GetLength(0) - 1)
-                                {
-                                    Console.Write(",");
-                                }
+                                Console.WriteLine("{0}:{1}",this.a.Names[i],grades[i]);
                             }
                             Console.WriteLine();
                         }
@@ -108,15 +100,17 @@ namespace T3EJ2
                         students();
                         Console.WriteLine("Enter the position of the student you'd like to check:");
                         id = AskForInteger(false);
-                        grades = this.a.MaxMinStudentGrade(id);
+                        this.a.MaxMinStudentGrade(id,ref max,ref min);
                         if (grades != null)
                         {
-                            Console.WriteLine("{0}'s highest grade is: {1} and his lowest grade is: {2}.",this.a.Names[id],grades[0],grades[1]);
+                            Console.WriteLine("{0}'s highest grade is: {1} and his lowest grade is: {2}.",this.a.Names[id],max,min);
                         }
                         else
                         {
                             Console.WriteLine("Invalid student!");
                         }
+                        max = 0;
+                        min = 99;
                         break;
 
                     case 7:

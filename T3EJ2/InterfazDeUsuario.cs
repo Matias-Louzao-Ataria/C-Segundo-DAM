@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +14,7 @@ namespace T3EJ2
             int select = 0,id = 0,aux = 0;
             double median = 0,max = 0,min = 99;
             double[] grades = null;
-            string[] names,gradesPassed;
-            Hashtable passed;
+            string[] names;
             while (select != 9)
             {
                 Console.WriteLine("1.- Median of the class.\n2.- Student's median.\n3.- Subject's median.\n4.- Student's grades.\n5.- Subject's grades\n6.- Student's highest and lowest grade.\n7.- Passed student's.\n8.- Whole table.\n9.- Exit.");
@@ -29,7 +27,7 @@ namespace T3EJ2
     
                     case 2:
                         students();
-                        Console.WriteLine("Enter the position of the student you'd like to check:");
+                        Console.WriteLine("Enter the position of the student you'd like to see:");
                         id = AskForInteger(false);
                         median = this.a.MedianStudent(id);
                         if (median != -1)
@@ -44,13 +42,13 @@ namespace T3EJ2
     
                     case 3:
                         subjects();
-                        Console.WriteLine("Enter the id of the subject you'd like to check:");
+                        Console.WriteLine("Enter the id of the subject you'd like to see:");
                         aux = AskForInteger(true);
                         
                         median = this.a.MedianSubject((Subjects)aux);
                         if (median != -1)
                         {
-                            Console.WriteLine("{0}'s median is:{1:.000}", ((Subjects)aux).ToString(),median);
+                            Console.WriteLine("{0}'s median is:{1}", ((Subjects)aux).ToString(),median);
                         }
                         else
                         {
@@ -116,23 +114,20 @@ namespace T3EJ2
                         break;
 
                     case 7:
-                        passed = a.PassedStudents();
+                        names = this.a.PassedStudents();
                         Console.WriteLine("The students that have passed this year are:");
-                        foreach (DictionaryEntry entry in passed)
+                        foreach (string name in names)
                         {
-                            Console.WriteLine("{0}: \n{1}: {2} \n{3}: {4} \n{5}: {6} \n{7}: {8}"
-                                ,entry.Key,Subjects.Mathematics.ToString(),((double[])entry.Value)[0], Subjects.Physics.ToString(), ((double[])entry.Value)[1],
-                                Subjects.Technical_drawing.ToString(), ((double[])entry.Value)[2], Subjects.Algebra.ToString(), ((double[])entry.Value)[3]);
-                            Console.WriteLine();
+                            Console.WriteLine(name);
                         }
                         break;
 
                     case 8:
-                        Console.WriteLine("{0,18} {1,2} {2} {3}",Subjects.Mathematics.ToString(), Subjects.Physics.ToString(), Subjects.Technical_drawing.ToString(), Subjects.Algebra.ToString());
+                        Console.WriteLine("{0,15} {1,2} {2,2} {3,2}",Subjects.Mathematics.ToString(), Subjects.Physics.ToString(), Subjects.Technical_drawing.ToString(), Subjects.Algebra.ToString());
                         for (int i = 0;i < this.a.Names.GetLength(0);i++)
                         {
                             grades = this.a.StudentGrades(i);
-                            Console.WriteLine("{0,2}.- {1}| {2,10} {3,7} {4,17} {5,7}",i+1,this.a.Names[i],this.a[i,0],this.a[i,1],this.a[i,2],this.a[i,3]);
+                            Console.WriteLine("{0,2}.- {1}| {2,7} {3,11} {4,7} {5,17}",i+1,this.a.Names[i],this.a[i,0],this.a[i,1],this.a[i,2],this.a[i,3]);
                         }
                         Console.WriteLine();
                         break;

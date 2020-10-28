@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -212,10 +211,8 @@ namespace T3EJ2
             }
         }
 
-        public Hashtable PassedStudents()//TODO Devolver estructura única con notas y nombres.
+        public string[] PassedStudents()//TODO Devolver estructura única con notas y nombres.
         {
-            Hashtable table = new Hashtable();
-            double[] gradesPassed = new double[4];
             int cont = 0;
             string aux = "";
             for (int i = 0;i < this.Grades.GetLength(0);i++)
@@ -225,21 +222,15 @@ namespace T3EJ2
                     if (this[i,j] >= 5)
                     {
                         cont++;
-                        gradesPassed[j] = this[i, j];
                     }
                 }
                 if (cont >= 4)
                 {
                     aux += this.names[i]+" ";
-                    table.Add(aux,gradesPassed);
                 }
                     cont = 0;
-                    aux = "";
-                    gradesPassed = new double[4];
             }
-
-
-            return table;
+            return aux.Split(' ');
         }
 
     }

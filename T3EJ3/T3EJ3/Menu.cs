@@ -1,25 +1,15 @@
 ﻿using System;
 
-namespace Menu
+namespace T3EJ3
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string[] options = { "A", "B", "C", "D", "E" };
-            Menu menu = new Menu();
-            menu.ChooseOption(options);
-        }
-    }
-
     class Menu
     {
-        public void ShowMenu(string[] options, int select)
+        public void ShowMenu(string[] options,int select)
         {
             if (select >= 0 && select < options.Length)
             {
                 Console.Clear();
-                for (int i = 0; i < options.Length; i++)
+                for (int i = 0;i < options.Length;i++)
                 {
                     if (i == select)
                     {
@@ -31,7 +21,7 @@ namespace Menu
                         Console.BackgroundColor = ConsoleColor.Black;
                         Console.ForegroundColor = ConsoleColor.White;
                     }
-                    Console.WriteLine("{0}.- {1}", (i + 1), options[i]);
+                        Console.WriteLine("{0}.- {1}", (i + 1), options[i]);
                 }
             }
             else
@@ -71,7 +61,7 @@ namespace Menu
                         //Switch con las opciones del programa aquí.
                         break;
                 }
-            } while (select != options.Length - 1 || key != ConsoleKey.Enter);
+            } while (select != options.Length-1 || key != ConsoleKey.Enter);
             Console.WriteLine("CYA");
         }
     }

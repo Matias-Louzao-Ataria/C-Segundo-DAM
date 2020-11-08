@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,38 +27,137 @@ namespace MyTaskManager
 
         private void ViewProcesses_Click(object sender, EventArgs e)
         {
+            this.listView1.Items.Clear();
             Process[] processes = Process.GetProcesses();
-            this.textBox1.Text += "Nombre de proceso | Process Name | PID\r\n";
             foreach (Process p in processes)
             {
-                String pMain = p.MainWindowTitle,pName = p.ProcessName,pid = ""+p.Id;
+                ListViewItem item = new ListViewItem(new string[] {p.MainWindowTitle.Length > 8 ? p.MainWindowTitle + "..." : p.MainWindowTitle, p.ProcessName.Length > 15 ? p.ProcessName.Substring(0, 15) + "..." : p.ProcessName, ""+p.Id});
+                this.listView1.Items.Add(item);
+            }
+        }
 
-                if (pMain.Length < 18)
+        private void button4_Click(object sender, EventArgs e)//TODO Diferencia entre el botón 3 y el 4, preguntar si se le pregunta en uno y se fuerza en otro o si se usan funciones diferentes o que.
+        {
+            int pid = 0;
+            string id = this.textBox2.Text;
+            if (id.Length > 0)
+            {
+                try
                 {
-                    for (int i = 0; i < 18 - pMain.Length; i++)
+                    pid = int.Parse(id);
+                    try
                     {
-                        pMain += " ";
+                        Process p = Process.GetProcessById(pid);
+                        p.Kill();
+                    }
+                    catch (Exception ex) when (ex is ArgumentException ||ex is Win32Exception)
+                    {
+                        if (ex is Win32Exception)
+                        {
+                            MessageBox.Show("PID not given!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Process not found or access denied!");
+                        }
                     }
                 }
-                
-                if (pName.Length < 12)
+                catch (Exception ex) when (ex is FormatException || ex is OverflowException)
                 {
-                    for (int i = 0;i < 13-pName.Length;i++)
+                    MessageBox.Show("invalid PID!");
+                }
+            }
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            int pid = 0;
+            string id = this.textBox2.Text;
+            if (id.Length > 0)
+            {
+                try
+                {
+                    pid = int.Parse(id);
+                    try
                     {
-                        pName += " ";
+                        Process p = Process.GetProcessById(pid);
+                        p.CloseMainWindow();
+                    }
+                    catch (Exception ex) when (ex is ArgumentException || ex is Win32Exception)
+                    {
+                        if (ex is Win32Exception)
+                        {
+                            MessageBox.Show("PID not given!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Process not found or access denied!");
+                        }
                     }
                 }
-
-                if (pid.Length < 3)
+                catch (Exception ex) when (ex is FormatException || ex is OverflowException)
                 {
-                    for (int i = 0;i < 4-pid.Length;i++)
+                    MessageBox.Show("invalid PID!");
+                }
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string process = this.textBox2.Text;
+            if (process.Length > 0)
+            {
+                ProcessStartInfo info = new ProcessStartInfo(process);
+                Process p;
+                try
+                {
+                    p = Process.Start(info);//Solo acepta rutas en inglés.
+                }
+                catch (Exception ex) when (ex is ArgumentNullException ||ex is InvalidOperationException ||ex is ObjectDisposedException ||ex is FileNotFoundException ||ex is Win32Exception)
+                {
+                    MessageBox.Show("invalid route or application name!");
+                }
+            }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show(""+this.listView1.SelectedItems.Count);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.listView1.Items.Clear();
+            int pid = 0;
+            string id = this.textBox2.Text;
+            if (id.Length > 0)
+            {
+                try
+                {
+                    pid = int.Parse(id);
+                    try
                     {
-                        pid += " ";
+                        Process p = Process.GetProcessById(pid);
+                        ListViewItem item = new ListViewItem(new string[] { p.MainWindowTitle.Length > 8 ? p.MainWindowTitle + "..." : p.MainWindowTitle, p.ProcessName.Length > 15 ? p.ProcessName.Substring(0, 15) + "..." : p.ProcessName, "" + p.Id });
+                        this.listView1.Items.Add(item);
+                    }
+                    catch (Exception ex) when (ex is ArgumentException || ex is Win32Exception)
+                    {
+                        if (ex is Win32Exception)
+                        {
+                            MessageBox.Show("PID not given!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Process not found or access denied!");
+                        }
                     }
                 }
-
-                string algo = string.Format("{0}  | {1} | {2}\r\n",p.MainWindowTitle.Length > 0 ? p.MainWindowTitle.Length > 18 ? p.MainWindowTitle.Substring(0, 18) + "...:" : p.MainWindowTitle+":" : pMain, p.ProcessName.Length > 0 ? p.ProcessName.Length > 8 ? p.ProcessName.Substring(0, 8) + "...:" : pName + ":" : "", pid);
-                this.textBox1.Text += algo;
+                catch (Exception ex) when (ex is FormatException || ex is OverflowException)
+                {
+                    MessageBox.Show("invalid PID!");
+                }
             }
         }
     }

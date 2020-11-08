@@ -121,9 +121,21 @@ namespace MyTaskManager
             }
         }
 
+        
+
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MessageBox.Show(""+this.listView1.SelectedItems.Count);
+
+            ListView.SelectedListViewItemCollection processes = this.listView1.SelectedItems;
+
+            foreach (ListViewItem item in processes)
+            {
+                ListViewItem.ListViewSubItemCollection subitems = item.SubItems;
+                foreach (ListViewItem.ListViewSubItem item2 in subitems)
+                {
+                        this.textBox2.Text = item2.Text;
+                }
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)

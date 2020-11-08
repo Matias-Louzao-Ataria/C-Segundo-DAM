@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServicesT1EJ1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,9 @@ namespace T3EJ3
     {
         static void Main(string[] args)
         {
-            string[] options = { "Add videogame", "Remove videogame", "Visualize whole list", "Check videogames of a certain style", "Modify a videogame", "Exit" };
-            Menu menu = new Menu();
-            menu.ChooseOption(options);
+            string[] options = { "Add videogame", "Remove range of videogames", "Visualize whole list", "Check videogames of a certain style", "Modify a videogame"};
+            Menu m = new Menu(options);
+            m.InitMenu();
         }
     }
 }
@@ -62,9 +63,9 @@ struct Game
         }
     }
 
-    private Style style;
+    private GameStyle style;
 
-    public Style Style
+    public GameStyle Style
     {
         set
         {
@@ -80,8 +81,18 @@ struct Game
         }
     }
 
+    public Game(string title,int year,GameStyle style)
+    {
+        this.title = "";
+        this.year = 0;
+        this.style = (GameStyle)0;
+        this.Title = title;
+        this.Year = year;
+        this.Style = style;
+    }
+
 }
-enum Style{
+enum GameStyle{
     Arcade = 0,
     Videoaventura = 1,
     Shootemup = 2,

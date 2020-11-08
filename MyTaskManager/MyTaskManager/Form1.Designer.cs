@@ -103,8 +103,8 @@
             this.ColumnHeader0,
             this.columnHeader1,
             this.columnHeader2});
+            this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
-            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(166, 123);
             this.listView1.MultiSelect = false;

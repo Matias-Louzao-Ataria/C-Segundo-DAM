@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServicesT1EJ1
 {
-    class Program
+    class Menu
     {
         public delegate void funcs();
         static void Main(string[] args)
@@ -32,40 +32,54 @@ namespace ServicesT1EJ1
 
     class MenuGeneratorClass{
         
-        public void MenuGenerator(string[] options,Program.funcs[] functionArray)
+        public void MenuGenerator(string[] options,Menu.funcs[] functionArray)
         {
             if (options.Length == functionArray.Length)
             {
-                options = options.Concat(new string[] {"Exit"}).ToArray();
+                options = options.Concat(new string[] { "Exit" }).ToArray();
                 int select = 0;
                 ConsoleKey input;
+                ConsoleKeyInfo info;
                 do
                 {
-                    MenuToScreen(options,select);
-                    input = Console.ReadKey().Key;
-                    if (input == ConsoleKey.UpArrow)
+                    MenuToScreen(options, select);
+                    info = Console.ReadKey();
+                    input = info.Key;
+                    switch (input)
                     {
-                        if (select > 0)
-                        {
-                            select--;
-                        }
+                        case ConsoleKey.UpArrow:
+                            if (select > 0)
+                            {
+                                select--;
+                            }
+                            break;
+
+                        case ConsoleKey.DownArrow:
+                            if (select < options.Length - 1)
+                            {
+                                select++;
+                            }
+                            break;
+
+                        case ConsoleKey.Enter:
+                            if (select != options.Length - 1 && select >= 0 && select < options.Length)
+                            {
+                                Console.Clear();
+                                functionArray[select]();
+                                Console.WriteLine("The selected option has ended press any key to continue!");
+                                Console.ReadKey();
+                            }
+                            else { Console.WriteLine("a"); }
+                            break;
+                        default:
+                            if (int.Parse("" + info.KeyChar) > 0 && int.Parse("" + info.KeyChar) < options.Length - 1)
+                            {
+                                select = int.Parse("" + info.KeyChar) - 1;
+                                goto case ConsoleKey.Enter;
+                            }
+                            break;
                     }
-                    else if(input == ConsoleKey.DownArrow)
-                    {
-                        if (select < options.Length-1)
-                        {
-                            select++;
-                        }
-                    }else if (input == ConsoleKey.Enter)
-                    {
-                        if (select != options.Length-1 && select >= 0 && select < options.Length) 
-                        {
-                            functionArray[select]();
-                            Console.WriteLine("The selected option has ended press any key to continue!");
-                            Console.ReadKey();
-                        }
-                    }
-                } while (select != options.Length-1 || input != ConsoleKey.Enter);
+                } while (select != options.Length - 1 || input != ConsoleKey.Enter);
             }
             else
             {

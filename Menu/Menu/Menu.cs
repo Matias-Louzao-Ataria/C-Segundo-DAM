@@ -2,7 +2,7 @@
 
 namespace Menu
 {
-    class Program
+    class Menu
     {
         static void Main(string[] args)
         {

@@ -29,10 +29,34 @@ namespace MyTaskManager
         {
             this.listView1.Items.Clear();
             Process[] processes = Process.GetProcesses();
+            string moduless = "";
+            string threadss = "";
             foreach (Process p in processes)
             {
-                ListViewItem item = new ListViewItem(new string[] {p.MainWindowTitle.Length > 8 ? p.MainWindowTitle + "..." : p.MainWindowTitle, p.ProcessName.Length > 15 ? p.ProcessName.Substring(0, 15) + "..." : p.ProcessName, ""+p.Id});
-                this.listView1.Items.Add(item);
+                AddToList(ref moduless,ref threadss,p,false);
+                //ProcessModuleCollection modules = null;
+                //ProcessThreadCollection threads = null;
+                //try
+                //{
+                //    modules = p.Modules;
+                //    threads = p.Threads;
+                //    foreach (ProcessModule module in modules)
+                //    {
+                //        moduless += module.ModuleName + " ";
+                //    }
+
+                //    foreach (Thread t in threads)
+                //    {
+                //        threadss += t.Name + " ";
+                //    }
+                //}
+                //catch (Exception ex) when (ex is Win32Exception || ex is NotSupportedException || ex is InvalidOperationException || ex is PlatformNotSupportedException || ex is SystemException)
+                //{
+                //    //Console.WriteLine(ex.Message);
+                //}
+                ////ListViewItem item = new ListViewItem(new string[] {p.MainWindowTitle.Length > 8 ? p.MainWindowTitle + "..." : p.MainWindowTitle, p.ProcessName.Length > 15 ? p.ProcessName.Substring(0, 15) + "..." : p.ProcessName, ""+p.Id,modules == null ? "" : modules.,threads == null ? "" : threads.ToString()});
+                //ListViewItem item = new ListViewItem(new string[] {p.MainWindowTitle,p.ProcessName,""+p.Id,moduless,threadss});
+                //this.listView1.Items.Add(item);
             }
         }
 
@@ -143,6 +167,8 @@ namespace MyTaskManager
             this.listView1.Items.Clear();
             int pid = 0;
             string id = this.textBox2.Text;
+            string moduless = "";
+            string threadss = "";
             if (id.Length > 0)
             {
                 try
@@ -151,26 +177,65 @@ namespace MyTaskManager
                     try
                     {
                         Process p = Process.GetProcessById(pid);
-                        ListViewItem item = new ListViewItem(new string[] { p.MainWindowTitle.Length > 8 ? p.MainWindowTitle + "..." : p.MainWindowTitle, p.ProcessName.Length > 15 ? p.ProcessName.Substring(0, 15) + "..." : p.ProcessName, "" + p.Id });
-                        this.listView1.Items.Add(item);
+                        AddToList(ref moduless, ref threadss, p,true);
                     }
                     catch (Exception ex) when (ex is ArgumentException || ex is Win32Exception)
                     {
                         if (ex is Win32Exception)
                         {
-                            MessageBox.Show("PID not given!");
+                            MessageBox.Show("Access denied!");
                         }
                         else
                         {
                             MessageBox.Show("Process not found or access denied!");
                         }
+                        Console.WriteLine(ex.Message);
                     }
                 }
                 catch (Exception ex) when (ex is FormatException || ex is OverflowException)
                 {
                     MessageBox.Show("invalid PID!");
+                    Console.WriteLine(ex.Message);
+
                 }
             }
+        }
+
+        private void AddToList(ref string moduless, ref string threadss, Process p,bool echoFail)
+        {
+            ProcessModuleCollection modules = null;
+            ProcessThreadCollection threads = null;
+            try
+            {
+                if (echoFail)
+                {
+                    modules = p.Modules;
+                    threads = p.Threads;
+                    foreach (ProcessModule module in modules)
+                    {
+                        moduless += module.ModuleName + " ";
+                    }
+
+                    foreach (ProcessThread t in threads)
+                    {
+                        threadss += string.Format("ID:{0} Start time:{1} Priority:{2} State:{3} ",t.Id,t.StartTime.ToShortTimeString(),t.PriorityLevel,t.ThreadState);
+                    }
+                }
+            }
+            catch (Exception ex) when (ex is Win32Exception || ex is NotSupportedException || ex is InvalidOperationException || ex is PlatformNotSupportedException || ex is SystemException)
+            {
+                //Console.WriteLine(ex.Message);
+                if (ex is Win32Exception)
+                {
+                    if (echoFail)
+                    {
+                        MessageBox.Show("Access denied to modules and threads!");
+                    }
+                }
+            }
+            ListViewItem item = new ListViewItem(new string[] { p.MainWindowTitle, p.ProcessName, "" + p.Id, moduless, threadss });
+            //ListViewItem item = new ListViewItem(new string[] { p.MainWindowTitle.Length > 8 ? p.MainWindowTitle + "..." : p.MainWindowTitle, p.ProcessName.Length > 15 ? p.ProcessName.Substring(0, 15) + "..." : p.ProcessName, "" + p.Id });
+            this.listView1.Items.Add(item);
         }
     }
 }

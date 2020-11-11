@@ -12,7 +12,7 @@ namespace ServicesT1EJ1
         static void Main(string[] args)
         {
             MenuGeneratorClass m = new MenuGeneratorClass();
-            m.MenuGenerator(new string[] {"A" ,"B","C"}, new funcs[] {f1,f2,f3});
+            m.MenuGenerator(new string[] {"A" ,"B","C", "D"}, new funcs[] {f1,f2,f3, f1});
         }
 
         static void f1()

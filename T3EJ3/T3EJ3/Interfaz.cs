@@ -60,62 +60,67 @@ namespace T3EJ3
 
         public void DeleteRangeOfGames()
         {
-            ArrayList gameList = this.o.Games;
-            string answer;
-            int min = 0,max = 0;
-
-            ShowTitles();
-            Console.WriteLine("Enter the first position you'd like to remove:");
-            min = AskForInteger();
-            Console.WriteLine("Enter the last position you'd like to remove:");
-            max = AskForInteger();
-            if (min > 0)
+            bool error = false;
+            if (o.Games.Count > 0)
             {
-                for (int i = min - 1; i < max; i++)
+                do
                 {
-                    Console.WriteLine("Game title: {0}, year it was released: {1,4}, genre: {2}", ((Game)gameList.ToArray()[i]).Title, ((Game)gameList.ToArray()[i]).Year, ((Game)gameList.ToArray()[i]).Style.ToString());
-                }
-                Console.WriteLine("Are you sure you want to remove those games?");
-                answer = Console.ReadLine();
-                if (answer.ToLower().Contains("s") || answer.ToLower().Contains("y"))
-                {
-                    if (this.o.Remove(max - 1, min - 1))
+                    ArrayList gameList = this.o.Games;
+                    string answer;
+                    int min = 0, max = 0;
+
+                    ShowTitles();
+                    Console.WriteLine("Enter the first position you'd like to remove:");
+                    min = AskForInteger();
+                    Console.WriteLine("Enter the last position you'd like to remove:");
+                    max = AskForInteger();
+                    min--;
+                    max--;
+                    if (min >= 0 && max >= 0 && max <= o.Games.Count)
                     {
-                        Console.WriteLine("Games removed correctly!");
+                        for (int i = min; i < max + 1; i++)
+                        {
+                            Console.WriteLine("Game title: {0}, year it was released: {1,4}, genre: {2}", ((Game)gameList.ToArray()[i]).Title, ((Game)gameList.ToArray()[i]).Year, ((Game)gameList.ToArray()[i]).Style.ToString());
+                        }
+                        Console.WriteLine("Are you sure you want to remove those games?");
+                        answer = Console.ReadLine();
+                        if (answer.ToLower().Contains("s") || answer.ToLower().Contains("y"))
+                        {
+                            bool correct = false;
+                            if (min > 0)
+                            {
+                                correct = o.Remove(max, min);
+                            }
+                            else
+                            {
+                                correct = o.Remove(max);
+                            }
+
+                            if (correct)
+                            {
+                                Console.WriteLine("Games removed correctly!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Could not remove the games");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Operation stopped by the user!");
+                        }
+                        error = false;
                     }
                     else
                     {
-                        Console.WriteLine("Could not remove the games");
+                        Console.WriteLine("Invalid range of games!");
+                        error = true;
                     }
-                }
-                else
-                {
-                    Console.WriteLine("Operation stopped by the user!");
-                }
+                } while (error);
             }
             else
             {
-                for (int i = 0; i < max - 1; i++)
-                {
-                    Console.WriteLine("Game title: {0}, year it was released: {1,4}, genre: {2}", ((Game)gameList.ToArray()[i]).Title, ((Game)gameList.ToArray()[i]).Year, ((Game)gameList.ToArray()[i]).Style.ToString());
-                }
-                Console.WriteLine("Are you sure you want to remove those games?");
-                answer = Console.ReadLine();
-                if (answer.ToLower().Contains("s") || answer.ToLower().Contains("y"))
-                {
-                    if (this.o.Remove(max - 1))
-                    {
-                        Console.WriteLine("Games removed correctly!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Could not remove the games");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Operation stopped by the user!");
-                }
+                Console.WriteLine("List's empty!");
             }
         }
 
@@ -156,23 +161,23 @@ namespace T3EJ3
         public void ShowStyle()
         {
             bool error = false;
-            do
+            if (o.Games.Count > 0)
             {
-                int select = 0,cont = 0;
-                Console.WriteLine("Enter the genre you'd like to check:");
-                for (int i = 0; i < 5; i++)
+                do
                 {
-                    Console.WriteLine("{0}.- {1}", (i + 1), ((GameStyle)i).ToString());
-                }
-                select = AskForInteger();
-                if (select > 0 && select < 6)
-                {
-                    ArrayList gameList = this.o.Games;
-                    if (gameList.Count > 0)
+                    int select = 0, cont = 0;
+                    Console.WriteLine("Enter the genre you'd like to check:");
+                    for (int i = 0; i < 5; i++)
                     {
+                        Console.WriteLine("{0}.- {1}", (i + 1), ((GameStyle)i).ToString());
+                    }
+                    select = AskForInteger();
+                    if (select > 0 && select < 6)
+                    {
+                        ArrayList gameList = this.o.Games;
                         foreach (Game g in gameList)
                         {
-                            if (select-1 == (int)g.Style)
+                            if (select - 1 == (int)g.Style)
                             {
                                 Console.WriteLine("Game title: {0}, year it was released: {1,4}, genre: {2}", g.Title, g.Year, g.Style.ToString());
                                 cont++;
@@ -182,20 +187,20 @@ namespace T3EJ3
                         {
                             Console.WriteLine("There are no games of that genre!");
                         }
+                        error = false;
                     }
                     else
                     {
-                        Console.WriteLine("List is empty!");
+                        Console.WriteLine("Invalid genre!");
+                        Console.WriteLine("Please enter a new one:");
+                        error = true;
                     }
-                    error = false;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid genre!");
-                    Console.WriteLine("Please enter a new one:");
-                    error = true;
-                }
-            } while (error);
+                } while (error);
+            }
+            else
+            {
+                Console.WriteLine("List is empty!");
+            }
         }
 
         public void ModifyTitle()

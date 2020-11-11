@@ -72,7 +72,7 @@ namespace ServicesT1EJ1
                             else { Console.WriteLine("a"); }
                             break;
                         default:
-                            if (int.Parse("" + info.KeyChar) > 0 && int.Parse("" + info.KeyChar) < options.Length - 1)
+                            if (int.Parse("" + info.KeyChar) > 0 && int.Parse("" + info.KeyChar) <= options.Length)
                             {
                                 select = int.Parse("" + info.KeyChar) - 1;
                                 //goto case ConsoleKey.Enter;

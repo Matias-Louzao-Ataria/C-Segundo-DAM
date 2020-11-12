@@ -79,21 +79,29 @@ namespace ServicesT1EJ4
         public Caballo(int id,int conx,int cony)
         {
             this.Id = id;
+            this.conx = conx;
+            this.cony = cony;
             
         }
 
-        public void correr()
+        public void correr()//Existe la posibilidad de que 2 llegen al mismo tiempo.
         {
-            /*while (running)
-            {*/
+            Console.CursorVisible = false;
+            while (running)
+            {
+                this.X++;
+                lock (l)
+                {
+                    if (x >= 8)//Puede que esto arregle la llegada simultanea.
+                    {
+                        running = false;
+                    }
+                }
                 for (int i = 0; i <= this.X; i++)
                 {
-                    lock (l)
+                    lock (l)//IMPORTANTE todo lo que haga cosas con this. (excepto comparaciones) fuera del lock porque es especifico de un objeto y no es un recurso compartido.
+                        //Hago esto porque lock es para evitar que un hilo acceda a datos que está usando otro (recursos compartidos), en este caso la consola.
                     {
-                        if (i == 0)
-                        {
-                            this.X++;
-                        }
                         Console.SetCursorPosition(this.Conx, this.Cony);
                         if (this.X == i)
                         {
@@ -103,18 +111,14 @@ namespace ServicesT1EJ4
                         {
                             Console.Write("_");
                         }
-                        if (this.conx < Console.BufferWidth-1)
-                        {
-                            this.conx++;
-                        }
-                        if (x >= 20)
-                        {
-                            running = false;
-                        }
                     }
-                        //Thread.Sleep(50);
+                    if (this.conx < Console.BufferWidth-1)
+                    {
+                        this.conx++;
+                    }
+                    Thread.Sleep(50);
                 }
-            //}
+            }
         }
     }
 }

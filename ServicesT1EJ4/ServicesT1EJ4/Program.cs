@@ -17,13 +17,13 @@ namespace ServicesT1EJ4
             bool error = false;
             bool replay = false;
 
-            do
+           /*do
             {
                 Console.WriteLine("Enter the horse you want to bet for: 1 for the first horse and {0} for the last one!", runners.Length);
                 int select = AskForInteger();
                 select--;
-                if (select >= 0 && select < runners.Length)
-                {
+                if (select >= 0 && select < runners.Length) {*/ 
+                
                     for (int i = 0; i < runners.Length; i++)
                     {
                         runners[i] = new Caballo(i, 0, i + 1);
@@ -38,14 +38,16 @@ namespace ServicesT1EJ4
                     }
 
                     //threads[0].Join();
-                    while (Caballo.running)
+
+                    while (Caballo.running)//A veces el pulse llega antes que el wait, esto no pasa con join.
                     {
                         lock (l)
                         {
                             Monitor.Wait(l);
                         }
                     }
-                    for (int i = runners.Length - 1; i >= 0; i--)
+
+                    for (int i = 0; i < runners.Length; i++)
                     {
                         lock (l)
                         {
@@ -53,30 +55,31 @@ namespace ServicesT1EJ4
                             {
                                 Console.SetCursorPosition(0, 10);
                                 Console.WriteLine(runners[i].Id+1);
-                                if (select == runners[i].Id)
+                                /*if (select == runners[i].Id)
                                 {
                                     Console.WriteLine("You win!");
                                     Console.WriteLine("Would you like to play again?");
                                     if (Console.ReadLine().Contains("yes"))
                                     {
                                         replay = true;
+                                        Console.Clear();
                                     }
                                     else
                                     {
                                         replay = false;
                                     }
-                                }
+                                }*/
                             }
                         }
                     }
-                    error = false;
+                   /* error = false;
                 }
                 else
                 {
                     Console.WriteLine("Invalid horse!");
                     error = true;
                 }
-            } while (error ||replay);
+            } while (error ||replay);*/
             
             Console.ReadKey();
         }

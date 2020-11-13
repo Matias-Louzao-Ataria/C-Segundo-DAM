@@ -90,14 +90,17 @@ namespace ServicesT1EJ4
             {
                 lock (Program.l)
                 {
-                    this.X += r.Next(0,4); 
-                    if (x >= 12)//Puede que esto arregle la llegada simultanea.
+                    if (running)//Esto arregla la llegada simultanea.
                     {
-                        running = false;
+                        this.X += r.Next(0, 4);
+                        if (x >= 12)
+                        {
+                            running = false;
+                            Monitor.Pulse(Program.l);
+                        }
                     }
                 }
-                if(running)   
-                Thread.Sleep(r.Next(0,500));
+                //Thread.Sleep(r.Next(0,500));
             }
             for (int i = 0; i <= this.X; i++)
             {
@@ -118,11 +121,6 @@ namespace ServicesT1EJ4
                 {
                     this.conx++;
                 }
-            }
-            if (this.x >= 12)
-            {
-                lock (Program.l)
-                    Monitor.Pulse(Program.l);
             }
         }
     }

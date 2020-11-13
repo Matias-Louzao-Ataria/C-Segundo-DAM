@@ -19,12 +19,15 @@ namespace ServicesT1EJ3
                 {
                     lock (l)
                     {
-                        num++;
-                        Console.WriteLine("Thread 1 increment {0}", num);
-                        if (num >= 1000)
+                        if (running)
                         {
-                            running = false;
-                            Console.WriteLine("Thread 1 finished 1st!");
+                            num++;
+                            Console.WriteLine("Thread 1 increment {0}", num);
+                            if (num >= 1000)
+                            {
+                                running = false;
+                                Console.WriteLine("Thread 1 finished 1st!");//Notificar quien acaba primero en el main.
+                            }
                         }
                     }
                 }
@@ -32,16 +35,20 @@ namespace ServicesT1EJ3
             Thread t2 = new Thread(() => {
                 while (running)
                 {
+
                     lock (l)
                     {
-                        num--;
-                        Console.WriteLine("Thread 2 decrement {0}", num);
-                        if (num <= -1000)
+                        if (running)
                         {
-                            running = false;
-                            Console.WriteLine("Thread 2 finished 1st!");
-                        }
-                    }
+
+                            num--;
+                            Console.WriteLine("Thread 2 decrement {0}", num);
+                            if (num <= -1000)
+                            {
+                                running = false;
+                                Console.WriteLine("Thread 2 finished 1st!");//Notificar quien acaba primero en el main.
+                            }
+                        }                    }
                 }
             });
             //t1.Priority = ThreadPriority.Lowest;

@@ -68,7 +68,7 @@ namespace ServicesT1EJ4
                     }
                     if (!win)
                     {
-                        lock (l)
+                        //lock (l)
                             Console.WriteLine("You lose!");
                     }
                     error = false;
@@ -78,11 +78,13 @@ namespace ServicesT1EJ4
                     Console.WriteLine("Invalid horse!");
                     error = true;
                 }
-                lock (l)
+                /*lock (l)
+                {*/
+                if (!error)
                 {
                     Console.SetCursorPosition(0, 15);
                     Console.WriteLine("Would you like to play again?");
-                    Console.SetCursorPosition(0,17);
+                    Console.SetCursorPosition(0, 17);
                     if (Console.ReadLine().Contains("y"))
                     {
                         replay = true;
@@ -92,6 +94,7 @@ namespace ServicesT1EJ4
                         replay = false;
                     }
                 }
+                //}
                 Console.Clear();
             } while (error || replay);
 

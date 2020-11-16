@@ -96,11 +96,10 @@ namespace ServicesT1EJ4
                         if (x >= 12)
                         {
                             running = false;
-                            Monitor.Pulse(Program.l);
                         }
                     }
                 }
-                //Thread.Sleep(r.Next(0,500));
+                Thread.Sleep(r.Next(0,250));
             }
             for (int i = 0; i <= this.X; i++)
             {
@@ -121,6 +120,11 @@ namespace ServicesT1EJ4
                 {
                     this.conx++;
                 }
+            }
+            if (!running)
+            {
+                lock(Program.l)
+                Monitor.Pulse(Program.l);
             }
         }
     }

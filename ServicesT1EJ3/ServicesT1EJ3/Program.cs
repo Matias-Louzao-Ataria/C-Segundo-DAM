@@ -14,7 +14,8 @@ namespace ServicesT1EJ3
         public static bool running = true;
         static void Main(string[] args)
         {
-            Thread t1 = new Thread(() => {
+            Thread t1 = new Thread(() =>
+            {
                 while (running)//No meter bucles dentro de los locks
                 {
                     lock (l)
@@ -26,13 +27,15 @@ namespace ServicesT1EJ3
                             if (num >= 1000)
                             {
                                 running = false;
-                                Console.WriteLine("Thread 1 finished 1st!");//Notificar quien acaba primero en el main.
+                                lock (l)
+                                    Monitor.Pulse(l);
                             }
                         }
                     }
                 }
             });
-            Thread t2 = new Thread(() => {
+            Thread t2 = new Thread(() =>
+            {
                 while (running)
                 {
 
@@ -46,15 +49,29 @@ namespace ServicesT1EJ3
                             if (num <= -1000)
                             {
                                 running = false;
-                                Console.WriteLine("Thread 2 finished 1st!");//Notificar quien acaba primero en el main.
+                                lock (l)
+                                    Monitor.Pulse(l);//Mejor que el pulse se haga siempre lo último.
                             }
-                        }                    }
+                        }
+                    }
                 }
             });
             //t1.Priority = ThreadPriority.Lowest;
             t1.Start();//Dependiendo de cual empiece antes tiene más posibilidad de acabar antes uno u otro.
             t2.Start();
-
+            while (running)
+            {
+                lock (l)
+                    Monitor.Wait(l);
+            }
+            if (num > 0)
+            {
+                Console.WriteLine("Thread 1 finished 1st!");
+            }
+            else
+            {
+                Console.WriteLine("Thread 2 finished 1st!");
+            }
             Console.ReadKey();
         }
     }

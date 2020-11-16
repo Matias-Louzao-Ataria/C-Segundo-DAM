@@ -99,7 +99,8 @@ namespace ServicesT1EJ4
                         }
                     }
                 }
-                Thread.Sleep(r.Next(0,250));
+                if(running)
+                    Thread.Sleep(r.Next(0,250));
             }
             for (int i = 0; i <= this.X; i++)
             {
@@ -124,7 +125,7 @@ namespace ServicesT1EJ4
             if (!running)
             {
                 lock(Program.l)
-                Monitor.Pulse(Program.l);
+                Monitor.Pulse(Program.l);//Mejor que el pulse se haga siempre lo último.
             }
         }
     }

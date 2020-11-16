@@ -14,16 +14,19 @@ namespace ServicesT1EJ4
         static void Main(string[] args)
         {
             Caballo[] runners = new Caballo[5];
-            bool error = false;
-            bool replay = false;
+            bool error = false, replay = false, win = false;
 
-           /*do
+            do
             {
+                error = false;
+                replay = false;
+                win = false;
+                Caballo.running = true;
                 Console.WriteLine("Enter the horse you want to bet for: 1 for the first horse and {0} for the last one!", runners.Length);
                 int select = AskForInteger();
                 select--;
-                if (select >= 0 && select < runners.Length) {*/ 
-                
+                if (select >= 0 && select < runners.Length)
+                {
                     for (int i = 0; i < runners.Length; i++)
                     {
                         runners[i] = new Caballo(i, 0, i + 1);
@@ -39,49 +42,60 @@ namespace ServicesT1EJ4
 
                     //threads[0].Join();
 
-                    while (Caballo.running)//A veces el pulse llega antes que el wait, esto no pasa con join.
+                    while (Caballo.running)
                     {
                         lock (l)
                         {
                             Monitor.Wait(l);
                         }
                     }
-
+                    Thread.Sleep(500);
                     for (int i = 0; i < runners.Length; i++)
                     {
                         lock (l)
                         {
                             if (runners[i].X >= 12)
                             {
-                                Console.SetCursorPosition(0, 10);
-                                Console.WriteLine(runners[i].Id+1);
-                                /*if (select == runners[i].Id)
+                                Console.SetCursorPosition(0, 11);
+                                Console.WriteLine(runners[i].Id + 1+ " Wins!");
+                                if (select == runners[i].Id)
                                 {
                                     Console.WriteLine("You win!");
-                                    Console.WriteLine("Would you like to play again?");
-                                    if (Console.ReadLine().Contains("yes"))
-                                    {
-                                        replay = true;
-                                        Console.Clear();
-                                    }
-                                    else
-                                    {
-                                        replay = false;
-                                    }
-                                }*/
+                                    win = true;
+                                }
                             }
                         }
                     }
-                   /* error = false;
+                    if (!win)
+                    {
+                        lock (l)
+                            Console.WriteLine("You lose!");
+                    }
+                    error = false;
                 }
                 else
                 {
                     Console.WriteLine("Invalid horse!");
                     error = true;
                 }
-            } while (error ||replay);*/
-            
-            Console.ReadKey();
+                lock (l)
+                {
+                    Console.SetCursorPosition(0, 15);
+                    Console.WriteLine("Would you like to play again?");
+                    Console.SetCursorPosition(0,17);
+                    if (Console.ReadLine().Contains("y"))
+                    {
+                        replay = true;
+                    }
+                    else
+                    {
+                        replay = false;
+                    }
+                }
+                Console.Clear();
+            } while (error || replay);
+
+            //Console.ReadKey();
         }
 
         public static int AskForInteger()
@@ -102,6 +116,7 @@ namespace ServicesT1EJ4
                     error = true;
                 }
             }
+            Console.Clear();
             return res;
         }
     }

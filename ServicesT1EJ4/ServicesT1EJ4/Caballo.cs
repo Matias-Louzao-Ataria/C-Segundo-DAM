@@ -81,10 +81,10 @@ namespace ServicesT1EJ4
             this.cony = cony;
             
         }
-
+        static Random r = new Random();
         public void correr()//Existe la posibilidad de que 2 llegen al mismo tiempo.
         {
-            Random r = new Random();
+           
             Console.CursorVisible = false;
             while (running)
             {
@@ -92,17 +92,25 @@ namespace ServicesT1EJ4
                 {
                     if (running)//Esto arregla la llegada simultanea.
                     {
-                        this.X += r.Next(0, 4);
+                        this.X +=  r.Next(0, 4);
                         if (x >= 12)
                         {
                             running = false;
                         }
+                        Console.SetCursorPosition(conx,cony);
+                        Console.Write("#");
+                        this.conx++;
                     }
                 }
-                if(running)
+                if (running)
                     Thread.Sleep(r.Next(0,250));
             }
-            for (int i = 0; i <= this.X; i++)
+            if (!running)
+            {
+                lock(Program.l)
+                Monitor.Pulse(Program.l);
+            }
+            /*for (int i = 0; i <= this.X; i++)
             {
                 lock (Program.l)//IMPORTANTE todo lo que haga cosas con this. (excepto comparaciones) fuera del lock porque es especifico de un objeto y no es un recurso compartido.
                         //Hago esto porque lock es para evitar que un hilo acceda a datos que está usando otro (recursos compartidos), en este caso la consola.
@@ -121,12 +129,7 @@ namespace ServicesT1EJ4
                 {
                     this.conx++;
                 }
-            }
-            if (!running)
-            {
-                lock(Program.l)
-                Monitor.Pulse(Program.l);//Mejor que el pulse se haga siempre lo último.
-            }
+            }*/
         }
     }
 }

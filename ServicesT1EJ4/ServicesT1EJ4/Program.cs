@@ -49,7 +49,7 @@ namespace ServicesT1EJ4
                             Monitor.Wait(l);
                         }
                     }
-                    Thread.Sleep(500);
+                    //Thread.Sleep(500);
                     for (int i = 0; i < runners.Length; i++)
                     {
                         lock (l)
@@ -68,7 +68,6 @@ namespace ServicesT1EJ4
                     }
                     if (!win)
                     {
-                        //lock (l)
                             Console.WriteLine("You lose!");
                     }
                     error = false;
@@ -78,8 +77,6 @@ namespace ServicesT1EJ4
                     Console.WriteLine("Invalid horse!");
                     error = true;
                 }
-                /*lock (l)
-                {*/
                 if (!error)
                 {
                     Console.SetCursorPosition(0, 15);
@@ -94,7 +91,6 @@ namespace ServicesT1EJ4
                         replay = false;
                     }
                 }
-                //}
                 Console.Clear();
             } while (error || replay);
 

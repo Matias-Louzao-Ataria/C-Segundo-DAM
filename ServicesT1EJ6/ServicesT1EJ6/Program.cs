@@ -32,14 +32,14 @@ namespace ServicesT1EJ6
                 Console.SetCursorPosition(0,10);
                 Console.WriteLine("Player 1 wins!");
                 Console.SetCursorPosition(0,11);
-                Console.WriteLine("Counter: {0}",contcomun);
+                Console.WriteLine("Counter: {0,2}",contcomun);
             }
             else
             {
                 Console.SetCursorPosition(0,10);
                 Console.WriteLine("Player 2 wins!");
                 Console.SetCursorPosition(0,11);
-                Console.WriteLine("Counter: {0}",contcomun);
+                Console.WriteLine("Counter: {0,2}",contcomun);
             }
             Console.ReadKey();
         }

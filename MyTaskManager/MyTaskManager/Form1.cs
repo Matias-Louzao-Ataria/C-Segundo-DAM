@@ -60,7 +60,7 @@ namespace MyTaskManager
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)//TODO Diferencia entre el botón 3 y el 4, preguntar si se le pregunta en uno y se fuerza en otro o si se usan funciones diferentes o que.
+        private void button4_Click(object sender, EventArgs e)
         {
             int pid = 0;
             string id = this.textBox2.Text;

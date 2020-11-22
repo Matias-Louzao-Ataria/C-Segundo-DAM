@@ -174,6 +174,7 @@ namespace EJemploExamenServicios
         {
             lock (l)
             {
+                a.Stop();
                 Monitor.Pulse(l);
             }
         }

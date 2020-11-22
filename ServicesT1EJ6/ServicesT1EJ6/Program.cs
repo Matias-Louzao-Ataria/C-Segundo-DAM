@@ -29,17 +29,17 @@ namespace ServicesT1EJ6
             player1thread.Join();
             if (contcomun >= 20)
             {
-                Console.SetCursorPosition(0,10);
+                Console.SetCursorPosition(0, 10);
                 Console.WriteLine("Player 1 wins!");
-                Console.SetCursorPosition(0,11);
-                Console.WriteLine("Counter: {0,2}",contcomun);
+                Console.SetCursorPosition(0, 11);
+                Console.WriteLine("Counter: {0,-2}", contcomun);
             }
             else
             {
-                Console.SetCursorPosition(0,10);
+                Console.SetCursorPosition(0, 10);
                 Console.WriteLine("Player 2 wins!");
-                Console.SetCursorPosition(0,11);
-                Console.WriteLine("Counter: {0,2}",contcomun);
+                Console.SetCursorPosition(0, 11);
+                Console.WriteLine("Counter: {0,-2}", contcomun);
             }
             Console.ReadKey();
         }
@@ -54,8 +54,10 @@ namespace ServicesT1EJ6
                     if (running)
                     {
                         player1int = r.Next(1, 11);
-                        Console.SetCursorPosition(0,1);
+                        Console.SetCursorPosition(0, 1);
                         Console.WriteLine("Player 1 drawed a {0,2}", player1int);
+                        Console.SetCursorPosition(0, 11);
+                        Console.WriteLine("Counter: {0,-2}", contcomun);
                         if (player1int == 5 || player1int == 7)
                         {
                             if (displayPaused)
@@ -88,15 +90,17 @@ namespace ServicesT1EJ6
                     if (running)
                     {
                         player2int = r.Next(1, 11);
-                        Console.SetCursorPosition(0,2);
+                        Console.SetCursorPosition(0, 3);
                         Console.WriteLine("Player 2 drawed a {0,2}", player2int);
+                        Console.SetCursorPosition(0, 11);
+                        Console.WriteLine("Counter: {0,-2}", contcomun);
                         if (player2int == 5 || player2int == 7)
                         {
                             if (displayPaused)
                             {
                                 contcomun++;
                             }
-                            else if(!displayPaused && !isStart)
+                            else if (!displayPaused && !isStart)
                             {
                                 contcomun -= 5;
                             }
@@ -115,7 +119,7 @@ namespace ServicesT1EJ6
         public static void display()
         {
             int contchar = 0;
-            char[] c = {'|','/','-','\\','-','\\'};
+            char[] c = { '|', '/', '-', '\\', '-', '\\' };
             while (running)
             {
                 lock (l)

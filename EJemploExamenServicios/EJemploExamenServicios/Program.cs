@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Timers;
 using System.IO;
 using System.Diagnostics;
 
@@ -42,15 +41,12 @@ namespace EJemploExamenServicios
                 Console.WriteLine("El archivo de ganadores no existe!");
                 f.Create();
             }
-            ThreadStart s = new ThreadStart(notepad);
-            Thread t3 = new Thread(s);
-            t3.Start();
-            t3.Join();
-            
+
+            notepad();
+
             Thread t = new Thread(CorreLiebre);
             Thread t2 = new Thread(CorreTortuga);
             Thread main = Thread.CurrentThread;
-            a.Elapsed += OnTimedEvent;
             t.Start();
             t2.Start();
             t.Join();
@@ -136,45 +132,40 @@ namespace EJemploExamenServicios
                         xliebre += 6;
                         Console.WriteLine("La liebre ha dado: {0} pasos", xliebre);
                     }
-                }
-                if (xliebre >= 25)
-                {
-                    running = false;
-                }
-                else
-                {
-                    int rng = r.Next(0, 101);
-                    switch (rng)
+                    if (xliebre >= 25)
                     {
-                        case int a when (a >= 0 && a <= 59):
-                            lock (l)
-                            {
-                                Console.WriteLine("La liebre se ha dormido!");
-                                Thread t = new Thread(dormir);
-                                t.Start();
-                                Monitor.Wait(l);
-                            }
-                                Console.WriteLine("La liebre ha despertado!");
-                            break;
-                        default:
-                            //Console.WriteLine("La liebre no se ha dormido!");
-                            break;
+                        running = false;
                     }
+                    else
+                    {
+                        int rng = r.Next(0, 101);
+                        switch (rng)
+                        {
+                            case int a when (a >= 0 && a <= 59):
+                                lock (l)
+                                {
+                                    Console.WriteLine("La liebre se ha dormido!");
+                                    Thread t = new Thread(dormir);
+                                    t.Start();
+                                    Monitor.Wait(l);
+                                }
+                                    Console.WriteLine("La liebre ha despertado!");
+                                break;
+                            default:
+                                //Console.WriteLine("La liebre no se ha dormido!");
+                                break;
+                        }
 
+                    }
                 }
             }
         }
 
         public static void dormir()
         {
-            a.Start();
-        }
-
-        public static void OnTimedEvent(Object source, ElapsedEventArgs args)
-        {
+            Thread.Sleep(2500);
             lock (l)
             {
-                a.Stop();
                 Monitor.Pulse(l);
             }
         }
@@ -190,25 +181,25 @@ namespace EJemploExamenServicios
                     {
                         xtortuga += 1;
                         Console.WriteLine("La tortuga ha dado: {0} pasos", xtortuga);
-                    }
-                    if (xtortuga >= 25)
-                    {
-                        lock (l)
+                        if (xtortuga >= 25)
                         {
-                            running = false;
+                            lock (l)
+                            {
+                                running = false;
+                            }
                         }
-                    }
-                    if (xliebre == xtortuga && running)
-                    {
-                        switch (r.Next(0, 101))
+                        if (xliebre == xtortuga && running)
                         {
-                            case int a when (a >= 0 && a <= 49):
-                                lock (l)
-                                {
-                                    Console.WriteLine("La tortuga ha hecho ruido y ha despertado a la liebre!");
-                                    Monitor.Pulse(l);
-                                }
-                                break;
+                            switch (r.Next(0, 101))
+                            {
+                                case int a when (a >= 0 && a <= 49):
+                                    lock (l)
+                                    {
+                                        Console.WriteLine("La tortuga ha hecho ruido y ha despertado a la liebre!");
+                                        Monitor.Pulse(l);
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }

@@ -58,18 +58,15 @@ namespace ServicesT1EJ6
                         Console.WriteLine("Player 1 drawed a {0,2}", player1int);
                         if (player1int == 5 || player1int == 7)
                         {
-                            lock (l)
+                            if (displayPaused)
                             {
-                                if (displayPaused)
-                                {
-                                    contcomun += 5;
-                                }
-                                else
-                                {
-                                    contcomun++;
-                                }
-                                displayPaused = true;
+                                contcomun += 5;
                             }
+                            else
+                            {
+                                contcomun++;
+                            }
+                            displayPaused = true;
                         }
                         if (contcomun >= 20)
                         {

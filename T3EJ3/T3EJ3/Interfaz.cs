@@ -205,12 +205,26 @@ namespace T3EJ3
 
         public void ModifyTitle()
         {
-            int select;
-            ShowTitles();
-            Console.WriteLine("Enter the game you'd like to modify:");
-            select = AskForInteger();
-            EnterData();
-            DeleteRangeOfGames(select,select);
+            if (o.Games.Count > 0)
+            {
+                int select;
+                ShowTitles();
+                Console.WriteLine("Enter the game you'd like to modify:");
+                select = AskForInteger();
+                if (select > 0 && select <= o.Games.Count)
+                {
+                    EnterData();
+                    DeleteRangeOfGames(select, select);
+                }
+                else
+                {
+                    Console.WriteLine("That game is not in the list!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("List is empty!");
+            }
         }
 
         public int AskForInteger()

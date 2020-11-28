@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace T3EJ4
 {
     public partial class Form1 : Form
     {
-        string ruta = "";
+        string route = "";
         public Form1()
         {
             InitializeComponent();
@@ -22,11 +23,62 @@ namespace T3EJ4
         {
             string str = this.textBox1.Text.ToString();
 
-            if (str.Length > 0 && str.StartsWith("%")&&str.EndsWith("%"))
+            if (str.Trim().Length > 0 && str.StartsWith("%"))
             {
-                ruta = Environment.GetEnvironmentVariable(this.textBox1.Text.ToString().Replace("%",""));
+                try
+                {
+                    DirectoryInfo dir = new DirectoryInfo(Environment.GetEnvironmentVariable(this.textBox1.Text.ToString().Replace("%", "")) + "\\");
+                    if (dir.Extension.Length == 0 && dir.Exists)
+                    {
+                        getSubdir(dir);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Could not find directory!");
+                    }
+                }
+                catch (Exception ex) when (ex is ArgumentNullException || ex is System.Security.SecurityException || ex is ArgumentException || ex is PathTooLongException ||ex is NotSupportedException)
+                {
+                    MessageBox.Show("Invalid route!");
+                }
             }
-            Console.WriteLine(ruta);
+            else if(str.Trim().Length > 0)
+            {
+                try
+                {
+                    DirectoryInfo dir = new DirectoryInfo(this.textBox1.Text.ToString());
+                    if (dir.Extension.Length == 0 && dir.Exists)
+                    {
+                        getSubdir(dir);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Could not find directory!");
+                    }
+                }
+                catch (Exception ex) when (ex is ArgumentNullException || ex is System.Security.SecurityException || ex is ArgumentException || ex is PathTooLongException)
+                {
+                    MessageBox.Show("Invalid route!");
+                }
+            }
+            Console.WriteLine(route);
+        }
+
+        private void getSubdir(DirectoryInfo dir)
+        {
+            this.textBox2.Text = "";
+            route = dir.FullName;
+            DirectoryInfo[] subdirs = dir.GetDirectories();
+            this.textBox2.Text += "\r\n";
+            foreach (DirectoryInfo subdir in subdirs)
+            {
+                this.textBox2.Text += subdir.Name + "\r\n";
+            }
+            FileInfo[] subfiles = dir.GetFiles();
+            foreach (FileInfo file in subfiles)
+            {
+                this.textBox2.Text += file.Name + "\r\n";
+            }
         }
     }
 }

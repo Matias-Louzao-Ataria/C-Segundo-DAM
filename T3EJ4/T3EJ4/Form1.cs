@@ -23,18 +23,21 @@ namespace T3EJ4
         {
             string str = this.textBox1.Text.ToString();
 
-            if (str.Trim().Length > 0 && str.StartsWith("%"))
+            if (str.Trim().Replace("%","").Length > 0 && str.StartsWith("%") && str.EndsWith("%"))
             {
                 try
                 {
-                    DirectoryInfo dir = new DirectoryInfo(Environment.GetEnvironmentVariable(this.textBox1.Text.ToString().Replace("%", "")) + "\\");
-                    if (dir.Extension.Length == 0 && dir.Exists)
+                    if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable(this.textBox1.Text.ToString().Replace("%", ""))))
                     {
-                        getSubdir(dir);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Could not find directory!");
+                        DirectoryInfo dir = new DirectoryInfo(Environment.GetEnvironmentVariable(this.textBox1.Text.ToString().Replace("%", "")) + "\\");
+                        if (dir.Extension.Length == 0 && dir.Exists)
+                        {
+                            getSubdir(dir);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Could not find directory!");
+                        }
                     }
                 }
                 catch (Exception ex) when (ex is ArgumentNullException || ex is System.Security.SecurityException || ex is ArgumentException || ex is PathTooLongException ||ex is NotSupportedException)
@@ -42,7 +45,7 @@ namespace T3EJ4
                     MessageBox.Show("Invalid route!");
                 }
             }
-            else if(str.Trim().Length > 0)
+            else if(str.Trim().Length > 0 && str.Contains("%") == false)
             {
                 try
                 {
@@ -61,23 +64,33 @@ namespace T3EJ4
                     MessageBox.Show("Invalid route!");
                 }
             }
-            Console.WriteLine(route);
         }
 
         private void getSubdir(DirectoryInfo dir)
         {
             this.textBox2.Text = "";
             route = dir.FullName;
-            DirectoryInfo[] subdirs = dir.GetDirectories();
-            this.textBox2.Text += "\r\n";
-            foreach (DirectoryInfo subdir in subdirs)
+            try
             {
-                this.textBox2.Text += subdir.Name + "\r\n";
+                DirectoryInfo[] subdirs = dir.GetDirectories();
+                this.textBox2.Text += "\r\n";
+                foreach (DirectoryInfo subdir in subdirs)
+                {
+                    this.textBox2.Text += subdir.Name + "\r\n";
+                }
+                FileInfo[] subfiles = dir.GetFiles();
+                foreach (FileInfo file in subfiles)
+                {
+                    this.textBox2.Text += file.Name + "\r\n";
+                }
             }
-            FileInfo[] subfiles = dir.GetFiles();
-            foreach (FileInfo file in subfiles)
+            catch (Exception ex) when (ex is System.Security.SecurityException ||ex is UnauthorizedAccessException)
             {
-                this.textBox2.Text += file.Name + "\r\n";
+                MessageBox.Show("Permission denied when tryed to access files and subdirectories!");
+            }
+            catch (Exception ex) when (ex is DirectoryNotFoundException)
+            {
+                MessageBox.Show("Could not find directory!");
             }
         }
     }

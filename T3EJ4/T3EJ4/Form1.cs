@@ -59,7 +59,7 @@ namespace T3EJ4
                         MessageBox.Show("Could not find directory!");
                     }
                 }
-                catch (Exception ex) when (ex is ArgumentNullException || ex is System.Security.SecurityException || ex is ArgumentException || ex is PathTooLongException)
+                catch (Exception ex) when (ex is ArgumentNullException || ex is System.Security.SecurityException || ex is ArgumentException || ex is PathTooLongException || ex is NotSupportedException)
                 {
                     MessageBox.Show("Invalid route!");
                 }

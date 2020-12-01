@@ -61,16 +61,16 @@ namespace T4EJ1
             switch (args.Button)
             {
                 case MouseButtons.Left:
-                    this.button1.BackColor = Color.Empty;
+                    this.button1.BackColor = Color.Transparent;
                     break;
                 
                 case MouseButtons.Right:
-                    this.button2.BackColor = Color.Empty;
+                    this.button2.BackColor = Color.Transparent;
                     break;
                 
                 default:
-                    this.button1.BackColor = Color.Empty;
-                    this.button2.BackColor = Color.Empty;
+                    this.button1.BackColor = Color.Transparent;
+                    this.button2.BackColor = Color.Transparent;
                     break;
             }
         }

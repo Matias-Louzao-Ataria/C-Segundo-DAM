@@ -21,6 +21,7 @@ namespace T4EJ2
             this.textBox3.KeyUp += button2_Click;
             this.FormClosing += ExitConfirmation;
             this.textBox4.KeyDown += button3_Click;
+            this.KeyDown += EscToExit;
             for (int i = 0;i < this.Controls.Count;i++)
             {
                 if (this.Controls[i].GetType() == this.button1.GetType())
@@ -39,17 +40,20 @@ namespace T4EJ2
             }
             else
             {
-                switch (((KeyEventArgs)e).KeyCode)
+                if (((KeyEventArgs)e).KeyCode == Keys.Enter)
                 {
-                    case Keys.Enter:
-                        ChangeBackground();
-                        break;
-                    case Keys.Escape:
-                        this.Close();
-                        break;
+                    ChangeBackground();
                 }
             }
             
+        }
+
+        private void EscToExit(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                this.Close();
+            }
         }
 
         private void ChangeBackground()
@@ -103,6 +107,10 @@ namespace T4EJ2
                         {
                             Bitmap bitmap = new Bitmap(route);
                             this.label1.BackgroundImage = bitmap;
+                        }
+                        else
+                        {
+                            MessageBox.Show("File doesn't exist or is not an image!");
                         }
                     }
                     catch (Exception ex) when (ex is ArgumentNullException || ex is System.Security.SecurityException || ex is ArgumentException || ex is PathTooLongException)

@@ -32,21 +32,21 @@ namespace ServicesT1EJ6
                 Console.SetCursorPosition(0, 10);
                 Console.WriteLine("Player 1 wins!");
                 Console.SetCursorPosition(0, 11);
-                Console.WriteLine("Counter: {0,-2}", contcomun);
+                Console.WriteLine("Counter: {0,-3}", contcomun);
             }
             else
             {
                 Console.SetCursorPosition(0, 10);
                 Console.WriteLine("Player 2 wins!");
                 Console.SetCursorPosition(0, 11);
-                Console.WriteLine("Counter: {0,-2}", contcomun);
+                Console.WriteLine("Counter: {0,-3}", contcomun);
             }
             Console.ReadKey();
         }
 
         public static void player1()
         {
-            int player1int = 1;
+            int player1int = 0;
             while (running)
             {
                 lock (l)
@@ -57,7 +57,7 @@ namespace ServicesT1EJ6
                         Console.SetCursorPosition(0, 1);
                         Console.WriteLine("Player 1 drawed a {0,2}", player1int);
                         Console.SetCursorPosition(0, 11);
-                        Console.WriteLine("Counter: {0,-2}", contcomun);
+                        Console.WriteLine("Counter: {0,-3}", contcomun);
                         if (player1int == 5 || player1int == 7)
                         {
                             if (displayPaused)
@@ -82,7 +82,7 @@ namespace ServicesT1EJ6
 
         public static void player2()
         {
-            int player2int = 1;
+            int player2int = 0;
             while (running)
             {
                 lock (l)
@@ -93,7 +93,7 @@ namespace ServicesT1EJ6
                         Console.SetCursorPosition(0, 3);
                         Console.WriteLine("Player 2 drawed a {0,2}", player2int);
                         Console.SetCursorPosition(0, 11);
-                        Console.WriteLine("Counter: {0,-2}", contcomun);
+                        Console.WriteLine("Counter: {0,-3}", contcomun);
                         if (player2int == 5 || player2int == 7)
                         {
                             if (displayPaused)
@@ -105,6 +105,7 @@ namespace ServicesT1EJ6
                                 contcomun -= 5;
                             }
                             displayPaused = false;
+                            Monitor.Pulse(l);
                         }
                         if (contcomun <= -20)
                         {
@@ -124,7 +125,11 @@ namespace ServicesT1EJ6
             {
                 lock (l)
                 {
-                    if (running && !displayPaused)
+                    if (displayPaused)
+                    {
+                        Monitor.Wait(l);
+                    }
+                    if (running)
                     {
                         Console.SetCursorPosition(5, 5);
                         Console.WriteLine(c[contchar]);

@@ -16,17 +16,12 @@ namespace T4EJ2
         public Form1()
         {
             InitializeComponent();
-            this.textBox1.KeyUp += button2_Click;
-            this.textBox2.KeyUp += button2_Click;
-            this.textBox3.KeyUp += button2_Click;
             this.FormClosing += ExitConfirmation;
-            this.textBox4.KeyDown += button3_Click;
-            this.KeyDown += EscToExit;
             for (int i = 0;i < this.Controls.Count;i++)
             {
-                if (this.Controls[i].GetType() == this.button1.GetType())
+                if (this.Controls[i] is Button)//.GetType() == this.button1.GetType())
                 {
-                    ((Button)this.Controls[i]).MouseEnter += Encima;
+                    ((Button)this.Controls[i]).MouseEnter += EnterButton;
                     ((Button)this.Controls[i]).MouseLeave += ExitButton;
                 }
             }
@@ -48,11 +43,15 @@ namespace T4EJ2
             
         }
 
-        private void EscToExit(object sender, KeyEventArgs e)
+        private void ChangeButton(Object sender,EventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
+            if(sender == this.textBox4)
             {
-                this.Close();
+                this.AcceptButton = this.button3;
+            }
+            else
+            {
+                this.AcceptButton = this.button2;
             }
         }
 
@@ -62,16 +61,9 @@ namespace T4EJ2
             {
                 try
                 {
-                    if (int.Parse(this.textBox1.Text) >= 0 && int.Parse(this.textBox1.Text) <= 255 && int.Parse(this.textBox2.Text) >= 0 && int.Parse(this.textBox2.Text) <= 255 && int.Parse(this.textBox3.Text) >= 0 && int.Parse(this.textBox3.Text) <= 255)
-                    {
-                        this.BackColor = Color.FromArgb(int.Parse(this.textBox1.Text), int.Parse(this.textBox2.Text), int.Parse(this.textBox3.Text));
-                    }
-                    else
-                    {
-                        throw new ArgumentException();
-                    }
+                    this.BackColor = Color.FromArgb(int.Parse(this.textBox1.Text), int.Parse(this.textBox2.Text), int.Parse(this.textBox3.Text));
                 }
-                catch (Exception ex) when (ex is ArgumentException || ex is FormatException)
+                catch (Exception ex) when (ex is ArgumentException || ex is FormatException ||ex is OverflowException)
                 {
                     MessageBox.Show("Enter valid numbers from 0 to 255");
                 }
@@ -95,7 +87,7 @@ namespace T4EJ2
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (sender.GetType() == this.button3.GetType())
+            if (sender == this.button3)
             {
                 string route = this.textBox4.Text;
                 if (!string.IsNullOrEmpty(route))
@@ -107,6 +99,8 @@ namespace T4EJ2
                         {
                             Bitmap bitmap = new Bitmap(route);
                             this.label1.BackgroundImage = bitmap;
+                            this.label1.Width = bitmap.Width;
+                            this.label1.Height = bitmap.Height;
                         }
                         else
                         {
@@ -118,6 +112,10 @@ namespace T4EJ2
                         MessageBox.Show("Invalid path or not an image!");
                     }
                 }
+                else
+                {
+                    Console.WriteLine("a");
+                }
             }
             else
             {
@@ -128,7 +126,7 @@ namespace T4EJ2
             }
         }
 
-        private void Encima(Object sender,EventArgs e)
+        private void EnterButton(Object sender,EventArgs e)
         {
             ((Button)sender).BackColor = Color.Yellow;
         }

@@ -85,9 +85,9 @@ namespace T4EJ1
                 
                 default:
 #if VALUE
-                    this.Text = e.KeyValue.ToString();
+                    this.Text = e.KeyData.ToString();
 #else
-                    this.Text = e.KeyCode.ToString();
+                    this.Text = e.KeyValue.ToString();
 #endif
                     break;
             }

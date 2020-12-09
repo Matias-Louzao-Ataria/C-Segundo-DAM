@@ -16,21 +16,23 @@ namespace T4EJ1
         public Form1()
         {
             InitializeComponent();
-            //this.MouseHover += new EventHandler(OnMouseHover);
-            //this.mouse
-            this.MouseLeave += this.ResetTitle;
-            this.MouseMove += OnMouseHover;
-            this.button1.MouseMove += OnMouseHover;
-            this.button2.MouseMove += OnMouseHover;
-            this.MouseDown += ClickDownHandler;
-            this.MouseUp += ClickUpHandler;
-            this.KeyUp += OnKeyPressed;
-            this.FormClosing += FormCloseConfirm;
+#if VALUE
+            this.KeyDown += OnKeyDown;
+#else
+            this.KeyPress += OnKeyPressed;
+#endif
         }
         
-        private void OnMouseHover(Object sender,EventArgs e)
+        private void OnMouseMove(Object sender,MouseEventArgs e)
         {
-            this.Text = ""+ Control.MousePosition;
+            if (sender is Button)
+            {
+                this.Text = string.Format("X:{0} Y:{1}",((Button)sender).Location.X+e.X, ((Button)sender).Location.Y+e.Y);
+            }
+            else
+            {
+                this.Text = string.Format("X:{0} Y:{1}",e.X,e.Y);
+            }
         }
 
         private void ResetTitle(Object sender, EventArgs e)
@@ -38,7 +40,7 @@ namespace T4EJ1
             this.Text = "Mouse Tester";
         }
 
-        private void ClickDownHandler(Object sender,EventArgs e)
+        private void ClickDownHandler(Object sender,MouseEventArgs e)
         {
             if (Control.MouseButtons == MouseButtons.Left)
             {
@@ -55,7 +57,7 @@ namespace T4EJ1
             }
         }
 
-        private void ClickUpHandler(Object sender, EventArgs e)
+        private void ClickUpHandler(Object sender, MouseEventArgs e)
         {
             MouseEventArgs args = (MouseEventArgs)e;
             switch (args.Button)
@@ -74,27 +76,40 @@ namespace T4EJ1
                     break;
             }
         }
-
-        private void OnKeyPressed(Object sender,KeyEventArgs e)
+#if VALUE
+        private void OnKeyDown(Object sender,KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
                 case Keys.Escape:
                     this.Text = "Mouse Tester";
                     break;
-                
+
                 default:
-#if VALUE
-                    this.Text = e.KeyData.ToString();
-#else
-                    this.Text = e.KeyValue.ToString();
-#endif
+                    this.Text = e.KeyCode.ToString();
                     break;
             }
         }
+
+#else
+        private void OnKeyPressed(Object sender,KeyPressEventArgs e)
+        {
+            Console.WriteLine(e.KeyChar);
+            switch (e.KeyChar)
+            {
+                case (char)Keys.Escape:
+                    this.Text = "Mouse Tester";
+                    break;
+
+                default:
+                    this.Text = e.KeyChar.ToString();
+                    break;
+            }
+        }
+#endif
         private void FormCloseConfirm(Object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to exit?", "Form", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+            if (MessageBox.Show("Are you sure you want to exit?", this.Text, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
             {
                 e.Cancel = true;
             }

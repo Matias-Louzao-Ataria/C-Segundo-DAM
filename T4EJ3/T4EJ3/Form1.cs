@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO;
 namespace T4EJ3
 {
     public partial class Form1 : Form
@@ -15,7 +15,6 @@ namespace T4EJ3
         public Form1()
         {
             InitializeComponent();
-            this.FormClosing += ExitConfirm;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -28,15 +27,22 @@ namespace T4EJ3
             {
                 //MessageBox.Show(fileDialog.FileName);
                 Form2 f = new Form2();
-                ((PictureBox)f.Controls["pictureBox1"]).Image = new Bitmap(fileDialog.FileName);
-                f.Text = fileDialog.SafeFileName;
-                if (this.checkBox1.Checked)
+                try
                 {
-                    f.ShowDialog();
+                    ((PictureBox)f.Controls["pictureBox1"]).Image = new Bitmap(fileDialog.FileName);
+                    f.Text = fileDialog.SafeFileName;
+                    if (this.checkBox1.Checked)
+                    {
+                        f.ShowDialog();
+                    }
+                    else
+                    {
+                        f.Show();
+                    }
                 }
-                else
+                catch (Exception ex) when (ex is FileNotFoundException || ex is ArgumentException)
                 {
-                    f.Show();
+                    MessageBox.Show("Not an image file");
                 }
             }
         }

@@ -29,6 +29,7 @@ namespace T4EJ5
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
@@ -39,6 +40,7 @@ namespace T4EJ5
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // listBox1
@@ -48,7 +50,8 @@ namespace T4EJ5
             this.listBox1.Name = "listBox1";
             this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBox1.Size = new System.Drawing.Size(120, 95);
-            this.listBox1.TabIndex = 0;
+            this.listBox1.TabIndex = 5;
+            this.toolTip1.SetToolTip(this.listBox1, "Your lawn");
             // 
             // listBox2
             // 
@@ -57,25 +60,29 @@ namespace T4EJ5
             this.listBox2.Name = "listBox2";
             this.listBox2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.listBox2.Size = new System.Drawing.Size(120, 95);
-            this.listBox2.TabIndex = 1;
+            this.listBox2.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.listBox2, "Your neighbour\'s lawn");
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(42, 230);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Añadir";
+            this.button1.TabIndex = 1;
+            this.button1.Text = "&Añadir";
+            this.toolTip1.SetToolTip(this.button1, "Adds stuff");
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
+            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Location = new System.Drawing.Point(123, 230);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Quitar";
+            this.button2.TabIndex = 2;
+            this.button2.Text = "&Quitar";
+            this.toolTip1.SetToolTip(this.button2, "Removes stuff");
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -84,8 +91,9 @@ namespace T4EJ5
             this.button3.Location = new System.Drawing.Point(204, 230);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "Traspasar";
+            this.button3.TabIndex = 3;
+            this.button3.Text = "&Traspasar";
+            this.toolTip1.SetToolTip(this.button3, "Throws stuff to your neighbour\'s lawn");
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -94,8 +102,9 @@ namespace T4EJ5
             this.button4.Location = new System.Drawing.Point(413, 177);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "Traspasar";
+            this.button4.TabIndex = 4;
+            this.button4.Text = "T&raspasar";
+            this.toolTip1.SetToolTip(this.button4, "Gets revenge");
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -104,7 +113,8 @@ namespace T4EJ5
             this.textBox1.Location = new System.Drawing.Point(45, 177);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 2;
+            this.textBox1.TabIndex = 0;
+            this.toolTip1.SetToolTip(this.textBox1, "Selected stuff");
             // 
             // label1
             // 
@@ -114,6 +124,7 @@ namespace T4EJ5
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 7;
             this.label1.Text = "label1";
+            this.toolTip1.SetToolTip(this.label1, "Stuff count");
             // 
             // label2
             // 
@@ -123,11 +134,14 @@ namespace T4EJ5
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 8;
             this.label2.Text = "label2";
+            this.toolTip1.SetToolTip(this.label2, "Selected stuff index");
             // 
             // Form1
             // 
+            this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.button2;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -157,6 +171,7 @@ namespace T4EJ5
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

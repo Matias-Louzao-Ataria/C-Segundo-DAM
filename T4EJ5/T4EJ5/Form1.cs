@@ -12,9 +12,10 @@ namespace T4EJ5
 {
     public partial class Form1 : Form
     {
-        private int contTimer = 0;
+        private int contTimer = 0,contStr;
         private Timer timer = new Timer();
         private Icon icon;
+        private string str;
         public Form1()
         {
             InitializeComponent();
@@ -44,9 +45,9 @@ namespace T4EJ5
                 if (selected.Count > 0)
                 {
                     int removeCount = selected.Count;
-                    for (int i = 0; i < removeCount; i++)
+                    for (int i = removeCount -1; i >= 0; i--)
                     {
-                        this.listBox1.Items.RemoveAt(0);
+                        this.listBox1.Items.Remove(selected[i]);
                     }
                     UpdateList();
                 }
@@ -63,16 +64,28 @@ namespace T4EJ5
 
         private void TimerFunction(Object sender,EventArgs e)
         {
-            string original = "titulo form",str = "";
-            for (int i = 0;i < contTimer;i++)
+            string original = "titulo form";
+            if (string.IsNullOrEmpty(str))
             {
-                str += original[i];
+                contStr = original.Length-1;
             }
+            else if(contStr != 0 && !string.IsNullOrEmpty(str))
+            {
+                contStr--;
+            }
+          
+            str = original[contStr]+str;
+
+            if (contStr == 0)
+            {
+                str = "";
+            }
+            
             if (contTimer % 2 == 0 && contTimer != 0)
             {
                 if (this.Icon == this.icon)
                 {
-                    this.Icon = null;
+                    this.Icon = new Icon("a.ico");
                 }
                 else
                 {
@@ -96,9 +109,16 @@ namespace T4EJ5
             if (this.listBox1.SelectedItems.Count > 0)
             {
                 this.label2.Text = "";
-                for (int i = 0;i < this.listBox1.SelectedIndices.Count;i++)
+                if (this.listBox1.SelectedIndices.Count > 0)
                 {
-                    this.label2.Text += this.listBox1.SelectedIndices[i]+" ";
+                    for (int i = 0;i < this.listBox1.SelectedIndices.Count;i++)
+                    {
+                        this.label2.Text += this.listBox1.SelectedIndices[i]+" ";
+                    }
+                }
+                else
+                {
+                    this.label2.Text = "";
                 }
             }
         }
@@ -122,10 +142,10 @@ namespace T4EJ5
                 if (selected.Count > 0)
                 {
                     int removeCount = selected.Count;
-                    for (int i = 0; i < removeCount; i++)
+                    for (int i = removeCount-1; i >= 0 ; i--)
                     {
-                        reciver.Items.Insert(0,origin.Items[0]);
-                        origin.Items.RemoveAt(0);
+                        reciver.Items.Insert(0,selected[i]);
+                        origin.Items.Remove(selected[i]);
                     }
                     UpdateList();
                 }
@@ -138,6 +158,7 @@ namespace T4EJ5
             {
                 MessageBox.Show("List is empty!");
             }
+            this.toolTip1.SetToolTip(this.listBox2, this.listBox2.Items.Count.ToString());
         }
     }
 }

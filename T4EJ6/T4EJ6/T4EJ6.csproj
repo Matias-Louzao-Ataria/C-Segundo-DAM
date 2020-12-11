@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E4AD2D53-C2F8-4D06-8E90-9CEE7752421F}</ProjectGuid>
+    <ProjectGuid>{FBBE099C-487F-4A6F-A4AA-DEC19A2A8F21}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>T4EJ5</RootNamespace>
-    <AssemblyName>T4EJ5</AssemblyName>
+    <RootNamespace>T4EJ6</RootNamespace>
+    <AssemblyName>T4EJ6</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -78,11 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="a.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

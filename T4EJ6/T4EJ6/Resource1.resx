@@ -117,8 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="a" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\a.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Error" xml:space="preserve">
+    <value>Error while trying to save!</value>
+  </data>
+  <data name="NoError" xml:space="preserve">
+    <value>Saved correctly!</value>
+  </data>
+  <data name="Numbers" xml:space="preserve">
+    <value>It is only permited the introduction of numbers!</value>
+  </data>
+  <data name="PIN" xml:space="preserve">
+    <value>Incorrect PIN!</value>
   </data>
 </root>

@@ -35,7 +35,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveNumberToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.separatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,8 +61,8 @@
             this.btnReset.Text = "&Reset";
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.ButtonReset);
-            this.btnReset.MouseEnter += new System.EventHandler(this.MouseEnter);
-            this.btnReset.MouseLeave += new System.EventHandler(this.MouseLeave);
+            this.btnReset.MouseEnter += new System.EventHandler(this.MouseEnterCustom);
+            this.btnReset.MouseLeave += new System.EventHandler(this.MouseLeaveCustom);
             // 
             // menuStrip1
             // 
@@ -80,7 +80,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveNumberToolStripMenuItem,
             this.resetToolStripMenuItem,
-            this.separatorToolStripMenuItem,
+            this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -100,11 +100,10 @@
             this.resetToolStripMenuItem.Text = "R&eset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.ButtonReset);
             // 
-            // separatorToolStripMenuItem
+            // toolStripSeparator1
             // 
-            this.separatorToolStripMenuItem.Name = "separatorToolStripMenuItem";
-            this.separatorToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.separatorToolStripMenuItem.Text = "Se&parator";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(140, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -140,6 +139,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "MovileEmulator";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -158,10 +158,10 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveNumberToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem separatorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem informationToolStripMenuItem;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 

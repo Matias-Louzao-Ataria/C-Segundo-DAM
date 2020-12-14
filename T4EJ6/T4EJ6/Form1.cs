@@ -94,8 +94,8 @@ namespace T4EJ6
                         modx = 0;
                     }
                     boton.Text = str;
-                    boton.MouseEnter += MouseEnter;
-                    boton.MouseLeave += MouseLeave;
+                    boton.MouseEnter += MouseEnterCustom;
+                    boton.MouseLeave += MouseLeaveCustom;
                     if (i < 12)
                     {
                         boton.Click += ButtonClick;
@@ -110,7 +110,7 @@ namespace T4EJ6
             }
         }
 
-        private void MouseEnter(Object sender,EventArgs e)
+        private void MouseEnterCustom(Object sender,EventArgs e)
         {
             Control env = ((Button)sender);
             if (env.BackColor != Color.Yellow)
@@ -119,7 +119,7 @@ namespace T4EJ6
             }
         }
 
-        private void MouseLeave(Object sender, EventArgs e)
+        private void MouseLeaveCustom(Object sender, EventArgs e)
         {
             Control env = ((Button)sender);
             if (env.BackColor != Color.Yellow)
@@ -156,9 +156,10 @@ namespace T4EJ6
         private void MenuSaveClick(Object sender,EventArgs e)
         {
             SaveFileDialog save = new SaveFileDialog();
-            DialogResult result;
+            DialogResult result = DialogResult.None;
             save.AddExtension = true;
             save.DefaultExt = "txt";
+            save.OverwritePrompt = false;
             save.Filter = "Txt (*.txt)|*.txt|All|*.*";
             result = save.ShowDialog();
             if (result == DialogResult.OK)
@@ -170,6 +171,7 @@ namespace T4EJ6
                         try
                         {
                             writer.WriteLine(this.txtPantalla.Text);
+                            writer.Flush();
                             MessageBox.Show(Resource1.NoError);
                         }
                         catch (Exception ex) when (ex is IOException)

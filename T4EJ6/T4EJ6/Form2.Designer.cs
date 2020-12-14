@@ -40,6 +40,7 @@ namespace T4EJ6
             // 
             this.txtpasswd.Location = new System.Drawing.Point(12, 28);
             this.txtpasswd.Name = "txtpasswd";
+            this.txtpasswd.PasswordChar = '*';
             this.txtpasswd.Size = new System.Drawing.Size(360, 20);
             this.txtpasswd.TabIndex = 0;
             // 
@@ -98,7 +99,7 @@ namespace T4EJ6
             this.Name = "Form2";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.Text = "Form2";
+            this.Text = "PIN";
             this.ResumeLayout(false);
             this.PerformLayout();
 

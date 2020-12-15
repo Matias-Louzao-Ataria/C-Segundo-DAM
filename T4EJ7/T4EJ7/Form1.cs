@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -13,21 +13,24 @@ namespace T4EJ7
 {
     public partial class Form1 : Form
     {
-        private string[] recentFiles = new string[5];
+        private ArrayList recentFiles = new ArrayList();
+        private string oldContentText = "";
+        private string newContentText = "";
         public Form1()
         {
             InitializeComponent();
+            this.oldContentText = this.txtContent.Text;
         }
 
         private void aux(Object sender,EventArgs e)
         {
-            if (sender == this.menuStrip1.Items["Guardar"])
+            if (sender == ((ToolStripDropDownItem)this.menuStrip1.Items["archivo"]).DropDownItems["guardar"])
             {
-                NewDoc(false);
+                NewDoc(true);
             }
             else
             {
-                NewDoc(true);
+                NewDoc(false);
             }
         }
 
@@ -40,6 +43,7 @@ namespace T4EJ7
                 try{
                     if (!saving)
                     {
+                        this.txtContent.Text = "";
                         FileInfo file = new FileInfo(save.FileName);
                         file.Create();
                     }
@@ -55,19 +59,28 @@ namespace T4EJ7
                                 }
                             }
                         }
+                        this.oldContentText = this.txtContent.Text;
                     }
-                    this.recentFiles.Prepend(save.FileName);
-                    this.recentFiles[this.recentFiles.Length] = null;
+                    if (this.recentFiles.Count < 5)
+                    {
+                        this.recentFiles.Insert(0, save.FileName);
+                    }
+                    else
+                    {
+                        this.recentFiles.RemoveAt(4);
+                        this.recentFiles.Insert(0, save.FileName);
+                    }
                 }
                 catch (Exception ex) when (ex is ArgumentNullException ||ex is ArgumentException || ex is UnauthorizedAccessException || ex is PathTooLongException ||ex is NotSupportedException ||ex is System.Security.SecurityException || ex is IOException)
                 {
+                    Console.WriteLine(ex.Message);
                     if (saving)
                     {
                         MessageBox.Show("Failed to save!");
                     }
                     else
                     {
-                        MessageBox.Show("Filed create a new file!");
+                        MessageBox.Show("Failed to create a new file!");
                     }
                 }
             }
@@ -87,8 +100,16 @@ namespace T4EJ7
                         this.txtContent.Text = "";
                         this.txtContent.Text += reader.ReadToEnd();
                     }
-                    this.recentFiles.Prepend(fileDialog.FileName);
-                    this.recentFiles[this.recentFiles.Length] = null;
+                    if (this.recentFiles.Count < 5)
+                    {
+                        this.recentFiles.Insert(0, fileDialog.FileName);
+                    }
+                    else
+                    {
+                        this.recentFiles.RemoveAt(4);
+                        this.recentFiles.Insert(0, fileDialog.FileName);
+                    }
+                    this.oldContentText = this.txtContent.Text;
                 }
                 catch (Exception ex) when (ex is ArgumentNullException || ex is ArgumentException || ex is UnauthorizedAccessException || ex is PathTooLongException || ex is NotSupportedException || ex is System.Security.SecurityException || ex is IOException)
                 {
@@ -97,9 +118,48 @@ namespace T4EJ7
             }
         }
 
+        private void Exit(Object sender,EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MenuCopy(Object sender,EventArgs e)
+        {
+                Clipboard.SetText(this.txtContent.SelectedText);
+            if (sender == ((ToolStripDropDownItem)this.menuStrip1.Items["editar"]).DropDownItems["cortar"])
+            {
+                this.txtContent.SelectedText = "";
+            }
+        }
+
+        private void MenuPaste(Object sender,EventArgs e)
+        {
+            this.txtContent.Text += Clipboard.GetText();
+        }
+
+        private void MenuUndo(Object sender,EventArgs e)
+        {
+            this.txtContent.Text = this.oldContentText;
+        }
+
+        private void ContentTextChanged(Object sender,EventArgs e)
+        {
+            this.newContentText = this.txtContent.Text;
+        }
+
+        private void SelectAll(Object sender,EventArgs e)
+        {
+            this.txtContent.SelectAll();
+        }
+
         private void RecentFiles(Object sender,EventArgs e)
         {
-            
+            ToolStripDropDownItem recientes = (ToolStripDropDownItem)((ToolStripDropDownItem)this.menuStrip1.Items[0]).DropDownItems[3];
+            recientes.DropDownItems.Clear();
+            foreach (string file in this.recentFiles)
+            {
+                recientes.DropDownItems.Add(file);
+            }
         }
     }
 }

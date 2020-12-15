@@ -125,6 +125,7 @@
             // salirToolStripMenuItem
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            this.salirToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
             this.salirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.salirToolStripMenuItem.Text = "&Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.Exit);
@@ -191,7 +192,8 @@
             // informacionDeLaSelecciónToolStripMenuItem
             // 
             this.informacionDeLaSelecciónToolStripMenuItem.Name = "informacionDeLaSelecciónToolStripMenuItem";
-            this.informacionDeLaSelecciónToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.informacionDeLaSelecciónToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.informacionDeLaSelecciónToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.informacionDeLaSelecciónToolStripMenuItem.Text = "&Informacion de la selección";
             // 
             // herramientasToolStripMenuItem
@@ -209,7 +211,8 @@
             // 
             this.aJustesDeLineaToolStripMenuItem.CheckOnClick = true;
             this.aJustesDeLineaToolStripMenuItem.Name = "aJustesDeLineaToolStripMenuItem";
-            this.aJustesDeLineaToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.aJustesDeLineaToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.J)));
+            this.aJustesDeLineaToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
             this.aJustesDeLineaToolStripMenuItem.Text = "A&Justes de linea";
             // 
             // selecciónDeEscrituraToolStripMenuItem

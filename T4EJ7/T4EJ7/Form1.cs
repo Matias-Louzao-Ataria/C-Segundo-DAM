@@ -20,6 +20,11 @@ namespace T4EJ7
         {
             InitializeComponent();
             this.oldContentText = this.txtContent.Text;
+            ToolStripMenuItem upperItem = (ToolStripMenuItem)this.menuStrip1.Items["herramientas"];
+            ToolStripItemCollection items = ((ToolStripMenuItem)upperItem.DropDownItems["seleccionDeEscritura"]).DropDownItems;
+            items["normal"].Tag = CharacterCasing.Normal;
+            items["mayusculas"].Tag = CharacterCasing.Upper;
+            items["minusculas"].Tag = CharacterCasing.Lower;
         }
 
         private void aux(Object sender,EventArgs e)
@@ -144,12 +149,39 @@ namespace T4EJ7
 
         private void ContentTextChanged(Object sender,EventArgs e)
         {
-            this.newContentText = this.txtContent.Text;
+            string text = this.txtContent.Text;
+            this.newContentText = text;
         }
 
         private void SelectAll(Object sender,EventArgs e)
         {
             this.txtContent.SelectAll();
+        }
+
+        private void MenuWordWrapCheckedChange(Object sender,EventArgs e)
+        {
+            ToolStripDropDownItem item = ((ToolStripDropDownItem)this.menuStrip1.Items["herramientas"]);
+            this.txtContent.WordWrap = ((ToolStripMenuItem)item.DropDownItems["ajusteDeLinea"]).Checked;
+        }
+
+        private void MenuTextSelectionChanged(Object sender,EventArgs e)
+        {
+            if (((ToolStripMenuItem)sender).Checked)
+            {
+                ToolStripMenuItem upperItem = (ToolStripMenuItem)this.menuStrip1.Items["herramientas"];
+                ToolStripItemCollection items = ((ToolStripMenuItem)upperItem.DropDownItems["seleccionDeEscritura"]).DropDownItems;
+                for (int i = 0; i < items.Count; i++)
+                {
+                    if (items[i] == sender)
+                    {
+                        this.txtContent.CharacterCasing = (CharacterCasing)items[i].Tag;
+                    }
+                    else
+                    {
+                        ((ToolStripMenuItem)items[i]).Checked = false;
+                    }
+                }
+            }
         }
 
         private void RecentFiles(Object sender,EventArgs e)

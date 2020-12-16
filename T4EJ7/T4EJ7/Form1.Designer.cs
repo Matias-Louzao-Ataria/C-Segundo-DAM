@@ -43,12 +43,12 @@
             this.pegarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.seleccionartodoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informacionDeLaSelecciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.herramientasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aJustesDeLineaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selecciónDeEscrituraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mayúsculasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.minúsculasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.normalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.herramientas = new System.Windows.Forms.ToolStripMenuItem();
+            this.ajusteDeLinea = new System.Windows.Forms.ToolStripMenuItem();
+            this.seleccionDeEscritura = new System.Windows.Forms.ToolStripMenuItem();
+            this.mayusculas = new System.Windows.Forms.ToolStripMenuItem();
+            this.minusculas = new System.Windows.Forms.ToolStripMenuItem();
+            this.normal = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDeTextoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,7 +65,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archivo,
             this.editar,
-            this.herramientasToolStripMenuItem,
+            this.herramientas,
             this.ayudaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -91,7 +91,7 @@
             this.nuevoToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.nuevoToolStripMenuItem.Name = "nuevoToolStripMenuItem";
             this.nuevoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.nuevoToolStripMenuItem.Text = "&Nuevo";
             this.nuevoToolStripMenuItem.Click += new System.EventHandler(this.aux);
             // 
@@ -101,7 +101,7 @@
             this.abrirToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
             this.abrirToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.abrirToolStripMenuItem.Text = "&Abrir";
             this.abrirToolStripMenuItem.Click += new System.EventHandler(this.OpenFile);
             // 
@@ -111,14 +111,14 @@
             this.guardar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.guardar.Name = "guardar";
             this.guardar.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.guardar.Size = new System.Drawing.Size(180, 22);
+            this.guardar.Size = new System.Drawing.Size(170, 22);
             this.guardar.Text = "&Guardar";
             this.guardar.Click += new System.EventHandler(this.aux);
             // 
             // archivosrecientes
             // 
             this.archivosrecientes.Name = "archivosrecientes";
-            this.archivosrecientes.Size = new System.Drawing.Size(180, 22);
+            this.archivosrecientes.Size = new System.Drawing.Size(170, 22);
             this.archivosrecientes.Text = "Archivos &recientes";
             this.archivosrecientes.MouseHover += new System.EventHandler(this.RecentFiles);
             // 
@@ -126,7 +126,7 @@
             // 
             this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
             this.salirToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.salirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.salirToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.salirToolStripMenuItem.Text = "&Salir";
             this.salirToolStripMenuItem.Click += new System.EventHandler(this.Exit);
             // 
@@ -147,7 +147,7 @@
             // 
             this.deshacerToolStripMenuItem.Name = "deshacerToolStripMenuItem";
             this.deshacerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.deshacerToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.deshacerToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.deshacerToolStripMenuItem.Text = "&Deshacer";
             this.deshacerToolStripMenuItem.Click += new System.EventHandler(this.MenuUndo);
             // 
@@ -157,7 +157,7 @@
             this.cortar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cortar.Name = "cortar";
             this.cortar.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cortar.Size = new System.Drawing.Size(219, 22);
+            this.cortar.Size = new System.Drawing.Size(256, 22);
             this.cortar.Text = "Cor&tar";
             this.cortar.Click += new System.EventHandler(this.MenuCopy);
             // 
@@ -167,7 +167,7 @@
             this.copiarToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.copiarToolStripMenuItem.Name = "copiarToolStripMenuItem";
             this.copiarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.copiarToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.copiarToolStripMenuItem.Text = "&Copiar";
             this.copiarToolStripMenuItem.Click += new System.EventHandler(this.MenuCopy);
             // 
@@ -177,7 +177,7 @@
             this.pegarToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.pegarToolStripMenuItem.Name = "pegarToolStripMenuItem";
             this.pegarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pegarToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.pegarToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.pegarToolStripMenuItem.Text = "&Pegar";
             this.pegarToolStripMenuItem.Click += new System.EventHandler(this.MenuPaste);
             // 
@@ -185,7 +185,7 @@
             // 
             this.seleccionartodoToolStripMenuItem.Name = "seleccionartodoToolStripMenuItem";
             this.seleccionartodoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.seleccionartodoToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.seleccionartodoToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.seleccionartodoToolStripMenuItem.Text = "&Seleccionar todo";
             this.seleccionartodoToolStripMenuItem.Click += new System.EventHandler(this.SelectAll);
             // 
@@ -196,66 +196,71 @@
             this.informacionDeLaSelecciónToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.informacionDeLaSelecciónToolStripMenuItem.Text = "&Informacion de la selección";
             // 
-            // herramientasToolStripMenuItem
+            // herramientas
             // 
-            this.herramientasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aJustesDeLineaToolStripMenuItem,
-            this.selecciónDeEscrituraToolStripMenuItem,
+            this.herramientas.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ajusteDeLinea,
+            this.seleccionDeEscritura,
             this.colorDeTextoToolStripMenuItem,
             this.acercaDeToolStripMenuItem1});
-            this.herramientasToolStripMenuItem.Name = "herramientasToolStripMenuItem";
-            this.herramientasToolStripMenuItem.Size = new System.Drawing.Size(90, 20);
-            this.herramientasToolStripMenuItem.Text = "&Herramientas";
+            this.herramientas.Name = "herramientas";
+            this.herramientas.Size = new System.Drawing.Size(90, 20);
+            this.herramientas.Text = "&Herramientas";
             // 
-            // aJustesDeLineaToolStripMenuItem
+            // ajusteDeLinea
             // 
-            this.aJustesDeLineaToolStripMenuItem.CheckOnClick = true;
-            this.aJustesDeLineaToolStripMenuItem.Name = "aJustesDeLineaToolStripMenuItem";
-            this.aJustesDeLineaToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.J)));
-            this.aJustesDeLineaToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-            this.aJustesDeLineaToolStripMenuItem.Text = "A&Justes de linea";
+            this.ajusteDeLinea.CheckOnClick = true;
+            this.ajusteDeLinea.Name = "ajusteDeLinea";
+            this.ajusteDeLinea.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.J)));
+            this.ajusteDeLinea.Size = new System.Drawing.Size(189, 22);
+            this.ajusteDeLinea.Text = "A&juste de linea";
+            this.ajusteDeLinea.CheckedChanged += new System.EventHandler(this.MenuWordWrapCheckedChange);
             // 
-            // selecciónDeEscrituraToolStripMenuItem
+            // seleccionDeEscritura
             // 
-            this.selecciónDeEscrituraToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mayúsculasToolStripMenuItem,
-            this.minúsculasToolStripMenuItem,
-            this.normalToolStripMenuItem});
-            this.selecciónDeEscrituraToolStripMenuItem.Name = "selecciónDeEscrituraToolStripMenuItem";
-            this.selecciónDeEscrituraToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.selecciónDeEscrituraToolStripMenuItem.Text = "Se&lección de escritura";
+            this.seleccionDeEscritura.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mayusculas,
+            this.minusculas,
+            this.normal});
+            this.seleccionDeEscritura.Name = "seleccionDeEscritura";
+            this.seleccionDeEscritura.Size = new System.Drawing.Size(189, 22);
+            this.seleccionDeEscritura.Text = "Se&lección de escritura";
             // 
-            // mayúsculasToolStripMenuItem
+            // mayusculas
             // 
-            this.mayúsculasToolStripMenuItem.CheckOnClick = true;
-            this.mayúsculasToolStripMenuItem.Name = "mayúsculasToolStripMenuItem";
-            this.mayúsculasToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.mayúsculasToolStripMenuItem.Text = "Ma&yúsculas";
+            this.mayusculas.CheckOnClick = true;
+            this.mayusculas.Name = "mayusculas";
+            this.mayusculas.Size = new System.Drawing.Size(180, 22);
+            this.mayusculas.Tag = "CharacterCasing.Upper";
+            this.mayusculas.Text = "Ma&yúsculas";
+            this.mayusculas.CheckedChanged += new System.EventHandler(this.MenuTextSelectionChanged);
             // 
-            // minúsculasToolStripMenuItem
+            // minusculas
             // 
-            this.minúsculasToolStripMenuItem.CheckOnClick = true;
-            this.minúsculasToolStripMenuItem.Name = "minúsculasToolStripMenuItem";
-            this.minúsculasToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.minúsculasToolStripMenuItem.Text = "M&inúsculas";
+            this.minusculas.CheckOnClick = true;
+            this.minusculas.Name = "minusculas";
+            this.minusculas.Size = new System.Drawing.Size(180, 22);
+            this.minusculas.Text = "M&inúsculas";
+            this.minusculas.CheckedChanged += new System.EventHandler(this.MenuTextSelectionChanged);
             // 
-            // normalToolStripMenuItem
+            // normal
             // 
-            this.normalToolStripMenuItem.CheckOnClick = true;
-            this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            this.normalToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.normalToolStripMenuItem.Text = "&Normal";
+            this.normal.CheckOnClick = true;
+            this.normal.Name = "normal";
+            this.normal.Size = new System.Drawing.Size(180, 22);
+            this.normal.Text = "&Normal";
+            this.normal.CheckedChanged += new System.EventHandler(this.MenuTextSelectionChanged);
             // 
             // colorDeTextoToolStripMenuItem
             // 
             this.colorDeTextoToolStripMenuItem.Name = "colorDeTextoToolStripMenuItem";
-            this.colorDeTextoToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.colorDeTextoToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.colorDeTextoToolStripMenuItem.Text = "&Color de texto";
             // 
             // acercaDeToolStripMenuItem1
             // 
             this.acercaDeToolStripMenuItem1.Name = "acercaDeToolStripMenuItem1";
-            this.acercaDeToolStripMenuItem1.Size = new System.Drawing.Size(188, 22);
+            this.acercaDeToolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
             this.acercaDeToolStripMenuItem1.Text = "Acerca de...";
             // 
             // ayudaToolStripMenuItem
@@ -301,6 +306,7 @@
             this.txtContent.Name = "txtContent";
             this.txtContent.Size = new System.Drawing.Size(800, 426);
             this.txtContent.TabIndex = 1;
+            this.txtContent.WordWrap = false;
             this.txtContent.TextChanged += new System.EventHandler(this.ContentTextChanged);
             // 
             // Form1
@@ -336,9 +342,9 @@
         private System.Windows.Forms.ToolStripMenuItem pegarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem seleccionartodoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem informacionDeLaSelecciónToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem herramientasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aJustesDeLineaToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem selecciónDeEscrituraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem herramientas;
+        private System.Windows.Forms.ToolStripMenuItem ajusteDeLinea;
+        private System.Windows.Forms.ToolStripMenuItem seleccionDeEscritura;
         private System.Windows.Forms.ToolStripMenuItem colorDeTextoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem ayudaToolStripMenuItem;
@@ -346,9 +352,9 @@
         private System.Windows.Forms.ToolStripMenuItem índiceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buscarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem acercadeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem mayúsculasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem minúsculasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem normalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mayusculas;
+        private System.Windows.Forms.ToolStripMenuItem minusculas;
+        private System.Windows.Forms.ToolStripMenuItem normal;
         private System.Windows.Forms.TextBox txtContent;
     }
 }

@@ -16,6 +16,7 @@ namespace T4EJ7
         private ArrayList recentFiles = new ArrayList();
         private string oldContentText = "";
         private string newContentText = "";
+        private void MenuAboutLambda(Object sender,EventArgs e) => MenuAbout();
         public Form1()
         {
             InitializeComponent();
@@ -25,9 +26,10 @@ namespace T4EJ7
             items["normal"].Tag = CharacterCasing.Normal;
             items["mayusculas"].Tag = CharacterCasing.Upper;
             items["minusculas"].Tag = CharacterCasing.Lower;
+            updateToolTip();
         }
 
-        private void aux(Object sender,EventArgs e)
+        private void MenuNewAndSave(Object sender, EventArgs e)
         {
             if (sender == ((ToolStripDropDownItem)this.menuStrip1.Items["archivo"]).DropDownItems["guardar"])
             {
@@ -45,7 +47,7 @@ namespace T4EJ7
             DialogResult result = save.ShowDialog();
             if (result == DialogResult.OK)
             {
-                try{
+                try {
                     if (!saving)
                     {
                         this.txtContent.Text = "";
@@ -54,11 +56,11 @@ namespace T4EJ7
                     }
                     else
                     {
-                        using (StreamWriter writer = new StreamWriter(save.FileName,true))
+                        using (StreamWriter writer = new StreamWriter(save.FileName, true))
                         {
                             if (this.txtContent.Text.Trim().Length > 0)
                             {
-                                for (int i = 0;i < this.txtContent.Lines.Count();i++)
+                                for (int i = 0; i < this.txtContent.Lines.Count(); i++)
                                 {
                                     writer.WriteLine(this.txtContent.Lines[i]);
                                 }
@@ -76,7 +78,7 @@ namespace T4EJ7
                         this.recentFiles.Insert(0, save.FileName);
                     }
                 }
-                catch (Exception ex) when (ex is ArgumentNullException ||ex is ArgumentException || ex is UnauthorizedAccessException || ex is PathTooLongException ||ex is NotSupportedException ||ex is System.Security.SecurityException || ex is IOException)
+                catch (Exception ex) when (ex is ArgumentNullException || ex is ArgumentException || ex is UnauthorizedAccessException || ex is PathTooLongException || ex is NotSupportedException || ex is System.Security.SecurityException || ex is IOException)
                 {
                     Console.WriteLine(ex.Message);
                     if (saving)
@@ -91,7 +93,7 @@ namespace T4EJ7
             }
         }
 
-        private void OpenFile(Object sender,EventArgs e)
+        private void MenuOpenFile(Object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = "txt (*.txt)|*.txt|ini (*.ini)|*.ini|java (*.java)|*.java|cs (*.cs)|*.cs|py (*.py)|*.py|html (*.html)|*.hmtl|css (*.css)|*.css|xml (*.xml)|*.xml|All|*.*";
@@ -123,48 +125,72 @@ namespace T4EJ7
             }
         }
 
-        private void Exit(Object sender,EventArgs e)
+        private void Exit(Object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void MenuCopy(Object sender,EventArgs e)
+        private void MenuCopy(Object sender, EventArgs e)
         {
-                Clipboard.SetText(this.txtContent.SelectedText);
-            if (sender == ((ToolStripDropDownItem)this.menuStrip1.Items["editar"]).DropDownItems["cortar"])
+            Clipboard.SetText(this.txtContent.SelectedText);
+            if (sender == ((ToolStripDropDownItem)this.menuStrip1.Items["editar"]).DropDownItems["cortar"] || sender == this.toolStrip1.Items["cortarStrip"])
             {
                 this.txtContent.SelectedText = "";
             }
         }
 
-        private void MenuPaste(Object sender,EventArgs e)
+        private void MenuPaste(Object sender, EventArgs e)
         {
             this.txtContent.Text += Clipboard.GetText();
         }
 
-        private void MenuUndo(Object sender,EventArgs e)
+        private void MenuUndo(Object sender, EventArgs e)
         {
             this.txtContent.Text = this.oldContentText;
         }
 
-        private void ContentTextChanged(Object sender,EventArgs e)
+        private void ContentTextChanged(Object sender, EventArgs e)
         {
             string text = this.txtContent.Text;
             this.newContentText = text;
+            updateToolTip();
         }
 
-        private void SelectAll(Object sender,EventArgs e)
+        private void updateToolTip()
+        {
+            int wordCount = 0, letterCount = 0;
+            string[] lineas = this.txtContent.Lines;
+            for (int i = 0; i < lineas.Length; i++)
+            {
+                string[] aux = lineas[i].Split(' ');
+                wordCount += aux.Length;
+            }
+
+            for (int i = 0; i < lineas.Length; i++)
+            {
+                StringReader stringReader = new StringReader(lineas[i]);
+                int aux = 0;
+                while ((aux = stringReader.Read()) != -1)
+                {
+                    letterCount++;
+                }
+            }
+
+            this.toolTip1.SetToolTip(this.txtContent, "Amout of sentences: " + this.txtContent.Lines.Length + ", Amount of words: " + wordCount + ", Amount of characters: " + letterCount);
+        }
+
+        private void SelectAll(Object sender, EventArgs e)
         {
             this.txtContent.SelectAll();
         }
 
-        private void MenuWordWrapCheckedChange(Object sender,EventArgs e)
+        private void MenuWordWrapCheckedChange(Object sender, EventArgs e)
         {
             ToolStripDropDownItem item = ((ToolStripDropDownItem)this.menuStrip1.Items["herramientas"]);
             this.txtContent.WordWrap = ((ToolStripMenuItem)item.DropDownItems["ajusteDeLinea"]).Checked;
         }
 
-        private void MenuTextSelectionChanged(Object sender,EventArgs e)
+        private void MenuTextSelectionChanged(Object sender, EventArgs e)
         {
             if (((ToolStripMenuItem)sender).Checked)
             {
@@ -184,6 +210,41 @@ namespace T4EJ7
             }
         }
 
+        private void MenuColorPicker(Object sender, EventArgs e)
+        {
+            ToolStripMenuItem upperItem = (ToolStripMenuItem)this.menuStrip1.Items["herramientas"];
+            ToolStripItemCollection items = ((ToolStripMenuItem)upperItem.DropDownItems["color"]).DropDownItems;
+            ColorDialog colorPicker = new ColorDialog();
+            DialogResult dialogResult = colorPicker.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                if (sender == items["colorDetexto"])
+                {
+                    this.txtContent.ForeColor = colorPicker.Color;
+                }
+                else
+                {
+                    this.txtContent.BackColor = colorPicker.Color;
+                }
+            }
+        }
+
+        private void MenuFontPicker(Object sender, EventArgs e)
+        {
+            FontDialog fontPicker = new FontDialog();
+            DialogResult dialogResult = fontPicker.ShowDialog();
+            if (dialogResult == DialogResult.OK)
+            {
+                this.txtContent.Font = fontPicker.Font;
+            }
+        }
+
+        private void MenuAbout()
+        {
+            Form2 about = new Form2();
+            about.ShowDialog();
+        } 
+
         private void RecentFiles(Object sender,EventArgs e)
         {
             ToolStripDropDownItem recientes = (ToolStripDropDownItem)((ToolStripDropDownItem)this.menuStrip1.Items[0]).DropDownItems[3];
@@ -192,6 +253,11 @@ namespace T4EJ7
             {
                 recientes.DropDownItems.Add(file);
             }
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }

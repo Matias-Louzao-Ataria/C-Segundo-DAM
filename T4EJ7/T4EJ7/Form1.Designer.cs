@@ -64,10 +64,10 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.nuevo = new System.Windows.Forms.ToolStripButton();
             this.abrir = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cortarStrip = new System.Windows.Forms.ToolStripButton();
             this.copiarStrip = new System.Windows.Forms.ToolStripButton();
             this.pegarStrip = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -173,7 +173,7 @@
             this.cortar.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.cortar.Size = new System.Drawing.Size(256, 22);
             this.cortar.Text = "Cor&tar";
-            this.cortar.Click += new System.EventHandler(this.MenuCopy);
+            this.cortar.Click += new System.EventHandler(this.MenuCut);
             // 
             // copiarToolStripMenuItem
             // 
@@ -300,8 +300,7 @@
             // 
             this.acercaDe.Name = "acercaDe";
             this.acercaDe.Size = new System.Drawing.Size(189, 22);
-            this.acercaDe.Text = "Acerca de...";
-            this.acercaDe.Click += new System.EventHandler(this.MenuAboutLambda);
+            this.acercaDe.Text = "Acerca &de...";
             // 
             // ademas
             // 
@@ -344,6 +343,7 @@
             this.txtContent.Location = new System.Drawing.Point(0, 47);
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
+            this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtContent.Size = new System.Drawing.Size(800, 403);
             this.txtContent.TabIndex = 1;
             this.txtContent.WordWrap = false;
@@ -384,6 +384,11 @@
             this.abrir.Text = "&Abrir";
             this.abrir.Click += new System.EventHandler(this.MenuOpenFile);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // cortarStrip
             // 
             this.cortarStrip.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -414,11 +419,6 @@
             this.pegarStrip.Text = "&Pegar";
             this.pegarStrip.Click += new System.EventHandler(this.MenuPaste);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -430,6 +430,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Text Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);

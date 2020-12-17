@@ -14,15 +14,17 @@ namespace T4EJ7
     public partial class Form1 : Form
     {
         private ArrayList recentFiles = new ArrayList();
-        private string oldContentText = "";
-        private string newContentText = "";
-        private void MenuAboutLambda(Object sender,EventArgs e) => MenuAbout();
+        private bool saved = true;
         public Form1()
         {
             InitializeComponent();
-            this.oldContentText = this.txtContent.Text;
             ToolStripMenuItem upperItem = (ToolStripMenuItem)this.menuStrip1.Items["herramientas"];
             ToolStripItemCollection items = ((ToolStripMenuItem)upperItem.DropDownItems["seleccionDeEscritura"]).DropDownItems;
+            upperItem.DropDownItems["acercaDe"].Click += (Object sender, EventArgs e) =>
+            {
+                Form2 about = new Form2();
+                about.ShowDialog();
+            };
             items["normal"].Tag = CharacterCasing.Normal;
             items["mayusculas"].Tag = CharacterCasing.Upper;
             items["minusculas"].Tag = CharacterCasing.Lower;
@@ -64,9 +66,9 @@ namespace T4EJ7
                                 {
                                     writer.WriteLine(this.txtContent.Lines[i]);
                                 }
+                                this.saved = true;
                             }
                         }
-                        this.oldContentText = this.txtContent.Text;
                     }
                     if (this.recentFiles.Count < 5)
                     {
@@ -83,6 +85,7 @@ namespace T4EJ7
                     Console.WriteLine(ex.Message);
                     if (saving)
                     {
+                        this.saved = false;
                         MessageBox.Show("Failed to save!");
                     }
                     else
@@ -116,7 +119,6 @@ namespace T4EJ7
                         this.recentFiles.RemoveAt(4);
                         this.recentFiles.Insert(0, fileDialog.FileName);
                     }
-                    this.oldContentText = this.txtContent.Text;
                 }
                 catch (Exception ex) when (ex is ArgumentNullException || ex is ArgumentException || ex is UnauthorizedAccessException || ex is PathTooLongException || ex is NotSupportedException || ex is System.Security.SecurityException || ex is IOException)
                 {
@@ -132,27 +134,33 @@ namespace T4EJ7
 
         private void MenuCopy(Object sender, EventArgs e)
         {
-            Clipboard.SetText(this.txtContent.SelectedText);
+            this.txtContent.Copy();
+            /*Clipboard.SetText(this.txtContent.SelectedText);
             if (sender == ((ToolStripDropDownItem)this.menuStrip1.Items["editar"]).DropDownItems["cortar"] || sender == this.toolStrip1.Items["cortarStrip"])
             {
                 this.txtContent.SelectedText = "";
-            }
+            }*/
+        }
+
+        private void MenuCut(Object sender, EventArgs e)
+        {
+            this.txtContent.Cut();
         }
 
         private void MenuPaste(Object sender, EventArgs e)
         {
-            this.txtContent.Text += Clipboard.GetText();
+            //this.txtContent.Text += Clipboard.GetText();
+            this.txtContent.Paste();
         }
 
         private void MenuUndo(Object sender, EventArgs e)
         {
-            this.txtContent.Text = this.oldContentText;
+            this.txtContent.Undo();
         }
 
         private void ContentTextChanged(Object sender, EventArgs e)
         {
-            string text = this.txtContent.Text;
-            this.newContentText = text;
+            this.saved = false;
             updateToolTip();
         }
 
@@ -239,12 +247,6 @@ namespace T4EJ7
             }
         }
 
-        private void MenuAbout()
-        {
-            Form2 about = new Form2();
-            about.ShowDialog();
-        } 
-
         private void RecentFiles(Object sender,EventArgs e)
         {
             ToolStripDropDownItem recientes = (ToolStripDropDownItem)((ToolStripDropDownItem)this.menuStrip1.Items[0]).DropDownItems[3];
@@ -258,6 +260,17 @@ namespace T4EJ7
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!this.saved)
+            {
+                if (MessageBox.Show("Are you sure you'd like to exit?","Exit confirmation",MessageBoxButtons.YesNo) == DialogResult.OK)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }

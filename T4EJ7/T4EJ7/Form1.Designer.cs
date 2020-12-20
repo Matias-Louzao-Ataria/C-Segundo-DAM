@@ -234,9 +234,9 @@
             // seleccionDeEscritura
             // 
             this.seleccionDeEscritura.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.normal,
             this.mayusculas,
-            this.minusculas,
-            this.normal});
+            this.minusculas});
             this.seleccionDeEscritura.Name = "seleccionDeEscritura";
             this.seleccionDeEscritura.Size = new System.Drawing.Size(189, 22);
             this.seleccionDeEscritura.Text = "Se&lección de escritura";
@@ -245,7 +245,7 @@
             // 
             this.mayusculas.CheckOnClick = true;
             this.mayusculas.Name = "mayusculas";
-            this.mayusculas.Size = new System.Drawing.Size(136, 22);
+            this.mayusculas.Size = new System.Drawing.Size(180, 22);
             this.mayusculas.Tag = "CharacterCasing.Upper";
             this.mayusculas.Text = "Ma&yúsculas";
             this.mayusculas.CheckedChanged += new System.EventHandler(this.MenuTextSelectionChanged);
@@ -254,7 +254,7 @@
             // 
             this.minusculas.CheckOnClick = true;
             this.minusculas.Name = "minusculas";
-            this.minusculas.Size = new System.Drawing.Size(136, 22);
+            this.minusculas.Size = new System.Drawing.Size(180, 22);
             this.minusculas.Text = "M&inúsculas";
             this.minusculas.CheckedChanged += new System.EventHandler(this.MenuTextSelectionChanged);
             // 
@@ -262,7 +262,7 @@
             // 
             this.normal.CheckOnClick = true;
             this.normal.Name = "normal";
-            this.normal.Size = new System.Drawing.Size(136, 22);
+            this.normal.Size = new System.Drawing.Size(180, 22);
             this.normal.Text = "&Normal";
             this.normal.CheckedChanged += new System.EventHandler(this.MenuTextSelectionChanged);
             // 
@@ -278,14 +278,14 @@
             // colorDetexto
             // 
             this.colorDetexto.Name = "colorDetexto";
-            this.colorDetexto.Size = new System.Drawing.Size(154, 22);
+            this.colorDetexto.Size = new System.Drawing.Size(180, 22);
             this.colorDetexto.Text = "Color de &texto";
             this.colorDetexto.Click += new System.EventHandler(this.MenuColorPicker);
             // 
             // colorDeFondo
             // 
             this.colorDeFondo.Name = "colorDeFondo";
-            this.colorDeFondo.Size = new System.Drawing.Size(154, 22);
+            this.colorDeFondo.Size = new System.Drawing.Size(180, 22);
             this.colorDeFondo.Text = "Color de &fondo";
             this.colorDeFondo.Click += new System.EventHandler(this.MenuColorPicker);
             // 
@@ -431,6 +431,7 @@
             this.Name = "Form1";
             this.Text = "Text Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);

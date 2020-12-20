@@ -4,11 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace T4EJ7
 {
     public partial class Form1 : Form
@@ -156,6 +156,7 @@ namespace T4EJ7
         private void MenuUndo(Object sender, EventArgs e)
         {
             this.txtContent.Undo();
+            this.saved = true;
         }
 
         private void ContentTextChanged(Object sender, EventArgs e)
@@ -251,9 +252,19 @@ namespace T4EJ7
         {
             ToolStripDropDownItem recientes = (ToolStripDropDownItem)((ToolStripDropDownItem)this.menuStrip1.Items[0]).DropDownItems[3];
             recientes.DropDownItems.Clear();
-            foreach (string file in this.recentFiles)
+            for (int i = 0;i < this.recentFiles.Count;i++)
             {
-                recientes.DropDownItems.Add(file);
+                string current = this.recentFiles[i].ToString();
+                ToolStripItem recent = new ToolStripMenuItem(current);
+                recent.Click += (Object sender2, EventArgs e2) =>
+                {
+                    using (StreamReader reader = new StreamReader(current))//this.recentFiles[i].ToString() ArrayIndexOutOfBounds
+                    {
+                        this.txtContent.Text = "";
+                        this.txtContent.Text += reader.ReadToEnd();
+                    }
+                };
+                recientes.DropDownItems.Add(recent);
             }
         }
 
@@ -262,13 +273,136 @@ namespace T4EJ7
 
         }
 
+        private void configFileCreator()
+        {
+            try
+            {
+                ToolStripDropDownItem item = ((ToolStripDropDownItem)this.menuStrip1.Items["herramientas"]);
+                using (FileStream stream = new FileStream("config.temp.json",FileMode.OpenOrCreate))
+                {
+                    using (Utf8JsonWriter jsonWriter = new Utf8JsonWriter(stream))
+                    {
+                        jsonWriter.WriteStartObject();
+                        jsonWriter.WriteBoolean("WordWrap", ((ToolStripMenuItem)item.DropDownItems["ajusteDeLinea"]).Checked);
+                        jsonWriter.WriteString("CharacterCasing", JsonSerializer.Serialize(this.txtContent.CharacterCasing));
+                        jsonWriter.WriteNumber("ForeColor",this.txtContent.ForeColor.ToArgb());
+                        jsonWriter.WriteNumber("BackColor", this.txtContent.BackColor.ToArgb());
+                        jsonWriter.WritePropertyName("Font");
+                        jsonWriter.WriteStartArray();
+                        jsonWriter.WriteStringValue(this.txtContent.Font.FontFamily.Name);
+                        jsonWriter.WriteNumberValue(this.txtContent.Font.Size);
+                        jsonWriter.WriteEndArray();
+                        if (this.recentFiles.Count > 0)
+                        {
+                            jsonWriter.WriteString("Dir", (string)this.recentFiles[0]);
+                            jsonWriter.WriteString("RecentFiles",JsonSerializer.Serialize<ArrayList>(this.recentFiles));
+                        }
+                        jsonWriter.WriteEndObject();
+                    }
+                }
+                FileInfo config = new FileInfo("config.temp.json");
+                if (config.Exists && config.Length > 0)
+                {
+                    using (StreamWriter writer = new StreamWriter("config.json"))
+                    {
+                        using (StreamReader reader = new StreamReader("config.temp.json"))
+                        {
+                            writer.Write(reader.ReadToEnd());
+                        }
+                    }
+                }
+                config.Delete();
+            }
+            catch (Exception ex) when (ex is IOException || ex is JsonException)
+            {
+                try
+                {
+                    FileInfo config = new FileInfo("config.temp.json");
+                    if (config.Exists && config.Length > 0)
+                    {
+                        config.Delete();
+                    }
+                }
+                catch (Exception ex2) when (ex2 is IOException || ex2 is System.Security.SecurityException)
+                {
+
+                }
+                MessageBox.Show("Failed to create the configuration file!");
+            }
+        }
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!this.saved)
             {
-                if (MessageBox.Show("Are you sure you'd like to exit?","Exit confirmation",MessageBoxButtons.YesNo) == DialogResult.OK)
+                if (MessageBox.Show("Are you sure you'd like to exit?","Exit confirmation",MessageBoxButtons.YesNo) == DialogResult.No)
                 {
                     e.Cancel = true;
+                }
+            }
+            if (!e.Cancel)
+            {
+                configFileCreator();
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            FileInfo configFile = new FileInfo("config.json");
+            if (configFile.Exists && configFile.Length > 0)
+            {
+                byte[] data = File.ReadAllBytes(configFile.FullName);
+                Utf8JsonReader jsonReader = new Utf8JsonReader(data);
+                ToolStripDropDownItem item = ((ToolStripDropDownItem)this.menuStrip1.Items["herramientas"]);
+                while (jsonReader.Read())
+                {
+                    if (jsonReader.TokenType == JsonTokenType.PropertyName)
+                    {
+                        try
+                        {
+                            switch (jsonReader.GetString())
+                            {
+                                case "WordWrap":
+                                    jsonReader.Read();
+                                    ((ToolStripMenuItem)item.DropDownItems["ajusteDeLinea"]).Checked = jsonReader.GetBoolean();
+                                    this.txtContent.WordWrap = ((ToolStripMenuItem)item.DropDownItems["ajusteDeLinea"]).Checked;
+                                    break;
+                                case "CharacterCasing":
+                                    jsonReader.Read();
+                                    ((ToolStripMenuItem)((ToolStripMenuItem)item.DropDownItems["seleccionDeEscritura"]).DropDownItems[(int)JsonSerializer.Deserialize<CharacterCasing>(jsonReader.GetString())]).Checked = true;
+                                    this.txtContent.CharacterCasing = JsonSerializer.Deserialize<CharacterCasing>(jsonReader.GetString());
+                                    break;
+                                case "ForeColor":
+                                    jsonReader.Read();
+                                    this.txtContent.ForeColor = Color.FromArgb(jsonReader.GetInt32());
+                                    break;
+                                case "BackColor":
+                                    jsonReader.Read();
+                                    this.txtContent.BackColor = Color.FromArgb(jsonReader.GetInt32());
+                                    break;
+                                case "Font":
+                                    jsonReader.Read();
+                                    jsonReader.Read();
+                                    FontFamily fontFamily = new FontFamily(jsonReader.GetString());
+                                    jsonReader.Read();
+                                    float size = (float)jsonReader.GetDouble();
+                                    this.txtContent.Font = new Font(fontFamily, size);
+                                    break;
+                                case "Dir":
+                                    jsonReader.Read();
+                                    this.txtContent.Text = File.ReadAllText(jsonReader.GetString());
+                                    break;
+                                case "RecentFiles":
+                                    jsonReader.Read();
+                                    this.recentFiles = JsonSerializer.Deserialize<ArrayList>(jsonReader.GetString());
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)//TODO: Controlar excepciones
+                        {
+
+                        }
+                    }
                 }
             }
         }

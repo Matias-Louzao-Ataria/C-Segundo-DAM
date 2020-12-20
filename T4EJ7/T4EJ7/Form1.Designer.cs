@@ -47,19 +47,14 @@
             this.herramientas = new System.Windows.Forms.ToolStripMenuItem();
             this.ajusteDeLinea = new System.Windows.Forms.ToolStripMenuItem();
             this.seleccionDeEscritura = new System.Windows.Forms.ToolStripMenuItem();
+            this.normal = new System.Windows.Forms.ToolStripMenuItem();
             this.mayusculas = new System.Windows.Forms.ToolStripMenuItem();
             this.minusculas = new System.Windows.Forms.ToolStripMenuItem();
-            this.normal = new System.Windows.Forms.ToolStripMenuItem();
             this.color = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDetexto = new System.Windows.Forms.ToolStripMenuItem();
             this.colorDeFondo = new System.Windows.Forms.ToolStripMenuItem();
             this.fuente = new System.Windows.Forms.ToolStripMenuItem();
             this.acercaDe = new System.Windows.Forms.ToolStripMenuItem();
-            this.ademas = new System.Windows.Forms.ToolStripMenuItem();
-            this.contenido = new System.Windows.Forms.ToolStripMenuItem();
-            this.indice = new System.Windows.Forms.ToolStripMenuItem();
-            this.buscar = new System.Windows.Forms.ToolStripMenuItem();
-            this.acercadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtContent = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.nuevo = new System.Windows.Forms.ToolStripButton();
@@ -68,6 +63,8 @@
             this.cortarStrip = new System.Windows.Forms.ToolStripButton();
             this.copiarStrip = new System.Windows.Forms.ToolStripButton();
             this.pegarStrip = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.print = new System.Windows.Forms.ToolStripButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -75,17 +72,16 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archivo,
             this.editar,
-            this.herramientas,
-            this.ademas});
+            this.herramientas});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(207, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // archivo
             // 
@@ -209,6 +205,7 @@
             this.informacionDeLaSelecciónToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
             this.informacionDeLaSelecciónToolStripMenuItem.Size = new System.Drawing.Size(256, 22);
             this.informacionDeLaSelecciónToolStripMenuItem.Text = "&Informacion de la selección";
+            this.informacionDeLaSelecciónToolStripMenuItem.Click += new System.EventHandler(this.MenuSelectionInfo);
             // 
             // herramientas
             // 
@@ -241,30 +238,30 @@
             this.seleccionDeEscritura.Size = new System.Drawing.Size(189, 22);
             this.seleccionDeEscritura.Text = "Se&lección de escritura";
             // 
+            // normal
+            // 
+            this.normal.CheckOnClick = true;
+            this.normal.Name = "normal";
+            this.normal.Size = new System.Drawing.Size(136, 22);
+            this.normal.Text = "&Normal";
+            this.normal.CheckedChanged += new System.EventHandler(this.MenuCharacterCasingChanged);
+            // 
             // mayusculas
             // 
             this.mayusculas.CheckOnClick = true;
             this.mayusculas.Name = "mayusculas";
-            this.mayusculas.Size = new System.Drawing.Size(180, 22);
+            this.mayusculas.Size = new System.Drawing.Size(136, 22);
             this.mayusculas.Tag = "CharacterCasing.Upper";
             this.mayusculas.Text = "Ma&yúsculas";
-            this.mayusculas.CheckedChanged += new System.EventHandler(this.MenuTextSelectionChanged);
+            this.mayusculas.CheckedChanged += new System.EventHandler(this.MenuCharacterCasingChanged);
             // 
             // minusculas
             // 
             this.minusculas.CheckOnClick = true;
             this.minusculas.Name = "minusculas";
-            this.minusculas.Size = new System.Drawing.Size(180, 22);
+            this.minusculas.Size = new System.Drawing.Size(136, 22);
             this.minusculas.Text = "M&inúsculas";
-            this.minusculas.CheckedChanged += new System.EventHandler(this.MenuTextSelectionChanged);
-            // 
-            // normal
-            // 
-            this.normal.CheckOnClick = true;
-            this.normal.Name = "normal";
-            this.normal.Size = new System.Drawing.Size(180, 22);
-            this.normal.Text = "&Normal";
-            this.normal.CheckedChanged += new System.EventHandler(this.MenuTextSelectionChanged);
+            this.minusculas.CheckedChanged += new System.EventHandler(this.MenuCharacterCasingChanged);
             // 
             // color
             // 
@@ -278,14 +275,14 @@
             // colorDetexto
             // 
             this.colorDetexto.Name = "colorDetexto";
-            this.colorDetexto.Size = new System.Drawing.Size(180, 22);
+            this.colorDetexto.Size = new System.Drawing.Size(154, 22);
             this.colorDetexto.Text = "Color de &texto";
             this.colorDetexto.Click += new System.EventHandler(this.MenuColorPicker);
             // 
             // colorDeFondo
             // 
             this.colorDeFondo.Name = "colorDeFondo";
-            this.colorDeFondo.Size = new System.Drawing.Size(180, 22);
+            this.colorDeFondo.Size = new System.Drawing.Size(154, 22);
             this.colorDeFondo.Text = "Color de &fondo";
             this.colorDeFondo.Click += new System.EventHandler(this.MenuColorPicker);
             // 
@@ -302,65 +299,35 @@
             this.acercaDe.Size = new System.Drawing.Size(189, 22);
             this.acercaDe.Text = "Acerca &de...";
             // 
-            // ademas
-            // 
-            this.ademas.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.contenido,
-            this.indice,
-            this.buscar,
-            this.acercadeToolStripMenuItem});
-            this.ademas.Name = "ademas";
-            this.ademas.Size = new System.Drawing.Size(62, 20);
-            this.ademas.Text = "A&demás";
-            // 
-            // contenido
-            // 
-            this.contenido.Name = "contenido";
-            this.contenido.Size = new System.Drawing.Size(135, 22);
-            this.contenido.Text = "&Contenido";
-            // 
-            // indice
-            // 
-            this.indice.Name = "indice";
-            this.indice.Size = new System.Drawing.Size(135, 22);
-            this.indice.Text = "Índic&e";
-            // 
-            // buscar
-            // 
-            this.buscar.Name = "buscar";
-            this.buscar.Size = new System.Drawing.Size(135, 22);
-            this.buscar.Text = "&Buscar";
-            // 
-            // acercadeToolStripMenuItem
-            // 
-            this.acercadeToolStripMenuItem.Name = "acercadeToolStripMenuItem";
-            this.acercadeToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
-            this.acercadeToolStripMenuItem.Text = "&Acerca de...";
-            // 
             // txtContent
             // 
-            this.txtContent.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.txtContent.Location = new System.Drawing.Point(0, 47);
+            this.txtContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtContent.Location = new System.Drawing.Point(0, 52);
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
             this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtContent.Size = new System.Drawing.Size(800, 403);
+            this.txtContent.Size = new System.Drawing.Size(800, 398);
             this.txtContent.TabIndex = 1;
             this.txtContent.WordWrap = false;
             this.txtContent.TextChanged += new System.EventHandler(this.ContentTextChanged);
             // 
             // toolStrip1
             // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.nuevo,
             this.abrir,
             this.toolStripSeparator1,
             this.cortarStrip,
             this.copiarStrip,
-            this.pegarStrip});
+            this.pegarStrip,
+            this.toolStripSeparator,
+            this.print});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(800, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(162, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -397,7 +364,7 @@
             this.cortarStrip.Name = "cortarStrip";
             this.cortarStrip.Size = new System.Drawing.Size(23, 22);
             this.cortarStrip.Text = "Cort&ar";
-            this.cortarStrip.Click += new System.EventHandler(this.MenuCopy);
+            this.cortarStrip.Click += new System.EventHandler(this.MenuCut);
             // 
             // copiarStrip
             // 
@@ -419,14 +386,29 @@
             this.pegarStrip.Text = "&Pegar";
             this.pegarStrip.Click += new System.EventHandler(this.MenuPaste);
             // 
+            // toolStripSeparator
+            // 
+            this.toolStripSeparator.Name = "toolStripSeparator";
+            this.toolStripSeparator.Size = new System.Drawing.Size(6, 25);
+            // 
+            // print
+            // 
+            this.print.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.print.Image = ((System.Drawing.Image)(resources.GetObject("print.Image")));
+            this.print.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.print.Name = "print";
+            this.print.Size = new System.Drawing.Size(23, 22);
+            this.print.Text = "&Imprimir";
+            this.print.Click += new System.EventHandler(this.print_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.txtContent);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.txtContent);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Text Editor";
@@ -462,15 +444,9 @@
         private System.Windows.Forms.ToolStripMenuItem seleccionDeEscritura;
         private System.Windows.Forms.ToolStripMenuItem color;
         private System.Windows.Forms.ToolStripMenuItem acercaDe;
-        private System.Windows.Forms.ToolStripMenuItem ademas;
-        private System.Windows.Forms.ToolStripMenuItem contenido;
-        private System.Windows.Forms.ToolStripMenuItem indice;
-        private System.Windows.Forms.ToolStripMenuItem buscar;
-        private System.Windows.Forms.ToolStripMenuItem acercadeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mayusculas;
         private System.Windows.Forms.ToolStripMenuItem minusculas;
         private System.Windows.Forms.ToolStripMenuItem normal;
-        private System.Windows.Forms.TextBox txtContent;
         private System.Windows.Forms.ToolStripMenuItem fuente;
         private System.Windows.Forms.ToolStripMenuItem colorDetexto;
         private System.Windows.Forms.ToolStripMenuItem colorDeFondo;
@@ -482,6 +458,9 @@
         private System.Windows.Forms.ToolStripButton pegarStrip;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolTip toolTip1;
+        public System.Windows.Forms.TextBox txtContent;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
+        private System.Windows.Forms.ToolStripButton print;
     }
 }
 

@@ -15,6 +15,7 @@ namespace T4EJ7
     {
         private ArrayList recentFiles = new ArrayList();
         private bool saved = true;
+        private string actual = "";
         public Form1()
         {
             InitializeComponent();
@@ -66,7 +67,7 @@ namespace T4EJ7
                                 {
                                     writer.WriteLine(this.txtContent.Lines[i]);
                                 }
-                                this.saved = true;
+                                //this.saved = true;
                             }
                         }
                     }
@@ -85,7 +86,7 @@ namespace T4EJ7
                     Console.WriteLine(ex.Message);
                     if (saving)
                     {
-                        this.saved = false;
+                        //this.saved = false;
                         MessageBox.Show("Failed to save!");
                     }
                     else
@@ -105,25 +106,41 @@ namespace T4EJ7
             {
                 try
                 {
-                    using (StreamReader reader = new StreamReader(fileDialog.FileName))
-                    {
-                        this.txtContent.Text = "";
-                        this.txtContent.Text += reader.ReadToEnd();
-                    }
-                    if (this.recentFiles.Count < 5)
-                    {
-                        this.recentFiles.Insert(0, fileDialog.FileName);
-                    }
-                    else
-                    {
-                        this.recentFiles.RemoveAt(4);
-                        this.recentFiles.Insert(0, fileDialog.FileName);
-                    }
+                    ChangeFile(fileDialog.FileName);
                 }
                 catch (Exception ex) when (ex is ArgumentNullException || ex is ArgumentException || ex is UnauthorizedAccessException || ex is PathTooLongException || ex is NotSupportedException || ex is System.Security.SecurityException || ex is IOException)
                 {
                     MessageBox.Show("Failed to open the file!");
                 }
+            }
+        }
+
+        private void ChangeFile(String route)
+        {
+            using (StreamReader reader = new StreamReader(route))
+            {
+                this.txtContent.Text = "";
+                this.txtContent.Text += reader.ReadToEnd();
+                this.actual = route;
+            }
+            CheckRecentFiles(route);
+            //this.saved = true;
+        }
+
+        private void CheckRecentFiles(string route)
+        {
+            if (this.recentFiles.Contains(route))
+            {
+                this.recentFiles.Remove(route);
+            }
+            if (this.recentFiles.Count < 5)
+            {
+                this.recentFiles.Insert(0, route);
+            }
+            else
+            {
+                this.recentFiles.RemoveAt(4);
+                this.recentFiles.Insert(0, route);
             }
         }
 
@@ -156,13 +173,31 @@ namespace T4EJ7
         private void MenuUndo(Object sender, EventArgs e)
         {
             this.txtContent.Undo();
-            this.saved = true;
+            //this.saved = true;
         }
 
         private void ContentTextChanged(Object sender, EventArgs e)
         {
-            this.saved = false;
+            //this.saved = false;
             updateToolTip();
+            detectChange();
+        }
+
+        private void detectChange()
+        {
+            try
+            {
+                using (StreamReader reader = new StreamReader(this.actual))
+                {
+                    string original = reader.ReadToEnd();
+                    this.saved = (original.ToLower() == this.txtContent.Text.ToLower());
+                }
+            }
+            catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is System.Security.SecurityException)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("a");
+            }
         }
 
         private void updateToolTip()
@@ -197,9 +232,10 @@ namespace T4EJ7
         {
             ToolStripDropDownItem item = ((ToolStripDropDownItem)this.menuStrip1.Items["herramientas"]);
             this.txtContent.WordWrap = ((ToolStripMenuItem)item.DropDownItems["ajusteDeLinea"]).Checked;
+            //this.saved = true;
         }
 
-        private void MenuTextSelectionChanged(Object sender, EventArgs e)
+        private void MenuCharacterCasingChanged(Object sender, EventArgs e)
         {
             if (((ToolStripMenuItem)sender).Checked)
             {
@@ -216,6 +252,7 @@ namespace T4EJ7
                         ((ToolStripMenuItem)items[i]).Checked = false;
                     }
                 }
+                //this.saved = true;
             }
         }
 
@@ -240,17 +277,24 @@ namespace T4EJ7
 
         private void MenuFontPicker(Object sender, EventArgs e)
         {
-            FontDialog fontPicker = new FontDialog();
-            DialogResult dialogResult = fontPicker.ShowDialog();
-            if (dialogResult == DialogResult.OK)
+            try
+             {
+                FontDialog fontPicker = new FontDialog();
+                DialogResult dialogResult = fontPicker.ShowDialog();
+                if (dialogResult == DialogResult.OK)
+                {
+                    this.txtContent.Font = fontPicker.Font;
+                }
+            }
+            catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException)
             {
-                this.txtContent.Font = fontPicker.Font;
+                Console.WriteLine(ex.Message);
             }
         }
 
         private void RecentFiles(Object sender,EventArgs e)
         {
-            ToolStripDropDownItem recientes = (ToolStripDropDownItem)((ToolStripDropDownItem)this.menuStrip1.Items[0]).DropDownItems[3];
+            ToolStripDropDownItem recientes = (ToolStripDropDownItem)((ToolStripDropDownItem)this.menuStrip1.Items["archivo"]).DropDownItems["archivosrecientes"];
             recientes.DropDownItems.Clear();
             for (int i = 0;i < this.recentFiles.Count;i++)
             {
@@ -258,19 +302,10 @@ namespace T4EJ7
                 ToolStripItem recent = new ToolStripMenuItem(current);
                 recent.Click += (Object sender2, EventArgs e2) =>
                 {
-                    using (StreamReader reader = new StreamReader(current))//this.recentFiles[i].ToString() ArrayIndexOutOfBounds
-                    {
-                        this.txtContent.Text = "";
-                        this.txtContent.Text += reader.ReadToEnd();
-                    }
+                    ChangeFile(current);
                 };
                 recientes.DropDownItems.Add(recent);
             }
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
         }
 
         private void configFileCreator()
@@ -294,7 +329,7 @@ namespace T4EJ7
                         jsonWriter.WriteEndArray();
                         if (this.recentFiles.Count > 0)
                         {
-                            jsonWriter.WriteString("Dir", (string)this.recentFiles[0]);
+                            jsonWriter.WriteString("Dir", this.recentFiles[0].ToString());
                             jsonWriter.WriteString("RecentFiles",JsonSerializer.Serialize<ArrayList>(this.recentFiles));
                         }
                         jsonWriter.WriteEndObject();
@@ -325,7 +360,7 @@ namespace T4EJ7
                 }
                 catch (Exception ex2) when (ex2 is IOException || ex2 is System.Security.SecurityException)
                 {
-
+                    Console.WriteLine(ex2.Message);
                 }
                 MessageBox.Show("Failed to create the configuration file!");
             }
@@ -333,6 +368,7 @@ namespace T4EJ7
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            detectChange();
             if (!this.saved)
             {
                 if (MessageBox.Show("Are you sure you'd like to exit?","Exit confirmation",MessageBoxButtons.YesNo) == DialogResult.No)
@@ -390,21 +426,50 @@ namespace T4EJ7
                                     break;
                                 case "Dir":
                                     jsonReader.Read();
-                                    this.txtContent.Text = File.ReadAllText(jsonReader.GetString());
+                                    ChangeFile(jsonReader.GetString());
                                     break;
                                 case "RecentFiles":
                                     jsonReader.Read();
-                                    this.recentFiles = JsonSerializer.Deserialize<ArrayList>(jsonReader.GetString());
+                                    ArrayList aux = JsonSerializer.Deserialize<ArrayList>(jsonReader.GetString());
+                                    foreach (JsonElement element in aux)
+                                    {
+                                        CheckRecentFiles(element.ToString());
+                                    }
                                     break;
                             }
                         }
-                        catch (Exception ex)//TODO: Controlar excepciones
+                        catch (Exception ex) when (ex is JsonException || ex is ArgumentException || ex is ArgumentNullException || ex is System.Security.SecurityException)
                         {
-
+                            MessageBox.Show("Config file is corrupted, please erase it!"+Environment.NewLine+"The program will start using default settings!");
                         }
                     }
                 }
             }
+        }
+
+        private void MenuSelectionInfo(object sender, EventArgs e)
+        {
+            Form3 info = new Form3();
+            info.txtBegining.Text = this.txtContent.SelectionStart.ToString();
+            info.txtLength.Text = this.txtContent.SelectionLength.ToString();
+            DialogResult result = info.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                try{
+                    this.txtContent.SelectionStart = int.Parse(info.txtBegining.Text);
+                    this.txtContent.SelectionLength = int.Parse(info.txtLength.Text);
+                }
+                catch (Exception ex) when (ex is OverflowException ||ex is IndexOutOfRangeException || ex is FormatException || ex is ArgumentException)
+                {
+                    MessageBox.Show("Invalid specified selection parameters!");
+                }
+            }
+        }
+
+        private void print_Click(object sender, EventArgs e)
+        {
+            PrintDialog print = new PrintDialog();
+            DialogResult dialogResult = print.ShowDialog();
         }
     }
 }

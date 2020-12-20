@@ -9,13 +9,15 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Drawing.Printing;
+
 namespace T4EJ7
 {
     public partial class Form1 : Form
     {
         private ArrayList recentFiles = new ArrayList();
         private bool saved = true;
-        private string actual = "";
+        private string currentFile = "";
         public Form1()
         {
             InitializeComponent();
@@ -121,7 +123,7 @@ namespace T4EJ7
             {
                 this.txtContent.Text = "";
                 this.txtContent.Text += reader.ReadToEnd();
-                this.actual = route;
+                this.currentFile = route;
             }
             CheckRecentFiles(route);
             //this.saved = true;
@@ -187,7 +189,7 @@ namespace T4EJ7
         {
             try
             {
-                using (StreamReader reader = new StreamReader(this.actual))
+                using (StreamReader reader = new StreamReader(this.currentFile))
                 {
                     string original = reader.ReadToEnd();
                     this.saved = (original.ToLower() == this.txtContent.Text.ToLower());
@@ -468,8 +470,16 @@ namespace T4EJ7
 
         private void print_Click(object sender, EventArgs e)
         {
-            PrintDialog print = new PrintDialog();
-            DialogResult dialogResult = print.ShowDialog();
+            PrintDialog print = new PrintDialog();//TODO:Revisar
+            PrintDocument document = new PrintDocument();
+            document.DocumentName = this.currentFile;
+            print.Document = document;
+            print.AllowSelection = true;
+            DialogResult result = print.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                print.Document.Print();
+            }
         }
     }
 }

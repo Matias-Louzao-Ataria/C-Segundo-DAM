@@ -187,16 +187,24 @@ namespace T4EJ7
         {
             try
             {
-                using (StreamReader reader = new StreamReader(this.recentFiles[0]))
+                if (this.recentFiles.Count == 0 && this.txtContent.Text.Length == 0)
                 {
-                    string original = reader.ReadToEnd();
-                    this.saved = (original.ToLower() == this.txtContent.Text.ToLower());
+                    this.saved = true;
+                }else if (this.recentFiles.Count == 0 && this.txtContent.Text.Length > 0)
+                {
+                    this.saved = false;
+                }else if (this.recentFiles.Count > 0)
+                {
+                    using (StreamReader reader = new StreamReader(this.recentFiles[0].ToString()))
+                    {
+                        string original = reader.ReadToEnd();
+                        this.saved = (original.ToLower() == this.txtContent.Text.ToLower());
+                    }
                 }
             }
             catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is System.Security.SecurityException)
             {
                 Console.WriteLine(ex.Message);
-                Console.WriteLine("a");
             }
         }
 
@@ -468,9 +476,17 @@ namespace T4EJ7
 
         private void print_Click(object sender, EventArgs e)
         {
-            PrintDialog print = new PrintDialog();//TODO:Revisar
+            PrintDialog print = new PrintDialog();
             PrintDocument document = new PrintDocument();
-            document.DocumentName = this.recentFiles[0];
+            document.PrintPage += (Object sender2, PrintPageEventArgs e2) => 
+            {
+                int numLines = (int)(e2.MarginBounds.Height / this.txtContent.Font.GetHeight(e2.Graphics));
+                for (int i = 0;i < this.txtContent.Lines.Length && i < numLines;i++)
+                {
+                    string currentLine = this.txtContent.Lines[i];
+                    e2.Graphics.DrawString(currentLine,this.txtContent.Font,new SolidBrush(this.txtContent.ForeColor), e2.PageBounds.Left,e2.MarginBounds.Top+i*this.txtContent.Font.Height);
+                }
+            };
             print.Document = document;
             print.AllowSelection = true;
             DialogResult result = print.ShowDialog();

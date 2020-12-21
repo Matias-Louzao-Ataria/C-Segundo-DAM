@@ -1,0 +1,10 @@
+C:\Users\Jose Luis\source\repos\T3EJ4\T3EJ4\bin\Debug\T3EJ4.exe.config
+C:\Users\Jose Luis\source\repos\T3EJ4\T3EJ4\bin\Debug\T3EJ4.exe
+C:\Users\Jose Luis\source\repos\T3EJ4\T3EJ4\bin\Debug\T3EJ4.pdb
+C:\Users\Jose Luis\source\repos\T3EJ4\T3EJ4\obj\Debug\T3EJ4.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\T3EJ4\T3EJ4\obj\Debug\T3EJ4.Form1.resources
+C:\Users\Jose Luis\source\repos\T3EJ4\T3EJ4\obj\Debug\T3EJ4.Properties.Resources.resources
+C:\Users\Jose Luis\source\repos\T3EJ4\T3EJ4\obj\Debug\T3EJ4.csproj.GenerateResource.cache
+C:\Users\Jose Luis\source\repos\T3EJ4\T3EJ4\obj\Debug\T3EJ4.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\T3EJ4\T3EJ4\obj\Debug\T3EJ4.exe
+C:\Users\Jose Luis\source\repos\T3EJ4\T3EJ4\obj\Debug\T3EJ4.pdb

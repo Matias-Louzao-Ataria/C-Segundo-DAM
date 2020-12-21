@@ -1,0 +1,7 @@
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4\ServicesT1EJ4\bin\Debug\ServicesT1EJ4.exe.config
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4\ServicesT1EJ4\bin\Debug\ServicesT1EJ4.exe
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4\ServicesT1EJ4\bin\Debug\ServicesT1EJ4.pdb
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4\ServicesT1EJ4\obj\Debug\ServicesT1EJ4.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4\ServicesT1EJ4\obj\Debug\ServicesT1EJ4.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4\ServicesT1EJ4\obj\Debug\ServicesT1EJ4.exe
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4\ServicesT1EJ4\obj\Debug\ServicesT1EJ4.pdb

@@ -1,0 +1,10 @@
+C:\Users\Jose Luis\source\repos\T4EJ2\T4EJ2\bin\Debug\T4EJ2.exe.config
+C:\Users\Jose Luis\source\repos\T4EJ2\T4EJ2\bin\Debug\T4EJ2.exe
+C:\Users\Jose Luis\source\repos\T4EJ2\T4EJ2\bin\Debug\T4EJ2.pdb
+C:\Users\Jose Luis\source\repos\T4EJ2\T4EJ2\obj\Debug\T4EJ2.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\T4EJ2\T4EJ2\obj\Debug\T4EJ2.Form1.resources
+C:\Users\Jose Luis\source\repos\T4EJ2\T4EJ2\obj\Debug\T4EJ2.Properties.Resources.resources
+C:\Users\Jose Luis\source\repos\T4EJ2\T4EJ2\obj\Debug\T4EJ2.csproj.GenerateResource.cache
+C:\Users\Jose Luis\source\repos\T4EJ2\T4EJ2\obj\Debug\T4EJ2.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\T4EJ2\T4EJ2\obj\Debug\T4EJ2.exe
+C:\Users\Jose Luis\source\repos\T4EJ2\T4EJ2\obj\Debug\T4EJ2.pdb

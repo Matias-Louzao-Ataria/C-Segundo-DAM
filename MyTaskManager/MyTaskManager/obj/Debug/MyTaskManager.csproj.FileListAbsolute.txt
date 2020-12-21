@@ -1,0 +1,10 @@
+C:\Users\Jose Luis\source\repos\MyTaskManager\MyTaskManager\bin\Debug\MyTaskManager.exe.config
+C:\Users\Jose Luis\source\repos\MyTaskManager\MyTaskManager\bin\Debug\MyTaskManager.exe
+C:\Users\Jose Luis\source\repos\MyTaskManager\MyTaskManager\bin\Debug\MyTaskManager.pdb
+C:\Users\Jose Luis\source\repos\MyTaskManager\MyTaskManager\obj\Debug\MyTaskManager.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\MyTaskManager\MyTaskManager\obj\Debug\MyTaskManager.Form1.resources
+C:\Users\Jose Luis\source\repos\MyTaskManager\MyTaskManager\obj\Debug\MyTaskManager.Properties.Resources.resources
+C:\Users\Jose Luis\source\repos\MyTaskManager\MyTaskManager\obj\Debug\MyTaskManager.csproj.GenerateResource.cache
+C:\Users\Jose Luis\source\repos\MyTaskManager\MyTaskManager\obj\Debug\MyTaskManager.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\MyTaskManager\MyTaskManager\obj\Debug\MyTaskManager.exe
+C:\Users\Jose Luis\source\repos\MyTaskManager\MyTaskManager\obj\Debug\MyTaskManager.pdb

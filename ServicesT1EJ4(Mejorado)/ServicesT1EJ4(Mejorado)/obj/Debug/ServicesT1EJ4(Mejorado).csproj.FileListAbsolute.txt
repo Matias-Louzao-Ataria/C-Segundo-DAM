@@ -1,0 +1,7 @@
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4(Mejorado)\ServicesT1EJ4(Mejorado)\bin\Debug\ServicesT1EJ4(Mejorado).exe.config
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4(Mejorado)\ServicesT1EJ4(Mejorado)\bin\Debug\ServicesT1EJ4(Mejorado).exe
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4(Mejorado)\ServicesT1EJ4(Mejorado)\bin\Debug\ServicesT1EJ4(Mejorado).pdb
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4(Mejorado)\ServicesT1EJ4(Mejorado)\obj\Debug\ServicesT1EJ4(Mejorado).csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4(Mejorado)\ServicesT1EJ4(Mejorado)\obj\Debug\ServicesT1EJ4(Mejorado).csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4(Mejorado)\ServicesT1EJ4(Mejorado)\obj\Debug\ServicesT1EJ4(Mejorado).exe
+C:\Users\Jose Luis\source\repos\ServicesT1EJ4(Mejorado)\ServicesT1EJ4(Mejorado)\obj\Debug\ServicesT1EJ4(Mejorado).pdb

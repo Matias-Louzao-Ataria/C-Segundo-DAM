@@ -1,0 +1,10 @@
+C:\Users\Jose Luis\source\repos\ServicesT1EJ2(Mejorado)\ServicesT1EJ2(Mejorado)\bin\Debug\ServicesT1EJ2(Mejorado).exe.config
+C:\Users\Jose Luis\source\repos\ServicesT1EJ2(Mejorado)\ServicesT1EJ2(Mejorado)\bin\Debug\ServicesT1EJ2(Mejorado).exe
+C:\Users\Jose Luis\source\repos\ServicesT1EJ2(Mejorado)\ServicesT1EJ2(Mejorado)\bin\Debug\ServicesT1EJ2(Mejorado).pdb
+C:\Users\Jose Luis\source\repos\ServicesT1EJ2(Mejorado)\ServicesT1EJ2(Mejorado)\obj\Debug\ServicesT1EJ2(Mejorado).csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\ServicesT1EJ2(Mejorado)\ServicesT1EJ2(Mejorado)\obj\Debug\ServicesT1EJ2_Mejorado_.Form1.resources
+C:\Users\Jose Luis\source\repos\ServicesT1EJ2(Mejorado)\ServicesT1EJ2(Mejorado)\obj\Debug\ServicesT1EJ2_Mejorado_.Properties.Resources.resources
+C:\Users\Jose Luis\source\repos\ServicesT1EJ2(Mejorado)\ServicesT1EJ2(Mejorado)\obj\Debug\ServicesT1EJ2(Mejorado).csproj.GenerateResource.cache
+C:\Users\Jose Luis\source\repos\ServicesT1EJ2(Mejorado)\ServicesT1EJ2(Mejorado)\obj\Debug\ServicesT1EJ2(Mejorado).csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\ServicesT1EJ2(Mejorado)\ServicesT1EJ2(Mejorado)\obj\Debug\ServicesT1EJ2(Mejorado).exe
+C:\Users\Jose Luis\source\repos\ServicesT1EJ2(Mejorado)\ServicesT1EJ2(Mejorado)\obj\Debug\ServicesT1EJ2(Mejorado).pdb

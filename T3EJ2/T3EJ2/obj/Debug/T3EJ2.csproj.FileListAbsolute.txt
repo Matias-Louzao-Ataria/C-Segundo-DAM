@@ -1,0 +1,7 @@
+C:\Users\Jose Luis\source\repos\T3EJ2\T3EJ2\obj\Debug\T3EJ2.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\T3EJ2\T3EJ2\obj\Debug\T3EJ2.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\T3EJ2\T3EJ2\bin\Debug\T3EJ2.exe.config
+C:\Users\Jose Luis\source\repos\T3EJ2\T3EJ2\bin\Debug\T3EJ2.exe
+C:\Users\Jose Luis\source\repos\T3EJ2\T3EJ2\bin\Debug\T3EJ2.pdb
+C:\Users\Jose Luis\source\repos\T3EJ2\T3EJ2\obj\Debug\T3EJ2.exe
+C:\Users\Jose Luis\source\repos\T3EJ2\T3EJ2\obj\Debug\T3EJ2.pdb

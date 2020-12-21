@@ -1,0 +1,7 @@
+C:\Users\Jose Luis\source\repos\EJemploExamenServicios\EJemploExamenServicios\bin\Debug\EJemploExamenServicios.exe.config
+C:\Users\Jose Luis\source\repos\EJemploExamenServicios\EJemploExamenServicios\bin\Debug\EJemploExamenServicios.exe
+C:\Users\Jose Luis\source\repos\EJemploExamenServicios\EJemploExamenServicios\bin\Debug\EJemploExamenServicios.pdb
+C:\Users\Jose Luis\source\repos\EJemploExamenServicios\EJemploExamenServicios\obj\Debug\EJemploExamenServicios.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\EJemploExamenServicios\EJemploExamenServicios\obj\Debug\EJemploExamenServicios.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\EJemploExamenServicios\EJemploExamenServicios\obj\Debug\EJemploExamenServicios.exe
+C:\Users\Jose Luis\source\repos\EJemploExamenServicios\EJemploExamenServicios\obj\Debug\EJemploExamenServicios.pdb

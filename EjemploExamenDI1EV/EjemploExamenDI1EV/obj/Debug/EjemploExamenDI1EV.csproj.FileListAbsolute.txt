@@ -1,0 +1,11 @@
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\bin\Debug\EjemploExamenDI1EV.exe.config
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\bin\Debug\EjemploExamenDI1EV.exe
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\bin\Debug\EjemploExamenDI1EV.pdb
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\obj\Debug\EjemploExamenDI1EV.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\obj\Debug\EjemploExamenDI1EV.Form1.resources
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\obj\Debug\EjemploExamenDI1EV.Form2.resources
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\obj\Debug\EjemploExamenDI1EV.Properties.Resources.resources
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\obj\Debug\EjemploExamenDI1EV.csproj.GenerateResource.cache
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\obj\Debug\EjemploExamenDI1EV.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\obj\Debug\EjemploExamenDI1EV.exe
+C:\Users\Jose Luis\source\repos\EjemploExamenDI1EV\EjemploExamenDI1EV\obj\Debug\EjemploExamenDI1EV.pdb

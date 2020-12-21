@@ -1,0 +1,16 @@
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\bin\Debug\T4EJ6.exe.config
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\bin\Debug\T4EJ6.exe
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\bin\Debug\T4EJ6.pdb
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.csprojAssemblyReference.cache
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.Form1.resources
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.Form2.resources
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.Properties.Resources.resources
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.csproj.GenerateResource.cache
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.csproj.CoreCompileInputs.cache
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.exe
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.pdb
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\bin\Debug\es\T4EJ6.resources.dll
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.Resource1.resources
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.Resource2.resources
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\T4EJ6.Resource1.es.resources
+C:\Users\Jose Luis\source\repos\T4EJ6\T4EJ6\obj\Debug\es\T4EJ6.resources.dll

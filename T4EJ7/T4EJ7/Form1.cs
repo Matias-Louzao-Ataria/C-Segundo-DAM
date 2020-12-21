@@ -448,13 +448,13 @@ namespace T4EJ7
                         }
                         catch (Exception ex) when (ex is JsonException || ex is ArgumentException || ex is ArgumentNullException || ex is System.Security.SecurityException)
                         {
-                            if (MessageBox.Show("Config file is corrupted" + Environment.NewLine + "The program will start using default settings!" + Environment.NewLine + "Would you like to erase it?", "Error", MessageBoxButtons.YesNo) == DialogResult.OK)
+                            if (MessageBox.Show("Config file is corrupted" + Environment.NewLine + "The program will start using default settings!" + Environment.NewLine + "Would you like to erase it?", "Error", MessageBoxButtons.YesNo) == DialogResult.Yes)
                             {
                                 try
                                 {
                                     configFile.Delete();
                                 }
-                                catch (Exception ex2) when  (ex2 is IOException ||ex2 is System.Security.SecurityException)
+                                catch (Exception ex2) when  (ex2 is IOException ||ex2 is System.Security.SecurityException ||ex is UnauthorizedAccessException)
                                 {
                                     MessageBox.Show("Failed to delete the configuration file, please do so manually!");
                                 }

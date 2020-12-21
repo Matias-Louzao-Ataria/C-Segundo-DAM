@@ -17,7 +17,6 @@ namespace T4EJ7
     {
         private ArrayList recentFiles = new ArrayList();
         private bool saved = true;
-        private string currentFile = "";
         public Form1()
         {
             InitializeComponent();
@@ -123,7 +122,6 @@ namespace T4EJ7
             {
                 this.txtContent.Text = "";
                 this.txtContent.Text += reader.ReadToEnd();
-                this.currentFile = route;
             }
             CheckRecentFiles(route);
             //this.saved = true;
@@ -189,7 +187,7 @@ namespace T4EJ7
         {
             try
             {
-                using (StreamReader reader = new StreamReader(this.currentFile))
+                using (StreamReader reader = new StreamReader(this.recentFiles[0]))
                 {
                     string original = reader.ReadToEnd();
                     this.saved = (original.ToLower() == this.txtContent.Text.ToLower());
@@ -472,7 +470,7 @@ namespace T4EJ7
         {
             PrintDialog print = new PrintDialog();//TODO:Revisar
             PrintDocument document = new PrintDocument();
-            document.DocumentName = this.currentFile;
+            document.DocumentName = this.recentFiles[0];
             print.Document = document;
             print.AllowSelection = true;
             DialogResult result = print.ShowDialog();

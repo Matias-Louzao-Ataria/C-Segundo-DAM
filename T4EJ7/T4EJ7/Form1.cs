@@ -448,7 +448,17 @@ namespace T4EJ7
                         }
                         catch (Exception ex) when (ex is JsonException || ex is ArgumentException || ex is ArgumentNullException || ex is System.Security.SecurityException)
                         {
-                            MessageBox.Show("Config file is corrupted, please erase it!"+Environment.NewLine+"The program will start using default settings!");
+                            if (MessageBox.Show("Config file is corrupted" + Environment.NewLine + "The program will start using default settings!" + Environment.NewLine + "Would you like to erase it?", "Error", MessageBoxButtons.YesNo) == DialogResult.OK)
+                            {
+                                try
+                                {
+                                    configFile.Delete();
+                                }
+                                catch (Exception ex2) when  (ex2 is IOException ||ex2 is System.Security.SecurityException)
+                                {
+                                    MessageBox.Show("Failed to delete the configuration file, please do so manually!");
+                                }
+                            }
                         }
                     }
                 }
@@ -474,26 +484,44 @@ namespace T4EJ7
             }
         }
 
-        private void print_Click(object sender, EventArgs e)
+        /*private void print_Click(object sender, EventArgs e)
         {
-            PrintDialog print = new PrintDialog();
-            PrintDocument document = new PrintDocument();
-            document.PrintPage += (Object sender2, PrintPageEventArgs e2) => 
+            try
             {
-                int numLines = (int)(e2.MarginBounds.Height / this.txtContent.Font.GetHeight(e2.Graphics));
-                for (int i = 0;i < this.txtContent.Lines.Length && i < numLines;i++)
+                PrintDialog print = new PrintDialog();
+                PrintDocument document = new PrintDocument();
+                document.PrintPage += (Object sender2, PrintPageEventArgs e2) =>
                 {
-                    string currentLine = this.txtContent.Lines[i];
-                    e2.Graphics.DrawString(currentLine,this.txtContent.Font,new SolidBrush(this.txtContent.ForeColor), e2.PageBounds.Left,e2.MarginBounds.Top+i*this.txtContent.Font.Height);
+                    int numLines = (int)(e2.MarginBounds.Height / this.txtContent.Font.GetHeight(e2.Graphics));
+                    for (int i = 0; i < this.txtContent.Lines.Length && i < numLines; i++)
+                    {
+                        Rectangle rectPage = new Rectangle(0, i * this.txtContent.Font.Height, e2.PageBounds.Width, e2.PageBounds.Height);
+                        string currentLine = this.txtContent.Lines[i];
+                        if (e2.Graphics.MeasureString(currentLine, this.txtContent.Font,e2.PageBounds.Width).Width > rectPage.Width)
+                        {
+                            MessageBox.Show("a");
+                        }
+                        if (currentLine.Length > e2.Graphics.MeasureString(currentLine, this.txtContent.Font).Width)
+                        {
+                            currentLine = currentLine.Replace(currentLine.Substring(e2.MarginBounds.Right, currentLine.Length), Environment.NewLine + currentLine.Substring(e2.MarginBounds.Right, currentLine.Length));
+                        }
+                        //TextRenderer.DrawText("",this.txtContent.Font);
+                        //e2.Graphics.DrawString(currentLine, this.txtContent.Font, new SolidBrush(this.txtContent.ForeColor), e2.PageBounds.Left, i * this.txtContent.Font.Height);
+                        e2.Graphics.DrawString(currentLine, this.txtContent.Font, new SolidBrush(this.txtContent.ForeColor),rectPage);
+                    }
+                };
+                print.Document = document;
+                print.AllowSelection = true;
+                DialogResult result = print.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    print.Document.Print();
                 }
-            };
-            print.Document = document;
-            print.AllowSelection = true;
-            DialogResult result = print.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                print.Document.Print();
             }
-        }
+            catch (Exception ex) when (ex is IOException ||ex is ArgumentException || ex is ArgumentNullException || ex is InvalidPrinterException ||ex is System.Security.SecurityException)
+            {
+                MessageBox.Show("Failed to print the file!");
+            }
+        }*/
     }
 }

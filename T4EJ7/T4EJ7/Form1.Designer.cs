@@ -399,7 +399,6 @@
             this.print.Name = "print";
             this.print.Size = new System.Drawing.Size(23, 22);
             this.print.Text = "&Imprimir";
-            this.print.Click += new System.EventHandler(this.print_Click);
             // 
             // Form1
             // 

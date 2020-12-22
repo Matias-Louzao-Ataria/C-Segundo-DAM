@@ -103,7 +103,7 @@
             this.nuevoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.nuevoToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.nuevoToolStripMenuItem.Text = "&Nuevo";
-            this.nuevoToolStripMenuItem.Click += new System.EventHandler(this.MenuNewAndSave);
+            this.nuevoToolStripMenuItem.Click += new System.EventHandler(this.MenuSaveAndNew);
             // 
             // abrirToolStripMenuItem
             // 
@@ -123,7 +123,7 @@
             this.guardar.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.guardar.Size = new System.Drawing.Size(170, 22);
             this.guardar.Text = "&Guardar";
-            this.guardar.Click += new System.EventHandler(this.MenuNewAndSave);
+            this.guardar.Click += new System.EventHandler(this.MenuSaveAndNew);
             // 
             // archivosrecientes
             // 
@@ -312,6 +312,7 @@
             this.txtContent.TabIndex = 1;
             this.txtContent.WordWrap = false;
             this.txtContent.TextChanged += new System.EventHandler(this.ContentTextChanged);
+            this.txtContent.MouseMove += new System.Windows.Forms.MouseEventHandler(this.txtContent_MouseDown);
             // 
             // toolStrip1
             // 
@@ -339,7 +340,7 @@
             this.nuevo.Name = "nuevo";
             this.nuevo.Size = new System.Drawing.Size(23, 22);
             this.nuevo.Text = "&Nuevo";
-            this.nuevo.Click += new System.EventHandler(this.MenuNewAndSave);
+            this.nuevo.Click += new System.EventHandler(this.MenuSaveAndNew);
             // 
             // abrir
             // 

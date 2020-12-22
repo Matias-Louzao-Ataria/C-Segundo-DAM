@@ -493,21 +493,27 @@ namespace T4EJ7
         private void MenuSelectionInfo(object sender, EventArgs e)
         {
             this.info = new Form3(this);
-            this.info.txtBegining.Text = this.txtContent.SelectionStart.ToString();
-            this.info.txtLength.Text = this.txtContent.SelectionLength.ToString();
+            UpdateSelectionInfo();
             this.info.Show();
         }
 
         private void txtContent_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            UpdateSelectionInfo();
+        }
+
+        private void UpdateSelectionInfo()
+        {
+            if (this.info != null)
             {
-                if (this.info != null)
-                {
-                    this.info.txtBegining.Text = this.txtContent.SelectionStart.ToString();
-                    this.info.txtLength.Text = this.txtContent.SelectionLength.ToString();
-                }
+                this.info.txtBegining.Text = this.txtContent.SelectionStart.ToString();
+                this.info.txtLength.Text = this.txtContent.SelectionLength.ToString();
             }
+        }
+
+        private void txtContent_KeyUp(object sender, KeyEventArgs e)
+        {
+            UpdateSelectionInfo();
         }
 
         /*private void print_Click(object sender, EventArgs e)

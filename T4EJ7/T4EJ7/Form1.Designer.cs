@@ -312,6 +312,7 @@
             this.txtContent.TabIndex = 1;
             this.txtContent.WordWrap = false;
             this.txtContent.TextChanged += new System.EventHandler(this.ContentTextChanged);
+            this.txtContent.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtContent_KeyUp);
             this.txtContent.MouseMove += new System.Windows.Forms.MouseEventHandler(this.txtContent_MouseDown);
             // 
             // toolStrip1

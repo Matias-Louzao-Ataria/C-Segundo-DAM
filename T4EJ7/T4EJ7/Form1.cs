@@ -190,11 +190,6 @@ namespace T4EJ7
         private void MenuCopy(Object sender, EventArgs e)
         {
             this.txtContent.Copy();
-            /*Clipboard.SetText(this.txtContent.SelectedText);
-            if (sender == ((ToolStripDropDownItem)this.menuStrip1.Items["editar"]).DropDownItems["cortar"] || sender == this.toolStrip1.Items["cortarStrip"])
-            {
-                this.txtContent.SelectedText = "";
-            }*/
         }
 
         private void MenuCut(Object sender, EventArgs e)
@@ -204,19 +199,16 @@ namespace T4EJ7
 
         private void MenuPaste(Object sender, EventArgs e)
         {
-            //this.txtContent.Text += Clipboard.GetText();
             this.txtContent.Paste();
         }
 
         private void MenuUndo(Object sender, EventArgs e)
         {
             this.txtContent.Undo();
-            //this.saved = true;
         }
 
         private void ContentTextChanged(Object sender, EventArgs e)
         {
-            //this.saved = false;
             updateToolTip();
             detectChange();
         }
@@ -273,7 +265,6 @@ namespace T4EJ7
         {
             ToolStripDropDownItem item = ((ToolStripDropDownItem)this.menuStrip1.Items["herramientas"]);
             this.txtContent.WordWrap = ((ToolStripMenuItem)item.DropDownItems["ajusteDeLinea"]).Checked;
-            //this.saved = true;
         }
 
         private void MenuCharacterCasingChanged(Object sender, EventArgs e)
@@ -293,7 +284,6 @@ namespace T4EJ7
                         ((ToolStripMenuItem)items[i]).Checked = false;
                     }
                 }
-                //this.saved = true;
             }
         }
 

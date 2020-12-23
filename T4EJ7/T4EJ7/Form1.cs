@@ -98,12 +98,20 @@ namespace T4EJ7
                         FileInfo file = new FileInfo(save.FileName);
                         if (!file.Exists)
                          {
-                            file.Create();
+                            /*Se utiliza esto porque file.Create() abre un StreamWriter que da problemas.
+                             más información en:https://stackoverflow.com/questions/2781357/file-being-used-by-another-process-after-using-file-create*/
+                            using (StreamWriter writer = new StreamWriter(save.FileName))
+                            {
+                                
+                            }
                         }
                         if (file.Exists && file.Length > 0)
                         {
                             file.Delete();
-                            file.Create();
+                            using (StreamWriter writer = new StreamWriter(save.FileName))
+                            {
+
+                            }
                         }
                         file = null;
                         ChangeFile(save.FileName);

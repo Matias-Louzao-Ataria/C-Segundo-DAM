@@ -49,7 +49,6 @@ namespace T4EJ7
                 save = new SaveFileDialog();
                 if (!saving)
                 {
-                    detectChange();
                     if (!this.saved)
                     {
                         if (MessageBox.Show("Would you like to save?", "Save", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -58,7 +57,6 @@ namespace T4EJ7
                         }
                     }
                     save.Title = "New file";
-                    save.OverwritePrompt = false;
                     errormsg = "Failed to create a new file!";
                 }
                 result = save.ShowDialog();
@@ -82,13 +80,13 @@ namespace T4EJ7
                         {
                             currentFile = save.FileName;
                         }
-                        using (StreamWriter writer = new StreamWriter(currentFile))
+                        if (this.txtContent.Text.Trim().Length > 0)
                         {
-                            if (this.txtContent.Text.Trim().Length > 0)
+                            using (StreamWriter writer = new StreamWriter(currentFile))
                             {
                                 for (int i = 0; i < this.txtContent.Lines.Count(); i++)
                                 {
-                                    writer.WriteLine(this.txtContent.Lines[i]);
+                                    writer.Write(this.txtContent.Lines[i]);
                                 }
                             }
                         }
@@ -97,6 +95,17 @@ namespace T4EJ7
                     else
                     {
                         this.txtContent.Text = "";
+                        FileInfo file = new FileInfo(save.FileName);
+                        if (!file.Exists)
+                         {
+                            file.Create();
+                        }
+                        if (file.Exists && file.Length > 0)
+                        {
+                            file.Delete();
+                            file.Create();
+                        }
+                        file = null;
                         ChangeFile(save.FileName);
                     }
                 }
@@ -131,15 +140,6 @@ namespace T4EJ7
                     MessageBox.Show("Failed to open the file!");
                 }
             }
-            //OpenFile(sender == ((ToolStripDropDownItem)this.menuStrip1.Items["archivo"]).DropDownItems["guardar"]);
-        }
-
-        private void OpenFile(bool saving)
-        {
-            if (saving)
-            {
-                //this.saved = false;
-            }
         }
 
         private void ChangeFile(String route)
@@ -153,6 +153,7 @@ namespace T4EJ7
                     this.txtContent.Text += reader.ReadToEnd();
                 }
             }
+            file = null;
             CheckRecentFiles(route);
             //this.saved = true;
         }
@@ -229,7 +230,7 @@ namespace T4EJ7
             }
             catch (Exception ex) when (ex is ArgumentException || ex is ArgumentNullException || ex is System.Security.SecurityException || ex is IOException)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message+" , "+ ex.Source);
             }
         }
 
@@ -502,6 +503,11 @@ namespace T4EJ7
             UpdateSelectionInfo();
         }
 
+        private void txtContent_KeyUp(object sender, KeyEventArgs e)
+        {
+            UpdateSelectionInfo();
+        }
+
         private void UpdateSelectionInfo()
         {
             if (this.info != null)
@@ -509,11 +515,6 @@ namespace T4EJ7
                 this.info.txtBegining.Text = this.txtContent.SelectionStart.ToString();
                 this.info.txtLength.Text = this.txtContent.SelectionLength.ToString();
             }
-        }
-
-        private void txtContent_KeyUp(object sender, KeyEventArgs e)
-        {
-            UpdateSelectionInfo();
         }
 
         /*private void print_Click(object sender, EventArgs e)

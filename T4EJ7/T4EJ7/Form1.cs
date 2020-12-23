@@ -155,7 +155,6 @@ namespace T4EJ7
             }
             file = null;
             CheckRecentFiles(route);
-            //this.saved = true;
         }
 
         private void CheckRecentFiles(string route)

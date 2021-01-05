@@ -7,7 +7,15 @@ using System.Threading.Tasks;
 
 namespace T3EJ2
 {
-    class Aula
+    enum Subjects
+    {
+        Mathematics = 1,
+        Physics = 2,
+        Technical_drawing = 3,
+        Algebra = 4
+    }
+
+class Aula
     {
         private double[,] grades = new double[12, 4];
         public double[,] Grades
@@ -144,7 +152,6 @@ namespace T3EJ2
         public double MedianSubject(Subjects subject)
         {
             double res = 0;
-            Console.WriteLine((int)subject);
             if ((int)subject >= 0 && (int)subject <= 4)
             {
                 for (int i = 0; i < this.Grades.GetLength(0); i++)
@@ -222,15 +229,15 @@ namespace T3EJ2
             {
                 for (int j = 0;j < this.Grades.GetLength(1);j++)
                 {
+                    gradesPassed[j] = this[i, j];
                     if (this[i,j] >= 5)
                     {
                         cont++;
-                        gradesPassed[j] = this[i, j];
                     }
                 }
                 if (cont >= 4)
                 {
-                    aux += this.names[i]+" ";
+                    aux += i+" ";
                     table.Add(aux,gradesPassed);
                 }
                     cont = 0;

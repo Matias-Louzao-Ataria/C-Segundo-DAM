@@ -16,55 +16,105 @@ namespace Services_T3EJ2
         private StreamWriter writer = null;
         bool running = true;
         string username = "";
-        IPAddress ip = null;
+        string ip = null;
+        
 
         public void run(Socket clientSocket)
         {
             try
             {
                 IPEndPoint iPEndClient = (IPEndPoint)clientSocket.RemoteEndPoint;
-                using (NetworkStream ns = new NetworkStream(clientSocket))
+                using (this.ns = new NetworkStream(clientSocket))
+                using (this.reader = new StreamReader(ns))
+                using (this.writer = new StreamWriter(ns))
                 {
-                    using (StreamReader reader = new StreamReader(ns))
+                    this.ip = iPEndClient.Address.ToString();
+                    while (this.username == "" && !Program.users.Contains(this))
                     {
-                        using (StreamWriter writer = new StreamWriter(ns))
+                        writer.WriteLine("Enter a username:");
+                        writer.Flush();
+                        this.username = reader.ReadLine();
+                        if (this.username == "")
                         {
-                            this.ip = iPEndClient.Address;
-                            while (this.username == "" && !Program.users.Contains(this))
+                            this.writer.WriteLine("Invalid username!");
+                            this.writer.Flush();
+                        }
+                        else if(username != null)
+                        {
+                            lock (Program.l)
                             {
-                                writer.WriteLine("Enter a username:");
-                                writer.Flush();
-                                this.username = reader.ReadLine();
-                                if (this.username == "")
+                                if (Program.users.Count > 0)
                                 {
-                                    writer.WriteLine("Invalid username!");
-                                    writer.Flush();
+                                    if (!Program.users.Contains(this))
+                                    {
+                                        Program.users.Add(this);
+                                        PassMsg(this.username + "@" + this.ip+" entered the chat");
+                                    }
+                                    else
+                                    {
+                                        this.writer.WriteLine("User already exists!");
+                                        this.writer.Flush();
+                                        this.username = "";
+                                    }
                                 }
-                                if (!Program.users.Contains(this))
+                                else
                                 {
                                     Program.users.Add(this);
-                                    writer.WriteLine("User connected: " + this.username + "@" +this.ip);
-                                    writer.Flush();
-                                    while (running)
-                                    {
-                                        string msg = reader.ReadLine();
-                                        foreach (Client c in Program.users)
-                                        {
-                                            c.writer.Write(msg);
-                                            c.writer.Flush();
-                                        }
-                                    }
+                                    PassMsg(this.username + "@" + this.ip + " entered the chat");
                                 }
                             }
                         }
                     }
+                    while (running)
+                    {
+                        if (running)
+                        {
+                            string msg = reader.ReadLine();
+                            if (msg != null)
+                            {
+                                PassMsg(this.username + "@" + this.ip + " says: " + msg);
+                            }
+                        }
+                    }
+                    this.socket.Close();
                 }
             }
-            catch (Exception ex) when (ex is SocketException)
+            catch (Exception ex) when (ex is SocketException ||ex is IOException)
             {
                 Console.WriteLine("ERROR client thread!");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Source);
             }
             IPEndPoint i = (IPEndPoint)clientSocket.RemoteEndPoint;
+        }
+
+        private void PassMsg(string msg)
+        {
+            lock (Program.l)
+            {
+                foreach (Client c in Program.users)
+                {
+                    if (c.writer != null && c != this)
+                    {
+                        c.writer.WriteLine(msg);
+                        c.writer.Flush();
+                    }
+                }
+
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            try
+            {
+                Client cl = (Client)obj;
+                return this.username == cl.username && this.ip == cl.ip;
+            }
+            catch (Exception ex) when (ex is InvalidCastException)
+            {
+                return false;
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Services_T3EJ2
     class Program
     {
         public static ArrayList users = new ArrayList();
+        public static Object l = new object();
         static void Main(string[] args)
         {
             try

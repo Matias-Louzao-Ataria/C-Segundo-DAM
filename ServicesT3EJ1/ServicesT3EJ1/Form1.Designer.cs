@@ -33,6 +33,10 @@
             this.lblError = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnsend = new System.Windows.Forms.Button();
+            this.btnHora = new System.Windows.Forms.Button();
+            this.btnFecha = new System.Windows.Forms.Button();
+            this.btnTodo = new System.Windows.Forms.Button();
+            this.btnApagar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblServer
@@ -78,12 +82,56 @@
             this.btnsend.UseVisualStyleBackColor = true;
             this.btnsend.Click += new System.EventHandler(this.send);
             // 
+            // btnHora
+            // 
+            this.btnHora.Location = new System.Drawing.Point(104, 287);
+            this.btnHora.Name = "btnHora";
+            this.btnHora.Size = new System.Drawing.Size(75, 23);
+            this.btnHora.TabIndex = 5;
+            this.btnHora.Text = "Hora";
+            this.btnHora.UseVisualStyleBackColor = true;
+            this.btnHora.Click += new System.EventHandler(this.BtnHora_Click);
+            // 
+            // btnFecha
+            // 
+            this.btnFecha.Location = new System.Drawing.Point(185, 287);
+            this.btnFecha.Name = "btnFecha";
+            this.btnFecha.Size = new System.Drawing.Size(75, 23);
+            this.btnFecha.TabIndex = 6;
+            this.btnFecha.Text = "Fecha";
+            this.btnFecha.UseVisualStyleBackColor = true;
+            this.btnFecha.Click += new System.EventHandler(this.BtnHora_Click);
+            // 
+            // btnTodo
+            // 
+            this.btnTodo.Location = new System.Drawing.Point(266, 287);
+            this.btnTodo.Name = "btnTodo";
+            this.btnTodo.Size = new System.Drawing.Size(75, 23);
+            this.btnTodo.TabIndex = 7;
+            this.btnTodo.Text = "Todo";
+            this.btnTodo.UseVisualStyleBackColor = true;
+            this.btnTodo.Click += new System.EventHandler(this.BtnHora_Click);
+            // 
+            // btnApagar
+            // 
+            this.btnApagar.Location = new System.Drawing.Point(347, 287);
+            this.btnApagar.Name = "btnApagar";
+            this.btnApagar.Size = new System.Drawing.Size(75, 23);
+            this.btnApagar.TabIndex = 8;
+            this.btnApagar.Text = "Apagar";
+            this.btnApagar.UseVisualStyleBackColor = true;
+            this.btnApagar.Click += new System.EventHandler(this.BtnHora_Click);
+            // 
             // Form1
             // 
             this.AcceptButton = this.btnsend;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnApagar);
+            this.Controls.Add(this.btnTodo);
+            this.Controls.Add(this.btnFecha);
+            this.Controls.Add(this.btnHora);
             this.Controls.Add(this.btnsend);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.lblError);
@@ -105,6 +153,10 @@
         private System.Windows.Forms.Label lblError;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Button btnsend;
+        private System.Windows.Forms.Button btnHora;
+        private System.Windows.Forms.Button btnFecha;
+        private System.Windows.Forms.Button btnTodo;
+        private System.Windows.Forms.Button btnApagar;
     }
 }
 

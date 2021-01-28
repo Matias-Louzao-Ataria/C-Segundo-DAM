@@ -31,7 +31,7 @@ namespace Services_T3EJ2
             }
             catch (Exception ex) when (ex is SocketException)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
     }

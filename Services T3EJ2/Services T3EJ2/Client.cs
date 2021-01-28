@@ -16,6 +16,7 @@ namespace Services_T3EJ2
         private StreamWriter writer = null;
         bool running = true;
         string username = "";
+        string fullUsername = "";
         string ip = null;
         
 
@@ -23,6 +24,7 @@ namespace Services_T3EJ2
         {
             try
             {
+                this.socket = clientSocket;
                 IPEndPoint iPEndClient = (IPEndPoint)clientSocket.RemoteEndPoint;
                 using (this.ns = new NetworkStream(clientSocket))
                 using (this.reader = new StreamReader(ns))
@@ -39,7 +41,7 @@ namespace Services_T3EJ2
                             this.writer.WriteLine("Invalid username!");
                             this.writer.Flush();
                         }
-                        else if(username != null)
+                        else if(this.username != null)
                         {
                             lock (Program.l)
                             {
@@ -48,7 +50,8 @@ namespace Services_T3EJ2
                                     if (!Program.users.Contains(this))
                                     {
                                         Program.users.Add(this);
-                                        PassMsg(this.username + "@" + this.ip+" entered the chat");
+                                        this.fullUsername = this.username + "@" + this.ip;
+                                        PassMsg(this.fullUsername + " entered the chat");
                                     }
                                     else
                                     {
@@ -60,11 +63,14 @@ namespace Services_T3EJ2
                                 else
                                 {
                                     Program.users.Add(this);
-                                    PassMsg(this.username + "@" + this.ip + " entered the chat");
+                                    this.fullUsername = this.username + "@" + this.ip;
+                                    PassMsg(this.fullUsername + " entered the chat");
                                 }
                             }
                         }
                     }
+                    this.writer.WriteLine("You entered the chat.");
+                    this.writer.Flush();
                     while (running)
                     {
                         if (running)
@@ -72,9 +78,38 @@ namespace Services_T3EJ2
                             string msg = reader.ReadLine();
                             if (msg != null)
                             {
-                                PassMsg(this.username + "@" + this.ip + " says: " + msg);
+                                switch (msg)
+                                {
+                                    case "#lista":
+                                        msg = ListUsers();
+                                        this.writer.WriteLine(msg);
+                                        this.writer.Flush();
+                                        break;
+
+                                    case "#salir":
+                                        lock (Program.l)
+                                        {
+                                            Program.users.Remove(this);
+                                        }
+                                        this.running = false;
+                                        //this.socket.Close();
+                                        PassMsg(this.fullUsername + " left the chat.");
+                                        break;
+
+                                    default:
+                                        PassMsg(this.fullUsername + " says: " + msg);
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                this.running = false;
                             }
                         }
+                    }
+                    lock (Program.l)
+                    {
+                        Program.users.Remove(this);
                     }
                     this.socket.Close();
                 }
@@ -84,8 +119,8 @@ namespace Services_T3EJ2
                 Console.WriteLine("ERROR client thread!");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.Source);
+                //IPEndPoint i = (IPEndPoint)clientSocket.RemoteEndPoint;
             }
-            IPEndPoint i = (IPEndPoint)clientSocket.RemoteEndPoint;
         }
 
         private void PassMsg(string msg)
@@ -102,6 +137,27 @@ namespace Services_T3EJ2
                 }
 
             }
+        }
+
+        private string ListUsers()
+        {
+            string usernames = "";
+            lock (Program.l)
+            {
+                if(Program.users.Count == 0)
+                {
+                    usernames = "No users conected";
+                }
+                else
+                {
+                    usernames += "Conected users:"+Environment.NewLine;
+                    foreach (Client c in Program.users)
+                    {
+                        usernames += c.fullUsername + Environment.NewLine;
+                    }
+                }
+            }
+            return usernames;
         }
 
         public override bool Equals(object obj)

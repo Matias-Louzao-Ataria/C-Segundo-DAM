@@ -12,17 +12,24 @@ namespace ServerT3EJ1
     class Program
     {
         static bool running = true;
+        static Socket socket = null;
         static void Main(string[] args)
         {
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any,2609);
-            Socket socket = new Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp);
-            socket.Bind(endPoint);
-            socket.Listen(10);
-            while (running)
+            try
             {
-                Socket client = socket.Accept();
-                Thread clientThread = new Thread(hilo);
-                clientThread.Start(client);
+                IPEndPoint endPoint = new IPEndPoint(IPAddress.Any,2609);
+                socket = new Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp);
+                socket.Bind(endPoint);
+                socket.Listen(10);
+                while (running)
+                {
+                    Socket client = socket.Accept();
+                    Thread clientThread = new Thread(hilo);
+                    clientThread.Start(client);
+                }
+            }catch(SocketException ex)
+            {
+                Console.WriteLine("ERROR! hilo principal");
             }
         }
 
@@ -38,8 +45,8 @@ namespace ServerT3EJ1
                     DateTime dateTime;
                     try
                     {
-                        writer.WriteLine("Bienvenido!");
-                        writer.Flush();
+                        //writer.WriteLine("Bienvenido!");
+                        //writer.Flush();
                         request = reader.ReadLine();
                         switch (request)
                         {
@@ -62,6 +69,7 @@ namespace ServerT3EJ1
                                 lock (client)
                                 {
                                     running = false;
+                                    Program.socket.Close();
                                 }
                                 break;
                             default:

@@ -92,7 +92,6 @@ namespace Services_T3EJ2
                                             Program.users.Remove(this);
                                         }
                                         this.running = false;
-                                        //this.socket.Close();
                                         PassMsg(this.fullUsername + " left the chat.");
                                         break;
 
@@ -119,7 +118,6 @@ namespace Services_T3EJ2
                 Console.WriteLine("ERROR client thread!");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.Source);
-                //IPEndPoint i = (IPEndPoint)clientSocket.RemoteEndPoint;
             }
         }
 

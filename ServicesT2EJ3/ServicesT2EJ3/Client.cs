@@ -14,7 +14,7 @@ namespace Services_T3EJ2
         private NetworkStream ns = null;
         private StreamReader reader = null;
         private StreamWriter writer = null;
-        bool running = false;
+        bool running = true;
         string username = "";
         string fullUsername = "";
         string ip = null;
@@ -36,7 +36,6 @@ namespace Services_T3EJ2
                         writer.WriteLine("Enter a username:");
                         writer.Flush();
                         this.username = reader.ReadLine();
-                        Console.WriteLine(this.username);
                         if (this.username == "")
                         {
                             this.writer.WriteLine("Invalid username!");
@@ -68,7 +67,10 @@ namespace Services_T3EJ2
                                     PassMsg(this.fullUsername + " entered the chat");
                                 }
                             }
-                            this.running = true;
+                        }
+                        else
+                        {
+                            this.running = false;
                         }
                     }
                     this.writer.WriteLine("You entered the chat.");
@@ -78,7 +80,6 @@ namespace Services_T3EJ2
                         if (running)
                         {
                             string msg = reader.ReadLine();
-                            Console.WriteLine(msg);
                             if (msg != null)
                             {
                                 switch (msg)
@@ -124,10 +125,6 @@ namespace Services_T3EJ2
                 Console.WriteLine("ERROR client thread!");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.Source);
-                lock (Program.l)
-                {
-                    Program.users.Remove(this);
-                }
             }
         }
 

@@ -6,7 +6,7 @@ using System.Threading;
 using System.Net.Sockets;
 using System.Net;
 
-namespace Services_T3EJ2
+namespace ServicesT2EJ3
 {
     class Client
     {
@@ -18,7 +18,9 @@ namespace Services_T3EJ2
         string username = "";
         string fullUsername = "";
         string ip = null;
-        
+        public static Object l = new Object();
+        bool runThread = true;
+        private int num = -1,cont = 0;
 
         public void run(Socket clientSocket)
         {
@@ -30,101 +32,152 @@ namespace Services_T3EJ2
                 using (this.reader = new StreamReader(ns))
                 using (this.writer = new StreamWriter(ns))
                 {
-                    this.ip = iPEndClient.Address.ToString();
-                    while (this.username == "" && !Program.users.Contains(this))
+                    while (this.username == "" || this.username == null && !Program.players.Contains(this))
                     {
-                        writer.WriteLine("Enter a username:");
-                        writer.Flush();
-                        this.username = reader.ReadLine();
-                        if (this.username == "")
+                        this.writer.WriteLine("Enter a username!");
+                        this.writer.Flush();
+                        this.username = this.reader.ReadLine();
+                        lock (Program.l)
                         {
-                            this.writer.WriteLine("Invalid username!");
-                            this.writer.Flush();
-                        }
-                        else if(this.username != null)
-                        {
-                            lock (Program.l)
+                            if (Program.players.Count <= 0)
                             {
-                                if (Program.users.Count > 0)
+                                Program.players.Add(this);
+                                this.writer.WriteLine("You've entered the game!");
+                                this.writer.Flush();
+                                this.fullUsername = this.username + "@" + this.ip;
+                                this.PassMsg(this.fullUsername + " entered the game");
+                            }
+                            else if (Program.players.Contains(this))
+                            {
+                                this.writer.WriteLine("Player already playing, choose a diferent username!");
+                                this.writer.Flush();
+                                this.username = "";
+                            }
+                            else if (!Program.players.Contains(this))
+                            {
+                                Program.players.Add(this);
+                                this.writer.WriteLine("You've entered the game!");
+                                this.writer.Flush();
+                                this.fullUsername = this.username + "@" + this.ip;
+                                this.PassMsg(this.fullUsername + " entered the game");
+                            }
+                            Console.WriteLine(Program.players.Count);
+                            if (Program.players.Count <= 1)
+                            {
+                                this.writer.WriteLine("Waiting for more players!");
+                                this.writer.Flush();
+                                //string str = "";
+                                //while (runThread)
+                                //{
+                                //    lock (l)
+                                //    {
+                                //        if (runThread)
+                                //        {
+                                //            writer.WriteLine(str);
+                                //            writer.Flush();
+                                //        }
+                                //    }
+                                //    if (str != "...")
+                                //    {
+                                //        str += ".";
+                                //    }
+                                //    else
+                                //    {
+                                //        str = "";
+                                //    }
+                                //}
+                                //Thread cursor = new Thread(() =>
+                                //{
+                                //});
+                                Monitor.Wait(Program.l);
+                            }
+                            else
+                            {
+                                Monitor.PulseAll(Program.l);
+                                this.runThread = false;
+                            }
+                        }
+                    }
+                    while (this.running)
+                    {
+                        this.num = Program.randomN.Next(0, 21);
+                        lock (Program.l)
+                        {
+                            Thread.Sleep(1000);
+                            if (Program.contador == null)
+                            {
+                                Program.contador = this;
+                            }
+                            else
+                            {
+                                if (Program.contador == this)
                                 {
-                                    if (!Program.users.Contains(this))
+                                    Program.countDown--;
+                                    if (Program.countDown <= 0)
                                     {
-                                        Program.users.Add(this);
-                                        this.fullUsername = this.username + "@" + this.ip;
-                                        PassMsg(this.fullUsername + " entered the chat");
+                                        this.writer.WriteLine("Comineza el juego");
+                                        this.writer.Flush();
+                                        this.running = false;
+                                        if (this.ComprobarGanador())
+                                        {
+                                            this.writer.WriteLine("Has ganado!");
+                                            this.writer.Flush();
+                                        }
+                                        else
+                                        {
+                                            this.writer.WriteLine("Has perdido!");
+                                            this.writer.Flush();
+                                        }
                                     }
                                     else
                                     {
-                                        this.writer.WriteLine("User already exists!");
+                                        this.writer.WriteLine("Quedan {0} segundos para empezar!", Program.countDown);
                                         this.writer.Flush();
-                                        this.username = "";
+                                        this.PassMsg(string.Format("Quedan {0} segundos para empezar!", Program.countDown));
                                     }
                                 }
                                 else
                                 {
-                                    Program.users.Add(this);
-                                    this.fullUsername = this.username + "@" + this.ip;
-                                    PassMsg(this.fullUsername + " entered the chat");
-                                }
-                            }
-                        }
-                        else
-                        {
-                            this.running = false;
-                        }
-                    }
-                    this.writer.WriteLine("You entered the chat.");
-                    this.writer.Flush();
-                    while (running)
-                    {
-                        if (running)
-                        {
-                            string msg = reader.ReadLine();
-                            if (msg != null)
-                            {
-                                switch (msg)
-                                {
-                                    case "#lista":
-                                        msg = ListUsers();
-                                        this.writer.WriteLine(msg);
+                                    if (Program.countDown == 0)
+                                    {
+                                        this.writer.WriteLine("Comineza el juego");
                                         this.writer.Flush();
-                                        break;
-
-                                    case "#salir":
-                                        lock (Program.l)
+                                        if (this.ComprobarGanador())
                                         {
-                                            Program.users.Remove(this);
+                                            this.writer.WriteLine("Has ganado!");
+                                            this.writer.Flush();
+                                        }
+                                        else
+                                        {
+                                            this.writer.WriteLine("Has perdido!");
+                                            this.writer.Flush();
                                         }
                                         this.running = false;
-                                        PassMsg(this.fullUsername + " left the chat.");
-                                        break;
-
-                                    default:
-                                        if (msg.Trim().Length > 0 && msg != "")
-                                        {
-                                            PassMsg(this.fullUsername + " says: " + msg);
-                                        }
-                                        break;
+                                    }
                                 }
                             }
-                            else
-                            {
-                                this.running = false;
-                            }
+
                         }
                     }
+                }
+                if (!this.running)
+                {
                     lock (Program.l)
                     {
-                        Program.users.Remove(this);
+                        Program.players.Remove(this);
+                        Program.contador = null;
                     }
-                    this.socket.Close();
                 }
             }
-            catch (Exception ex) when (ex is SocketException ||ex is IOException)
+            catch (Exception ex) when (ex is SocketException || ex is IOException)
             {
                 Console.WriteLine("ERROR client thread!");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.Source);
+                lock (Program.l)
+                {
+                    Program.players.Remove(this);
+                }
             }
         }
 
@@ -132,7 +185,7 @@ namespace Services_T3EJ2
         {
             lock (Program.l)
             {
-                foreach (Client c in Program.users)
+                foreach (Client c in Program.players)
                 {
                     if (c.writer != null && c != this)
                     {
@@ -144,25 +197,23 @@ namespace Services_T3EJ2
             }
         }
 
-        private string ListUsers()
+        private bool ComprobarGanador()
         {
-            string usernames = "";
             lock (Program.l)
             {
-                if(Program.users.Count == 0)
+                foreach (Client c in Program.players)
                 {
-                    usernames = "No users conected";
-                }
-                else
-                {
-                    usernames += "Conected users:"+Environment.NewLine;
-                    foreach (Client c in Program.users)
+                    if (c != this)
                     {
-                        usernames += c.fullUsername + Environment.NewLine;
+                        if (this.num > c.num)
+                        {
+                            this.cont++;
+                        }
                     }
                 }
+
+                return this.cont == Program.players.Count - 1;
             }
-            return usernames;
         }
 
         public override bool Equals(object obj)

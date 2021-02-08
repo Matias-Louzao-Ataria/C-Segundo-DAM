@@ -16,6 +16,7 @@ namespace ServicesT2EJ3
         public static Object l = new Object();
         public static int countDown = 2;
         public static Client contador = null;
+        //public static ArrayList conectedClients = new ArrayList();
 
         static void Main(string[] args)
         {
@@ -28,9 +29,10 @@ namespace ServicesT2EJ3
                 while (Program.running)
                 {
                     Socket socketClient = serverSocket.Accept();
-                    if (countDown == 0)
+                    if (countDown <= 0)
                     {
-                        countDown = 2;
+                        Program.contador = null;
+                        Program.countDown = 2;
                     }
                     Client client = new Client();
                     Thread clientThread = new Thread(() => client.run(socketClient));

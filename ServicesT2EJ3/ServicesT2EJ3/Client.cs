@@ -19,15 +19,16 @@ namespace ServicesT2EJ3
         string fullUsername = "";
         string ip = null;
         public static Object l = new Object();
-        bool runThread = true;
         private int num = -1,cont = 0;
 
         public void run(Socket clientSocket)
         {
             try
             {
+                Console.WriteLine(System.Diagnostics.Process.GetCurrentProcess().Threads.Count);
                 this.socket = clientSocket;
                 IPEndPoint iPEndClient = (IPEndPoint)clientSocket.RemoteEndPoint;
+                this.ip = iPEndClient.Address.ToString();
                 using (this.ns = new NetworkStream(clientSocket))
                 using (this.reader = new StreamReader(ns))
                 using (this.writer = new StreamWriter(ns))
@@ -61,49 +62,35 @@ namespace ServicesT2EJ3
                                 this.fullUsername = this.username + "@" + this.ip;
                                 this.PassMsg(this.fullUsername + " entered the game");
                             }
-                            Console.WriteLine(Program.players.Count);
-                            if (Program.players.Count <= 1)
-                            {
-                                this.writer.WriteLine("Waiting for more players!");
-                                this.writer.Flush();
-                                //string str = "";
-                                //while (runThread)
-                                //{
-                                //    lock (l)
-                                //    {
-                                //        if (runThread)
-                                //        {
-                                //            writer.WriteLine(str);
-                                //            writer.Flush();
-                                //        }
-                                //    }
-                                //    if (str != "...")
-                                //    {
-                                //        str += ".";
-                                //    }
-                                //    else
-                                //    {
-                                //        str = "";
-                                //    }
-                                //}
-                                //Thread cursor = new Thread(() =>
-                                //{
-                                //});
-                                Monitor.Wait(Program.l);
-                            }
-                            else
-                            {
-                                Monitor.PulseAll(Program.l);
-                                this.runThread = false;
-                            }
                         }
                     }
-                    while (this.running)
+                    if (Program.players.Count <= 1)
                     {
-                        this.num = Program.randomN.Next(0, 21);
+                        this.writer.WriteLine("Waiting for more players!");
+                        this.writer.Flush();
                         lock (Program.l)
                         {
-                            Thread.Sleep(1000);
+                            Monitor.Wait(Program.l);//Si el cliente se desconecta aquí no se como saberlo y falla
+                        }
+                    }
+                    else
+                    {
+                        lock (Program.l)
+                        {
+                            Monitor.Pulse(Program.l);
+                        }
+                    }
+
+                    lock (Program.l) 
+                    { 
+                        this.num = Program.randomN.Next(0, 21);
+                    }
+                    Console.WriteLine("{0} : {1}", this.username, this.num);
+                    
+                    while (this.running)
+                    {
+                        lock (Program.l)
+                        {
                             if (Program.contador == null)
                             {
                                 Program.contador = this;
@@ -112,48 +99,23 @@ namespace ServicesT2EJ3
                             {
                                 if (Program.contador == this)
                                 {
-                                    Program.countDown--;
-                                    if (Program.countDown <= 0)
+                                    Thread.Sleep(1000);
+                                    if (Program.countDown > 0)
                                     {
-                                        this.writer.WriteLine("Comineza el juego");
+                                        this.writer.WriteLine("{0} seconds remaining!", Program.countDown);
                                         this.writer.Flush();
-                                        this.running = false;
-                                        if (this.ComprobarGanador())
-                                        {
-                                            this.writer.WriteLine("Has ganado!");
-                                            this.writer.Flush();
-                                        }
-                                        else
-                                        {
-                                            this.writer.WriteLine("Has perdido!");
-                                            this.writer.Flush();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        this.writer.WriteLine("Quedan {0} segundos para empezar!", Program.countDown);
-                                        this.writer.Flush();
-                                        this.PassMsg(string.Format("Quedan {0} segundos para empezar!", Program.countDown));
+                                        this.PassMsg(string.Format("{0} seconds remaining!", Program.countDown));
+                                        Console.WriteLine("D");
+                                        Program.countDown--;
+
                                     }
                                 }
-                                else
+                                
+                                if (Program.countDown == 0)
                                 {
-                                    if (Program.countDown == 0)
-                                    {
-                                        this.writer.WriteLine("Comineza el juego");
-                                        this.writer.Flush();
-                                        if (this.ComprobarGanador())
-                                        {
-                                            this.writer.WriteLine("Has ganado!");
-                                            this.writer.Flush();
-                                        }
-                                        else
-                                        {
-                                            this.writer.WriteLine("Has perdido!");
-                                            this.writer.Flush();
-                                        }
-                                        this.running = false;
-                                    }
+                                    this.writer.WriteLine("Game start!");
+                                    this.writer.Flush();
+                                    this.AnounceWinner();
                                 }
                             }
 
@@ -165,7 +127,7 @@ namespace ServicesT2EJ3
                     lock (Program.l)
                     {
                         Program.players.Remove(this);
-                        Program.contador = null;
+                        
                     }
                 }
             }
@@ -179,6 +141,21 @@ namespace ServicesT2EJ3
                     Program.players.Remove(this);
                 }
             }
+        }
+
+        private void AnounceWinner()
+        {
+            if (this.CheckWinner())
+            {
+                this.writer.WriteLine("Has ganado!");
+                this.writer.Flush();
+            }
+            else
+            {
+                this.writer.WriteLine("Has perdido!");
+                this.writer.Flush();
+            }
+            this.running = false;
         }
 
         private void PassMsg(string msg)
@@ -197,7 +174,7 @@ namespace ServicesT2EJ3
             }
         }
 
-        private bool ComprobarGanador()
+        private bool CheckWinner()
         {
             lock (Program.l)
             {

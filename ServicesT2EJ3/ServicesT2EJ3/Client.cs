@@ -18,14 +18,12 @@ namespace ServicesT2EJ3
         string username = "";
         string fullUsername = "";
         string ip = null;
-        public static Object l = new Object();
-        private int num = -1,cont = 0;
+        public int num = -1;
 
         public void run(Socket clientSocket)
         {
             try
             {
-                Console.WriteLine(System.Diagnostics.Process.GetCurrentProcess().Threads.Count);
                 this.socket = clientSocket;
                 IPEndPoint iPEndClient = (IPEndPoint)clientSocket.RemoteEndPoint;
                 this.ip = iPEndClient.Address.ToString();
@@ -43,10 +41,6 @@ namespace ServicesT2EJ3
                             if (Program.players.Count <= 0)
                             {
                                 Program.players.Add(this);
-                                this.writer.WriteLine("You've entered the game!");
-                                this.writer.Flush();
-                                this.fullUsername = this.username + "@" + this.ip;
-                                this.PassMsg(this.fullUsername + " entered the game");
                             }
                             else if (Program.players.Contains(this))
                             {
@@ -57,68 +51,92 @@ namespace ServicesT2EJ3
                             else if (!Program.players.Contains(this))
                             {
                                 Program.players.Add(this);
-                                this.writer.WriteLine("You've entered the game!");
-                                this.writer.Flush();
-                                this.fullUsername = this.username + "@" + this.ip;
-                                this.PassMsg(this.fullUsername + " entered the game");
                             }
                         }
                     }
-                    if (Program.players.Count <= 1)
-                    {
-                        this.writer.WriteLine("Waiting for more players!");
-                        this.writer.Flush();
-                        lock (Program.l)
-                        {
-                            Monitor.Wait(Program.l);//Si el cliente se desconecta aquí no se como saberlo y falla
-                        }
-                    }
-                    else
-                    {
-                        lock (Program.l)
-                        {
-                            Monitor.Pulse(Program.l);
-                        }
-                    }
-
-                    lock (Program.l) 
-                    { 
-                        this.num = Program.randomN.Next(0, 21);
-                    }
-                    Console.WriteLine("{0} : {1}", this.username, this.num);
-                    
+                    this.writer.WriteLine("You've entered the game!");
+                    this.writer.Flush();
+                    this.fullUsername = this.username + "@" + this.ip;
+                    this.PassMsg(this.fullUsername + " entered the game",false);
                     while (this.running)
                     {
+                        if (Program.players.Count <= 1)
+                        {
+                            this.writer.WriteLine("Waiting for more players!");
+                            this.writer.Flush();
+                            lock (Program.l)
+                            {
+                                Monitor.Wait(Program.l);
+                            }
+                        }
+                        else
+                        {
+                            lock (Program.l)
+                            {
+                                Monitor.Pulse(Program.l);
+                            }
+                        }
+
                         lock (Program.l)
+                        {
+                            this.num = Program.randomN.Next(0, 21);
+                        }
+                        Console.WriteLine("{0} : {1}", this.username, this.num);
+                    
+                        while (this.running && Program.players.Count > 1)
                         {
                             if (Program.contador == null)
                             {
-                                Program.contador = this;
+                                Thread counter = new Thread(() =>
+                                {
+                                    while (Program.countDown > -1)
+                                    {
+                                        Console.WriteLine("a");
+                                        Console.WriteLine(Program.countDown);
+                                        lock (l)
+                                        {
+                                            Thread.Sleep(1000);
+                                            if (Program.countDown > 0)
+                                            {
+                                                PassMsg(string.Format("{0} seconds remaining!", Program.countDown),true);
+                                                Program.countDown--;
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("BBBBBB");
+                                                Client winner = CheckWinner();
+                                                Console.WriteLine(winner.fullUsername);
+                                                PassMsg(string.Format("the winner is: {0}!", winner.fullUsername), true);
+                                                Console.WriteLine("AAA");
+                                                Program.countDown--;
+                                                Console.WriteLine("AAA");
+                                                Console.WriteLine(Program.players.Count);
+                                                foreach (Client c in Program.players)
+                                                {
+                                                    Console.WriteLine("SDF");
+                                                    c.num = -1;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                }
+                                );
+                                Program.contador = counter;
+                                counter.Start();
                             }
                             else
                             {
-                                if (Program.contador == this)
+                                if (Program.countDown <= 0)
                                 {
-                                    Thread.Sleep(1000);
-                                    if (Program.countDown > 0)
+                                    if (this.num == -1)
                                     {
-                                        this.writer.WriteLine("{0} seconds remaining!", Program.countDown);
-                                        this.writer.Flush();
-                                        this.PassMsg(string.Format("{0} seconds remaining!", Program.countDown));
-                                        Console.WriteLine("D");
-                                        Program.countDown--;
-
+                                        this.running = false;
                                     }
-                                }
-                                
-                                if (Program.countDown == 0)
-                                {
-                                    this.writer.WriteLine("Game start!");
+                                    this.writer.WriteLine("Game start!"+Environment.NewLine+" your number is: "+this.num);
                                     this.writer.Flush();
-                                    this.AnounceWinner();
                                 }
                             }
-
                         }
                     }
                 }
@@ -143,54 +161,64 @@ namespace ServicesT2EJ3
             }
         }
 
-        private void AnounceWinner()
-        {
-            if (this.CheckWinner())
-            {
-                this.writer.WriteLine("Has ganado!");
-                this.writer.Flush();
-            }
-            else
-            {
-                this.writer.WriteLine("Has perdido!");
-                this.writer.Flush();
-            }
-            this.running = false;
-        }
+        //private void AnounceWinner()
+        //{
+        //    if (this.CheckWinner())
+        //    {
+        //        this.writer.WriteLine("Has ganado!");
+        //        this.writer.Flush();
+        //        this.PassMsg(string.Format("The winner is: {0}!", this.fullUsername),false);
+        //    }
+        //    else
+        //    {
+        //        this.writer.WriteLine("Has perdido!");
+        //        this.writer.Flush();
+        //    }
+        //    this.running = false;
+        //}
 
-        private void PassMsg(string msg)
-        {
-            lock (Program.l)
-            {
-                foreach (Client c in Program.players)
-                {
-                    if (c.writer != null && c != this)
-                    {
-                        c.writer.WriteLine(msg);
-                        c.writer.Flush();
-                    }
-                }
-
-            }
-        }
-
-        private bool CheckWinner()
+        private void PassMsg(string msg,bool all)
         {
             lock (Program.l)
             {
+                
                 foreach (Client c in Program.players)
                 {
-                    if (c != this)
+                    if (c.writer != null && c != this || all && c.writer != null)
                     {
-                        if (this.num > c.num)
+                        try
                         {
-                            this.cont++;
+                            c.writer.WriteLine(msg);
+                            c.writer.Flush();
+                        }
+                        catch (Exception ex) when (ex is IOException || ex is SocketException || ex is ObjectDisposedException)
+                        {
+                            Console.WriteLine("ERROR writting to client!");
+                            Console.WriteLine(ex.Message);
                         }
                     }
                 }
-
-                return this.cont == Program.players.Count - 1;
+                
             }
+        }
+
+        private Client CheckWinner()
+        {
+            int max = 0;
+            Client winner = null;
+            lock (Program.l)
+            {
+                foreach (Client c in Program.players)
+                {
+                    Console.WriteLine("Players: "+Program.players.Count);
+                    if (c.num > max)
+                    {
+                        max = c.num;
+                        winner = c;
+                    }
+                }
+            }
+            return winner;
         }
 
         public override bool Equals(object obj)

@@ -14,9 +14,9 @@ namespace ServicesT2EJ3
         public static Random randomN = new Random();
         public static ArrayList players = new ArrayList();
         public static Object l = new Object();
-        public static int countDown = 2;
-        public static Client contador = null;
-        //public static ArrayList conectedClients = new ArrayList();
+        private static int waitingTime = 2;
+        public static int countDown = waitingTime;
+        public static Thread contador = null;
 
         static void Main(string[] args)
         {
@@ -32,7 +32,7 @@ namespace ServicesT2EJ3
                     if (countDown <= 0)
                     {
                         Program.contador = null;
-                        Program.countDown = 2;
+                        Program.countDown = waitingTime;
                     }
                     Client client = new Client();
                     Thread clientThread = new Thread(() => client.run(socketClient));
